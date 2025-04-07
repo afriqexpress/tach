@@ -62,8 +62,8 @@
                 combine
                 affordability, sustainability, and modern design.</p>
             <div class="hero-cta animate-button">
-                <a href="#models" class="primary-btn">Explore Models</a>
-                <a href="#contact" class="secondary-btn">Book a Tour</a>
+                <a href="#crisis" class="primary-btn">Discover How</a>
+                <a href="#models" class="secondary-btn">Explore Models</a>
             </div>
         </div>
         <div class="scroll-indicator">
@@ -74,64 +74,269 @@
     </section>
 
     <!-- The Crisis Section -->
-    <section id="crisis" class="problem">
-        <div class="container">
-            <h2 class="section-title">The Crisis We're Solving</h2>
-            <div class="story-intro">
-                <p>In Togo and across Africa, millions of people face a housing crisis defined by unaffordable options,
-                    poor quality construction, and environmentally harmful practices.</p>
+    <section id="crisis" class="crisis-galaxy">
+        <div class="galaxy-nav">
+            <div class="galaxy-nav-item active" data-slide="housing-shortage">
+                <div class="galaxy-nav-icon"><i class="fas fa-home"></i></div>
+                <div class="galaxy-nav-label">Housing Shortage</div>
             </div>
-
-            <div class="story-timeline">
-                <div class="story-item" data-scroll>
-                    <div class="story-illustration">
-                        <img src="https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-                            alt="Housing Affordability Crisis">
-                        <div class="story-number">1</div>
-                    </div>
-                    <div class="story-content">
-                        <h3>Housing Affordability Crisis</h3>
-                        <p>Traditional housing in urban areas can cost up to <strong>10 times the average annual
-                                income</strong>, forcing many families to live in inadequate conditions or sacrifice
-                            essential needs to afford proper shelter.</p>
-                    </div>
-                </div>
-
-                <div class="story-item" data-scroll>
-                    <div class="story-illustration">
-                        <img src="https://images.unsplash.com/photo-1605097465919-5524864c66f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-                            alt="Environmental Impact">
-                        <div class="story-number">2</div>
-                    </div>
-                    <div class="story-content">
-                        <h3>Environmental Impact</h3>
-                        <p>Conventional construction methods contribute significantly to deforestation and pollution. A
-                            single brick home produces <strong>over 50 tons of CO2</strong> during construction, more
-                            than a family car over 10 years of use.</p>
-                    </div>
-                </div>
-
-                <div class="story-item" data-scroll>
-                    <div class="story-illustration">
-                        <img src="https://images.unsplash.com/photo-1592843997191-d44cabef4e8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-                            alt="Energy Insecurity">
-                        <div class="story-number">3</div>
-                    </div>
-                    <div class="story-content">
-                        <h3>Energy Insecurity</h3>
-                        <p>Across Togo, <strong>only 35% of the population</strong> has reliable access to electricity.
-                            Urban growth continues to outpace infrastructure development, leaving many residential areas
-                            with inconsistent power supply.</p>
-                    </div>
-                </div>
+            <div class="galaxy-nav-item" data-slide="construction-cost">
+                <div class="galaxy-nav-icon"><i class="fas fa-hammer"></i></div>
+                <div class="galaxy-nav-label">Construction Cost</div>
             </div>
-
-            <div class="story-conclusion" data-scroll>
-                <p>These challenges require a fundamental rethinking of how homes are designed, built, and powered in
-                    Africa.</p>
-                <a href="#solution" class="story-cta">Discover Our Solution</a>
+            <div class="galaxy-nav-item" data-slide="energy-unreliability">
+                <div class="galaxy-nav-icon"><i class="fas fa-bolt"></i></div>
+                <div class="galaxy-nav-label">Energy Unreliability</div>
+            </div>
+            <div class="galaxy-nav-item" data-slide="innovation-spaces">
+                <div class="galaxy-nav-icon"><i class="fas fa-lightbulb"></i></div>
+                <div class="galaxy-nav-label">Innovation Spaces</div>
+            </div>
+            <div class="galaxy-nav-item" data-slide="financial-exclusion">
+                <div class="galaxy-nav-icon"><i class="fas fa-wallet"></i></div>
+                <div class="galaxy-nav-label">Financial Exclusion</div>
+            </div>
+            <div class="galaxy-nav-item" data-slide="urbanization">
+                <div class="galaxy-nav-icon"><i class="fas fa-city"></i></div>
+                <div class="galaxy-nav-label">Urbanization</div>
             </div>
         </div>
+
+        <div class="galaxy-slides">
+            <!-- Housing Shortage Slide -->
+            <div class="galaxy-slide active" id="housing-shortage">
+                <div class="slide-content">
+                    <h2 class="slide-title">Housing Shortage</h2>
+                    <div class="slide-stat">
+                        <div class="stat-number">65<span>Million+</span></div>
+                        <div class="stat-caption">Housing unit deficit across Africa</div>
+                    </div>
+                    <p class="slide-description">African nations face a critical housing shortage as population growth
+                        outpaces construction. In urban areas, families often wait years for adequate housing options,
+                        with many forced to live in informal settlements.</p>
+                    <div class="slide-impact">
+                        <h3>The Impact</h3>
+                        <ul>
+                            <li><i class="fas fa-exclamation-circle"></i> Overcrowded living conditions</li>
+                            <li><i class="fas fa-exclamation-circle"></i> Growth of unplanned settlements</li>
+                            <li><i class="fas fa-exclamation-circle"></i> Sanitation and health challenges</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="slide-visual">
+                    <div class="floating-visual">
+                        <div class="floating-illustration house-1">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="floating-illustration house-2">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="floating-illustration house-3">
+                            <i class="fas fa-house-damage"></i>
+                        </div>
+                        <div class="floating-particles"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Construction Cost Slide -->
+            <div class="galaxy-slide" id="construction-cost">
+                <div class="slide-content">
+                    <h2 class="slide-title">High Cost of Construction</h2>
+                    <div class="slide-stat">
+                        <div class="stat-number">40<span>%</span></div>
+                        <div class="stat-caption">Higher construction costs compared to global averages</div>
+                    </div>
+                    <p class="slide-description">Traditional building materials and techniques in Africa come with
+                        excessive costs. Imported materials, complex supply chains, and inefficient construction methods
+                        drive prices beyond what most families can afford.</p>
+                    <div class="slide-impact">
+                        <h3>The Impact</h3>
+                        <ul>
+                            <li><i class="fas fa-exclamation-circle"></i> Housing unaffordable for middle-income earners
+                            </li>
+                            <li><i class="fas fa-exclamation-circle"></i> Extended construction timelines</li>
+                            <li><i class="fas fa-exclamation-circle"></i> Compromised quality and safety</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="slide-visual">
+                    <div class="floating-visual">
+                        <div class="floating-illustration cost-1">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="floating-illustration cost-2">
+                            <i class="fas fa-hammer"></i>
+                        </div>
+                        <div class="floating-illustration cost-3">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="floating-particles"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Energy Unreliability Slide -->
+            <div class="galaxy-slide" id="energy-unreliability">
+                <div class="slide-content">
+                    <h2 class="slide-title">Energy Unreliability</h2>
+                    <div class="slide-stat">
+                        <div class="stat-number">600<span>Million</span></div>
+                        <div class="stat-caption">Africans without reliable access to electricity</div>
+                    </div>
+                    <p class="slide-description">Across the continent, unreliable power grids disrupt daily life and
+                        economic activity. Frequent outages force households and businesses to rely on expensive,
+                        polluting generators or go without power altogether.</p>
+                    <div class="slide-impact">
+                        <h3>The Impact</h3>
+                        <ul>
+                            <li><i class="fas fa-exclamation-circle"></i> Limited productivity and education</li>
+                            <li><i class="fas fa-exclamation-circle"></i> High energy costs for basic needs</li>
+                            <li><i class="fas fa-exclamation-circle"></i> Environmental damage from alternative fuels
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="slide-visual">
+                    <div class="floating-visual">
+                        <div class="floating-illustration energy-1">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="floating-illustration energy-2">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div class="floating-illustration energy-3">
+                            <i class="fas fa-plug"></i>
+                        </div>
+                        <div class="floating-particles"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Innovation Spaces Slide -->
+            <div class="galaxy-slide" id="innovation-spaces">
+                <div class="slide-content">
+                    <h2 class="slide-title">Lack of Innovation Spaces</h2>
+                    <div class="slide-stat">
+                        <div class="stat-number">75<span>%</span></div>
+                        <div class="stat-caption">Of startups struggle to find suitable workspaces</div>
+                    </div>
+                    <p class="slide-description">Africa's entrepreneurial ecosystem is hindered by a scarcity of
+                        affordable, flexible workspaces. Innovators and small businesses face prohibitive costs for
+                        commercial spaces, limiting creativity and economic growth.</p>
+                    <div class="slide-impact">
+                        <h3>The Impact</h3>
+                        <ul>
+                            <li><i class="fas fa-exclamation-circle"></i> Constrained entrepreneurial growth</li>
+                            <li><i class="fas fa-exclamation-circle"></i> Limited collaboration opportunities</li>
+                            <li><i class="fas fa-exclamation-circle"></i> Slower technology adoption and innovation</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="slide-visual">
+                    <div class="floating-visual">
+                        <div class="floating-illustration innovation-1">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div class="floating-illustration innovation-2">
+                            <i class="fas fa-laptop"></i>
+                        </div>
+                        <div class="floating-illustration innovation-3">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="floating-particles"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Financial Exclusion Slide -->
+            <div class="galaxy-slide" id="financial-exclusion">
+                <div class="slide-content">
+                    <h2 class="slide-title">Financial Exclusion</h2>
+                    <div class="slide-stat">
+                        <div class="stat-number">80<span>%</span></div>
+                        <div class="stat-caption">Of Africans lack access to mortgage financing</div>
+                    </div>
+                    <p class="slide-description">Traditional housing finance remains out of reach for most Africans.
+                        High interest rates, strict collateral requirements, and short loan terms create insurmountable
+                        barriers to homeownership for working families.</p>
+                    <div class="slide-impact">
+                        <h3>The Impact</h3>
+                        <ul>
+                            <li><i class="fas fa-exclamation-circle"></i> Generational wealth inequality</li>
+                            <li><i class="fas fa-exclamation-circle"></i> Prolonged rental dependence</li>
+                            <li><i class="fas fa-exclamation-circle"></i> Limited housing market development</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="slide-visual">
+                    <div class="floating-visual">
+                        <div class="floating-illustration finance-1">
+                            <i class="fas fa-hand-holding-usd"></i>
+                        </div>
+                        <div class="floating-illustration finance-2">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <div class="floating-illustration finance-3">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <div class="floating-particles"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Urbanization Slide -->
+            <div class="galaxy-slide" id="urbanization">
+                <div class="slide-content">
+                    <h2 class="slide-title">Urbanization Pressure</h2>
+                    <div class="slide-stat">
+                        <div class="stat-number">50<span>%</span></div>
+                        <div class="stat-caption">Of Africans will live in cities by 2030</div>
+                    </div>
+                    <p class="slide-description">Africa is experiencing the world's fastest urbanization rate. Cities
+                        struggle to accommodate this growth, leading to infrastructure strain, environmental
+                        degradation, and a widening gap between housing supply and demand.</p>
+                    <div class="slide-impact">
+                        <h3>The Impact</h3>
+                        <ul>
+                            <li><i class="fas fa-exclamation-circle"></i> Expanding informal settlements</li>
+                            <li><i class="fas fa-exclamation-circle"></i> Overwhelmed urban infrastructure</li>
+                            <li><i class="fas fa-exclamation-circle"></i> Environmental and social pressures</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="slide-visual">
+                    <div class="floating-visual">
+                        <div class="floating-illustration urban-1">
+                            <i class="fas fa-city"></i>
+                        </div>
+                        <div class="floating-illustration urban-2">
+                            <i class="fas fa-road"></i>
+                        </div>
+                        <div class="floating-illustration urban-3">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="floating-particles"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="galaxy-controls">
+            <div class="galaxy-progress">
+                <div class="progress-track">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <span>Scroll or Use Navigation</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <a href="#solution" class="galaxy-cta">Discover Our Solution</a>
+        </div>
+
+        <div class="stars-bg"></div>
+        <div class="nebula-bg"></div>
     </section>
 
     <!-- Solution Section -->

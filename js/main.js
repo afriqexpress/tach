@@ -95,21 +95,58 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Animation for story cards
+    // Animation for story cards with more interactive effects
     const storyItems = document.querySelectorAll('.story-item');
     storyItems.forEach((item, index) => {
+        // Create staggered entrance animations
         gsap.from(item, {
             scrollTrigger: {
                 trigger: item,
                 start: "top 80%",
                 once: true
             },
-            x: index % 2 === 0 ? -50 : 50,
             opacity: 0,
+            y: 50,
             duration: 0.8,
-            delay: index * 0.2,
+            delay: index * 0.3,
             ease: "power2.out"
         });
+        
+        // Add parallax effect to the images
+        const illustration = item.querySelector('.story-illustration img');
+        if (illustration) {
+            ScrollTrigger.create({
+                trigger: item,
+                start: "top bottom",
+                end: "bottom top",
+                onUpdate: (self) => {
+                    const progress = self.progress;
+                    gsap.to(illustration, {
+                        y: progress * 50,
+                        duration: 0.1,
+                        ease: "none"
+                    });
+                }
+            });
+        }
+        
+        // Add rotation effect to the numbers
+        const number = item.querySelector('.story-number');
+        if (number) {
+            ScrollTrigger.create({
+                trigger: item,
+                start: "top 80%",
+                end: "bottom 20%",
+                onEnter: () => {
+                    gsap.from(number, {
+                        rotation: -180,
+                        scale: 0,
+                        duration: 0.8,
+                        ease: "back.out(1.7)"
+                    });
+                }
+            });
+        }
     });
     
     // Animation for solution cards
@@ -354,4 +391,252 @@ document.addEventListener('DOMContentLoaded', function() {
             { opacity: 1, duration: 0.5 }, 
             "-=0.2"
         );
-}); 
+
+    // Enhanced animation for the story conclusion
+    const storyConclusion = document.querySelector('.story-conclusion');
+    if (storyConclusion) {
+        gsap.from(storyConclusion, {
+            scrollTrigger: {
+                trigger: storyConclusion,
+                start: "top 80%",
+                once: true
+            },
+            opacity: 0,
+            scale: 0.9,
+            y: 30,
+            duration: 1,
+            ease: "power3.out"
+        });
+        
+        // Add pulse animation to the CTA button
+        const storyCta = storyConclusion.querySelector('.story-cta');
+        if (storyCta) {
+            const pulseTimeline = gsap.timeline({repeat: -1, yoyo: true, repeatDelay: 1});
+            pulseTimeline.to(storyCta, {
+                boxShadow: "0 15px 40px rgba(0, 0, 0, 0.3)",
+                scale: 1.05,
+                duration: 1.5,
+                ease: "power1.inOut"
+            });
+        }
+    }
+
+    // Crisis section animations - updated for Galaxy theme
+    initCrisisSection();
+});
+
+// Crisis section animations - updated for Galaxy theme
+function initCrisisSection() {
+    const crisisSection = document.querySelector('.crisis-galaxy');
+    if (!crisisSection) return;
+    
+    // Variables for navigation
+    const galaxyNavItems = document.querySelectorAll('.galaxy-nav-item');
+    const galaxySlides = document.querySelectorAll('.galaxy-slide');
+    const progressFill = document.querySelector('.progress-fill');
+    let currentSlideIndex = 0;
+    let isAnimating = false;
+    let touchStartY = 0;
+    let touchEndY = 0;
+    
+    // Initialize slides
+    function setActiveSlide(index) {
+        // Prevent rapid changes
+        if (isAnimating) return;
+        isAnimating = true;
+        
+        // Constrain index
+        if (index < 0) index = 0;
+        if (index >= galaxySlides.length) index = galaxySlides.length - 1;
+        
+        // Update current index
+        currentSlideIndex = index;
+        
+        // Update navigation items
+        galaxyNavItems.forEach((item, i) => {
+            item.classList.toggle('active', i === index);
+        });
+        
+        // Update slides
+        galaxySlides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === index);
+        });
+        
+        // Update progress bar
+        if (progressFill) {
+            const progressWidth = ((index + 1) / galaxySlides.length) * 100;
+            progressFill.style.width = `${progressWidth}%`;
+        }
+        
+        // Allow animations after a delay
+        setTimeout(() => {
+            isAnimating = false;
+        }, 800); // Match this with slide transition duration
+    }
+    
+    // Navigation click events
+    galaxyNavItems.forEach((item, index) => {
+        item.addEventListener('click', () => {
+            setActiveSlide(index);
+        });
+    });
+    
+    // Mouse wheel navigation
+    crisisSection.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        
+        if (e.deltaY > 0) {
+            // Scrolling down
+            setActiveSlide(currentSlideIndex + 1);
+        } else {
+            // Scrolling up
+            setActiveSlide(currentSlideIndex - 1);
+        }
+    }, { passive: false });
+    
+    // Touch events for mobile
+    crisisSection.addEventListener('touchstart', (e) => {
+        touchStartY = e.changedTouches[0].screenY;
+    });
+    
+    crisisSection.addEventListener('touchend', (e) => {
+        touchEndY = e.changedTouches[0].screenY;
+        handleSwipe();
+    });
+    
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        
+        if (touchStartY - touchEndY > swipeThreshold) {
+            // Swipe up
+            setActiveSlide(currentSlideIndex + 1);
+        } else if (touchEndY - touchStartY > swipeThreshold) {
+            // Swipe down
+            setActiveSlide(currentSlideIndex - 1);
+        }
+    }
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (isElementInViewport(crisisSection)) {
+            if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+                setActiveSlide(currentSlideIndex + 1);
+                e.preventDefault();
+            } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+                setActiveSlide(currentSlideIndex - 1);
+                e.preventDefault();
+            }
+        }
+    });
+    
+    // GSAP Animations for each slide
+    if (window.gsap) {
+        // Initial animations for the first slide
+        animateSlideContent(galaxySlides[0]);
+        
+        // Observer to detect when slides become active
+        const slideObserver = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'class') {
+                    const slide = mutation.target;
+                    if (slide.classList.contains('active')) {
+                        animateSlideContent(slide);
+                    }
+                }
+            });
+        });
+        
+        // Observe all slides for class changes
+        galaxySlides.forEach(slide => {
+            slideObserver.observe(slide, { attributes: true });
+        });
+        
+        // Function to animate slide content
+        function animateSlideContent(slide) {
+            if (!slide) return;
+            
+            const tl = gsap.timeline();
+            
+            // Animate title
+            tl.fromTo(slide.querySelector('.slide-title'), 
+                { opacity: 0, y: 30 },
+                { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }
+            );
+            
+            // Animate stat
+            tl.fromTo(slide.querySelector('.slide-stat'), 
+                { opacity: 0, scale: 0.9 },
+                { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.7)" },
+                "-=0.5"
+            );
+            
+            // Animate description
+            tl.fromTo(slide.querySelector('.slide-description'), 
+                { opacity: 0, y: 20 },
+                { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
+                "-=0.6"
+            );
+            
+            // Animate impact section
+            tl.fromTo(slide.querySelector('.slide-impact'), 
+                { opacity: 0, y: 20 },
+                { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
+                "-=0.6"
+            );
+            
+            // Animate floating illustrations
+            const illustrations = slide.querySelectorAll('.floating-illustration');
+            illustrations.forEach((illustration, i) => {
+                gsap.fromTo(illustration,
+                    { opacity: 0, scale: 0, rotation: -30 },
+                    { 
+                        opacity: 1, 
+                        scale: 1, 
+                        rotation: 0, 
+                        duration: 1, 
+                        delay: 0.2 + (i * 0.15), 
+                        ease: "back.out(1.7)" 
+                    }
+                );
+            });
+        }
+        
+        // Add stars twinkling effect
+        const starsBg = document.querySelector('.stars-bg');
+        if (starsBg) {
+            gsap.to(starsBg, {
+                opacity: 0.7,
+                duration: 3,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+        }
+        
+        // Add nebula movement
+        const nebulaBg = document.querySelector('.nebula-bg');
+        if (nebulaBg) {
+            gsap.to(nebulaBg, {
+                backgroundPosition: '10% 20%',
+                duration: 20,
+                repeat: -1,
+                yoyo: true,
+                ease: "none"
+            });
+        }
+    }
+}
+
+// Helper function to check if element is in viewport
+function isElementInViewport(el) {
+    if (!el) return false;
+    
+    const rect = el.getBoundingClientRect();
+    
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+} 
