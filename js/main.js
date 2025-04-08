@@ -491,7 +491,7 @@ function initCrisisSection() {
             let nextIndex = currentSlideIndex + 1;
             if (nextIndex >= galaxySlides.length) nextIndex = 0; // Loop back to first slide
             setActiveSlide(nextIndex);
-        }, 60000); // Auto-slide every 60 seconds
+        }, 30000); // Auto-slide every 30 seconds
     }
     
     // Reset auto-slide timer
@@ -910,7 +910,7 @@ function initSolutionShowcase() {
             let nextStep = currentStep + 1;
             if (nextStep > totalSteps) nextStep = 1; // Loop back to first step
             setActiveStep(nextStep);
-        }, 60000); // Auto-slide every 60 seconds
+        }, 30000); // Auto-slide every 30 seconds
     }
     
     // Reset auto-slide timer
@@ -929,6 +929,26 @@ function initSolutionShowcase() {
             setActiveStep(step);
         });
     });
+    
+    // Navigation buttons for path
+    const prevPathNav = document.querySelector('.solution-path .path-nav.prev');
+    const nextPathNav = document.querySelector('.solution-path .path-nav.next');
+    
+    if (prevPathNav) {
+        prevPathNav.addEventListener('click', () => {
+            let prevStep = currentStep - 1;
+            if (prevStep < 1) prevStep = totalSteps;
+            setActiveStep(prevStep);
+        });
+    }
+    
+    if (nextPathNav) {
+        nextPathNav.addEventListener('click', () => {
+            let nextStep = currentStep + 1;
+            if (nextStep > totalSteps) nextStep = 1;
+            setActiveStep(nextStep);
+        });
+    }
     
     // Keyboard navigation
     document.addEventListener('keydown', (e) => {
@@ -1057,7 +1077,7 @@ function initSolutionShowcase() {
                     { width: '0%' },
                     { 
                         width: '100%', 
-                        duration: 60,
+                        duration: 30,
                         ease: 'none',
                         onComplete: () => {
                             gsap.set(timerProgress, { width: '0%' });
