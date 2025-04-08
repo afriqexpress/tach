@@ -473,14 +473,21 @@ function initCrisisSection() {
         // Update current index
         currentSlideIndex = index;
         
+        // Debugging log
+        console.log('Setting active slide to:', index);
+        console.log('Number of slides:', galaxySlides.length);
+        console.log('Number of nav items:', galaxyNavItems.length);
+        
         // Update navigation items
         galaxyNavItems.forEach((item, i) => {
             item.classList.toggle('active', i === index);
+            console.log('Nav item', i, i === index ? 'activated' : 'deactivated');
         });
         
         // Update slides
         galaxySlides.forEach((slide, i) => {
             slide.classList.toggle('active', i === index);
+            console.log('Slide', i, i === index ? 'activated' : 'deactivated');
         });
         
         // Update progress bar
@@ -517,10 +524,27 @@ function initCrisisSection() {
     // Initialize auto-slide
     startAutoSlideTimer();
     
+    // Create a mapping from slide IDs to indices for more reliable slide navigation
+    const slideIndexMap = {};
+    galaxySlides.forEach((slide, index) => {
+        slideIndexMap[slide.id] = index;
+    });
+    
     // Navigation click events
-    galaxyNavItems.forEach((item, index) => {
+    galaxyNavItems.forEach((item) => {
         item.addEventListener('click', () => {
-            setActiveSlide(index);
+            const targetSlideId = item.getAttribute('data-slide');
+            console.log('Nav item clicked for slide:', targetSlideId);
+            
+            // Find the index of the target slide
+            const targetIndex = slideIndexMap[targetSlideId];
+            
+            if (targetIndex !== undefined) {
+                console.log('Target index found:', targetIndex);
+                setActiveSlide(targetIndex);
+            } else {
+                console.error('Could not find slide with ID:', targetSlideId);
+            }
         });
     });
     
@@ -1368,18 +1392,35 @@ function initSolutionTabs() {
     const solutionPanels = document.querySelectorAll('.solution-panel');
     
     if (!tabItems.length || !solutionPanels.length) {
-        console.log('Solution tabs elements not found');
+        console.error('Solution tabs elements not found:', tabItems.length, 'tabs,', solutionPanels.length, 'panels');
         return;
     }
     
     console.log('Solution tabs initialized with:', tabItems.length, 'tabs and', solutionPanels.length, 'panels');
     
+    // Make all tabs explicitly clickable
     tabItems.forEach(tab => {
-        tab.addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            // Get the solution data attribute
-            const solutionType = tab.getAttribute('data-solution');
+        tab.style.pointerEvents = 'auto'; 
+        tab.style.cursor = 'pointer';
+    });
+    
+    // Handle clicks on tab items directly
+    document.addEventListener('click', function(e) {
+        // Find if click was on a tab or child of a tab
+        let targetTab = null;
+        let element = e.target;
+        
+        // Traverse up to find if clicked element is a tab or child of a tab
+        while (element && !targetTab) {
+            if (element.classList && element.classList.contains('tab-item')) {
+                targetTab = element;
+            }
+            element = element.parentElement;
+        }
+        
+        // If we clicked on a tab or its child, process it
+        if (targetTab) {
+            const solutionType = targetTab.getAttribute('data-solution');
             console.log('Tab clicked:', solutionType);
             
             // Remove active class from all tabs and panels
@@ -1387,7 +1428,7 @@ function initSolutionTabs() {
             solutionPanels.forEach(panel => panel.classList.remove('active'));
             
             // Add active class to the clicked tab
-            tab.classList.add('active');
+            targetTab.classList.add('active');
             
             // Activate the corresponding panel
             const targetPanel = document.getElementById(`${solutionType}-solution`);
@@ -1395,7 +1436,7 @@ function initSolutionTabs() {
                 targetPanel.classList.add('active');
                 console.log('Activated panel:', solutionType);
             } else {
-                console.log('Target panel not found:', `${solutionType}-solution`);
+                console.error('Target panel not found:', `${solutionType}-solution`);
             }
             
             // Smooth scroll to the solution content on mobile
@@ -1405,11 +1446,10 @@ function initSolutionTabs() {
                     solutionContent.scrollIntoView({behavior: 'smooth'});
                 }
             }
-        });
-    });
-    
-    // Make sure all tabs have proper cursor style
-    tabItems.forEach(tab => {
-        tab.style.cursor = 'pointer';
+            
+            // Prevent default behavior and stop propagation
+            e.preventDefault();
+            e.stopPropagation();
+        }
     });
 } 

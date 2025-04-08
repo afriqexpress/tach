@@ -3129,8 +3129,6 @@ select {
 .solution-header {
     padding: var(--spacing-4xl) 0 var(--spacing-lg);
     text-align: center;
-    background-color: var(--color-white);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .solution-header .section-title {
@@ -3727,7 +3725,7 @@ select {
     margin: 0 auto;
 }
 
-.tabs-container {
+.solution-content-wrapper {
     max-width: 1100px;
     margin: 0 auto;
     position: relative;
@@ -3750,7 +3748,7 @@ select {
     background: white;
     border-radius: 16px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    cursor: pointer;
+    cursor: pointer !important;
     transition: all 0.3s ease;
     flex: 1;
     max-width: 200px;
@@ -3760,6 +3758,7 @@ select {
     /* Prevent text selection on click */
     z-index: 5;
     /* Ensure clickable area is on top */
+    pointer-events: auto !important;
 }
 
 .tab-item::before {
@@ -3775,6 +3774,10 @@ select {
     z-index: 1;
 }
 
+.tab-item.active::before {
+    transform: scaleX(1);
+}
+
 .tab-item.active {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
@@ -3785,6 +3788,8 @@ select {
     color: var(--color-primary);
     margin-bottom: 0.8rem;
     transition: all 0.3s ease;
+    pointer-events: none;
+    /* Pass clicks through to parent */
 }
 
 .tab-label {
@@ -3793,6 +3798,8 @@ select {
     text-align: center;
     color: #333;
     transition: all 0.3s ease;
+    pointer-events: none;
+    /* Pass clicks through to parent */
 }
 
 .tab-item:hover .tab-icon,
