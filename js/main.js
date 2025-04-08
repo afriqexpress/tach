@@ -423,6 +423,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Crisis section animations - updated for Galaxy theme
     initCrisisSection();
+
+    // Solution section interactive 3D container model
+    initSolutionInteractive();
+
+    // Initialize the solution showcase section
+    initSolutionShowcase();
 });
 
 // Crisis section animations - updated for Galaxy theme
@@ -438,6 +444,7 @@ function initCrisisSection() {
     let isAnimating = false;
     let touchStartY = 0;
     let touchEndY = 0;
+    let autoSlideInterval; // Variable to store interval for auto-slide
     
     // Initialize slides
     function setActiveSlide(index) {
@@ -474,25 +481,22 @@ function initCrisisSection() {
         }, 800); // Match this with slide transition duration
     }
     
+    // Function to advance to the next slide
+    function nextSlide() {
+        let nextIndex = currentSlideIndex + 1;
+        if (nextIndex >= galaxySlides.length) nextIndex = 0;
+        setActiveSlide(nextIndex);
+    }
+    
     // Navigation click events
     galaxyNavItems.forEach((item, index) => {
         item.addEventListener('click', () => {
             setActiveSlide(index);
+            
+            // Reset auto-slide timer when user interacts
+            resetAutoSlideTimer();
         });
     });
-    
-    // Mouse wheel navigation
-    crisisSection.addEventListener('wheel', (e) => {
-        e.preventDefault();
-        
-        if (e.deltaY > 0) {
-            // Scrolling down
-            setActiveSlide(currentSlideIndex + 1);
-        } else {
-            // Scrolling up
-            setActiveSlide(currentSlideIndex - 1);
-        }
-    }, { passive: false });
     
     // Touch events for mobile
     crisisSection.addEventListener('touchstart', (e) => {
@@ -502,6 +506,9 @@ function initCrisisSection() {
     crisisSection.addEventListener('touchend', (e) => {
         touchEndY = e.changedTouches[0].screenY;
         handleSwipe();
+        
+        // Reset auto-slide timer when user interacts
+        resetAutoSlideTimer();
     });
     
     function handleSwipe() {
@@ -516,20 +523,55 @@ function initCrisisSection() {
         }
     }
     
-    // Keyboard navigation
+    // Keyboard navigation, only active when crisis section is in viewport
     document.addEventListener('keydown', (e) => {
-        if (isElementInViewport(crisisSection)) {
+        // Check if crisis section is in viewport before handling keyboard events
+        const rect = crisisSection.getBoundingClientRect();
+        const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
+        
+        if (isInViewport) {
             if (e.key === 'ArrowDown' || e.key === 'PageDown') {
                 setActiveSlide(currentSlideIndex + 1);
                 e.preventDefault();
+                
+                // Reset auto-slide timer when user interacts
+                resetAutoSlideTimer();
             } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
                 setActiveSlide(currentSlideIndex - 1);
                 e.preventDefault();
+                
+                // Reset auto-slide timer when user interacts
+                resetAutoSlideTimer();
             }
         }
     });
     
-    // GSAP Animations for each slide
+    // Set up auto slide timer
+    function startAutoSlideTimer() {
+        autoSlideInterval = setInterval(() => {
+            nextSlide();
+        }, 60000); // 60000 milliseconds = 1 minute
+    }
+    
+    // Reset auto slide timer
+    function resetAutoSlideTimer() {
+        clearInterval(autoSlideInterval);
+        startAutoSlideTimer();
+    }
+    
+    // Start auto slide on initialization
+    startAutoSlideTimer();
+    
+    // Pause auto slide when user leaves the window/tab
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            clearInterval(autoSlideInterval);
+        } else {
+            startAutoSlideTimer();
+        }
+    });
+    
+    // GSAP Animations for slide content
     if (window.gsap) {
         // Initial animations for the first slide
         animateSlideContent(galaxySlides[0]);
@@ -584,46 +626,71 @@ function initCrisisSection() {
                 "-=0.6"
             );
             
-            // Animate floating illustrations
-            const illustrations = slide.querySelectorAll('.floating-illustration');
-            illustrations.forEach((illustration, i) => {
+            // Animate the floating illustration
+            const illustration = slide.querySelector('.floating-illustration');
+            if (illustration) {
                 gsap.fromTo(illustration,
-                    { opacity: 0, scale: 0, rotation: -30 },
+                    { opacity: 0, scale: 0.8 },
                     { 
                         opacity: 1, 
-                        scale: 1, 
-                        rotation: 0, 
-                        duration: 1, 
-                        delay: 0.2 + (i * 0.15), 
+                        scale: 1,
+                        duration: 0.8, 
                         ease: "back.out(1.7)" 
                     }
                 );
-            });
+            }
         }
         
-        // Add stars twinkling effect
+        // Enhanced parallax effect for the background patterns
         const starsBg = document.querySelector('.stars-bg');
-        if (starsBg) {
-            gsap.to(starsBg, {
-                opacity: 0.7,
-                duration: 3,
-                repeat: -1,
-                yoyo: true,
-                ease: "sine.inOut"
-            });
-        }
         
-        // Add nebula movement
-        const nebulaBg = document.querySelector('.nebula-bg');
-        if (nebulaBg) {
-            gsap.to(nebulaBg, {
-                backgroundPosition: '10% 20%',
-                duration: 20,
-                repeat: -1,
-                yoyo: true,
-                ease: "none"
+        // Parallax effect on mouse movement
+        crisisSection.addEventListener('mousemove', (e) => {
+            if (!starsBg) return;
+            
+            // Calculate mouse position percentage
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            // Apply subtle parallax movement to the background patterns
+            gsap.to(starsBg, {
+                x: (mouseX - 0.5) * 30,
+                y: (mouseY - 0.5) * 30,
+                duration: 0.5,
+                ease: "power1.out"
             });
-        }
+            
+            // Apply movement to the before/after pseudo-elements using CSS variables
+            crisisSection.style.setProperty('--parallax-x', `${(mouseX - 0.5) * 20}px`);
+            crisisSection.style.setProperty('--parallax-y', `${(mouseY - 0.5) * 20}px`);
+        });
+        
+        // Create a scroll-triggered parallax effect
+        ScrollTrigger.create({
+            trigger: crisisSection,
+            start: "top bottom",
+            end: "bottom top",
+            onUpdate: (self) => {
+                const scrollProgress = self.progress;
+                
+                // Move background elements based on scroll position
+                gsap.to(crisisSection, {
+                    backgroundPosition: `0% ${scrollProgress * 20}%`,
+                    duration: 0.1,
+                    ease: "none"
+                });
+                
+                // Parallax effect for floating illustrations
+                const illustrations = crisisSection.querySelectorAll('.floating-illustration');
+                illustrations.forEach((illustration) => {
+                    gsap.to(illustration, {
+                        y: (scrollProgress - 0.5) * 30,
+                        duration: 0.1,
+                        ease: "none"
+                    });
+                });
+            }
+        });
     }
 }
 
@@ -639,4 +706,364 @@ function isElementInViewport(el) {
         rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
         rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     );
+}
+
+// Solution section interactive 3D container model
+function initSolutionInteractive() {
+    const containerSection = document.querySelector('.solution-interactive');
+    if (!containerSection) return;
+    
+    const container3D = document.getElementById('containerModel');
+    const transformBtns = document.querySelectorAll('.transform-btn');
+    const featurePanels = document.querySelectorAll('.feature-panel');
+    
+    let isDragging = false;
+    let startX, startY;
+    let currentX = 30, currentY = -20;
+    
+    // Initialize with first state active
+    container3D.setAttribute('data-state', 'container');
+    
+    // Mouse/touch controls for 3D rotation
+    const containerScene = document.querySelector('.container-3d-scene');
+    
+    containerScene.addEventListener('mousedown', handleDragStart);
+    containerScene.addEventListener('touchstart', e => {
+        const touch = e.touches[0];
+        handleDragStart({ clientX: touch.clientX, clientY: touch.clientY });
+    });
+    
+    document.addEventListener('mousemove', handleDragMove);
+    document.addEventListener('touchmove', e => {
+        if (!isDragging) return;
+        const touch = e.touches[0];
+        e.preventDefault();
+        handleDragMove({ clientX: touch.clientX, clientY: touch.clientY });
+    }, { passive: false });
+    
+    document.addEventListener('mouseup', handleDragEnd);
+    document.addEventListener('touchend', handleDragEnd);
+    
+    function handleDragStart(e) {
+        isDragging = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        containerScene.style.cursor = 'grabbing';
+    }
+    
+    function handleDragMove(e) {
+        if (!isDragging) return;
+        
+        // Calculate rotation based on mouse/touch movement
+        const deltaX = e.clientX - startX;
+        const deltaY = e.clientY - startY;
+        
+        // Update rotation values (limit to reasonable angles)
+        currentX = Math.min(180, Math.max(-180, currentX + deltaX * 0.5));
+        currentY = Math.min(45, Math.max(-90, currentY + deltaY * 0.5));
+        
+        // Apply rotation transform
+        updateContainerRotation();
+        
+        // Update starting position for next move
+        startX = e.clientX;
+        startY = e.clientY;
+    }
+    
+    function handleDragEnd() {
+        isDragging = false;
+        containerScene.style.cursor = 'grab';
+    }
+    
+    function updateContainerRotation() {
+        const state = container3D.getAttribute('data-state') || 'container';
+        let additionalTransform = '';
+        
+        // Add state-specific transforms
+        switch (state) {
+            case 'frame':
+                additionalTransform = 'scale(1.1)';
+                break;
+            case 'living':
+                additionalTransform = 'scale(1.1)';
+                break;
+            case 'solar':
+                additionalTransform = 'scale(1.15)';
+                break;
+            case 'complete':
+                additionalTransform = 'scale(1.2)';
+                break;
+            default:
+                additionalTransform = '';
+        }
+        
+        container3D.style.transform = `rotateY(${currentX}deg) rotateX(${currentY}deg) ${additionalTransform}`;
+    }
+    
+    // Transform button event listeners
+    transformBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const transformType = btn.getAttribute('data-transform');
+            
+            // Update active state for buttons
+            transformBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Update container state
+            container3D.setAttribute('data-state', transformType);
+            updateContainerRotation();
+            
+            // Update visible panel
+            featurePanels.forEach(panel => {
+                panel.classList.remove('active');
+                if (panel.id === `${transformType}-panel`) {
+                    panel.classList.add('active');
+                }
+            });
+        });
+    });
+    
+    // Optional: fade in and show interaction hint after a delay
+    setTimeout(() => {
+        const hint = document.querySelector('.interaction-hint');
+        if (hint) {
+            hint.style.opacity = '1';
+        }
+    }, 2000);
+    
+    // Optional: GSAP animations for enhanced visual effects
+    if (window.gsap) {
+        // Initial animation
+        gsap.from(container3D, {
+            duration: 1.5,
+            y: 50,
+            opacity: 0,
+            rotateX: -90,
+            ease: "back.out(1.7)"
+        });
+        
+        // Animate in buttons with stagger
+        gsap.from('.transform-btn', {
+            duration: 0.5,
+            y: 30,
+            opacity: 0,
+            stagger: 0.1,
+            delay: 0.5,
+            ease: "power2.out"
+        });
+        
+        // Animate initial panel
+        gsap.from('#container-panel', {
+            duration: 0.8,
+            y: 30,
+            opacity: 0,
+            delay: 0.8,
+            ease: "power2.out"
+        });
+        
+        // Create scroll trigger for container
+        ScrollTrigger.create({
+            trigger: '.solution-stage',
+            start: "top bottom-=100",
+            end: "bottom top+=200",
+            onEnter: () => {
+                // Additional animation when container enters viewport
+                gsap.to(container3D, {
+                    duration: 1,
+                    rotateY: 360,
+                    ease: "power2.inOut",
+                    onComplete: () => {
+                        currentX = 30; // Reset to default position after full rotation
+                        updateContainerRotation();
+                    }
+                });
+            },
+            once: true
+        });
+    }
+}
+
+// Initialize the solution showcase section
+function initSolutionShowcase() {
+    const solutionSection = document.querySelector('.solution-showcase');
+    if (!solutionSection) return;
+    
+    const pathDots = document.querySelectorAll('.path-dot');
+    const detailPanels = document.querySelectorAll('.detail-panel');
+    
+    let currentStep = 1;
+    const totalSteps = detailPanels.length;
+    let autoSlideInterval; // Variable to store interval for auto-slide
+    
+    // Initialize the first step (usually already set in HTML)
+    function setActiveStep(step) {
+        // Update current step
+        currentStep = step;
+        
+        // Update path dots
+        pathDots.forEach(dot => {
+            const dotStep = parseInt(dot.getAttribute('data-step'));
+            dot.classList.toggle('active', dotStep === step);
+        });
+        
+        // Update detail panels
+        detailPanels.forEach(panel => {
+            const panelStep = parseInt(panel.getAttribute('data-step'));
+            panel.classList.toggle('active', panelStep === step);
+        });
+    }
+    
+    // Function to advance to the next step
+    function nextStep() {
+        let nextStepNum = currentStep + 1;
+        if (nextStepNum > totalSteps) nextStepNum = 1;
+        setActiveStep(nextStepNum);
+    }
+    
+    // Path dot click events
+    pathDots.forEach(dot => {
+        dot.addEventListener('click', () => {
+            const step = parseInt(dot.getAttribute('data-step'));
+            setActiveStep(step);
+            
+            // Reset auto-slide timer when user interacts
+            resetAutoSlideTimer();
+        });
+    });
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        // Only handle keyboard when the solution section is in view
+        if (!isElementInViewport(solutionSection)) return;
+        
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            let nextStepNum = currentStep + 1;
+            if (nextStepNum > totalSteps) nextStepNum = 1;
+            setActiveStep(nextStepNum);
+            
+            // Reset auto-slide timer when user interacts
+            resetAutoSlideTimer();
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            let prevStep = currentStep - 1;
+            if (prevStep < 1) prevStep = totalSteps;
+            setActiveStep(prevStep);
+            
+            // Reset auto-slide timer when user interacts
+            resetAutoSlideTimer();
+        }
+    });
+    
+    // Set up auto slide timer
+    function startAutoSlideTimer() {
+        autoSlideInterval = setInterval(() => {
+            nextStep();
+        }, 60000); // 60000 milliseconds = 1 minute
+    }
+    
+    // Reset auto slide timer
+    function resetAutoSlideTimer() {
+        clearInterval(autoSlideInterval);
+        startAutoSlideTimer();
+    }
+    
+    // Start auto slide on initialization
+    startAutoSlideTimer();
+    
+    // Pause auto slide when user leaves the window/tab
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            clearInterval(autoSlideInterval);
+        } else {
+            startAutoSlideTimer();
+        }
+    });
+    
+    // GSAP animations
+    if (window.gsap) {
+        // Entrance animation for the path
+        gsap.from('.solution-path', {
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            ease: 'power2.out',
+            scrollTrigger: {
+                trigger: '.solution-path',
+                start: 'top 85%'
+            }
+        });
+        
+        // Shimmer effect on path lines
+        gsap.to('.path-line::after', {
+            left: '130%',
+            duration: 2,
+            repeat: -1,
+            ease: 'none'
+        });
+        
+        // Float animation for the next-section button
+        gsap.to('.next-section-btn', {
+            y: -10,
+            duration: 1.5,
+            repeat: -1,
+            yoyo: true,
+            ease: 'power1.inOut'
+        });
+        
+        // Animate the current detail panel when it becomes active
+        function animateActivePanel() {
+            const activePanel = document.querySelector('.detail-panel.active');
+            
+            if (activePanel) {
+                // Reset any previous animations first
+                gsap.set(activePanel.querySelectorAll('.feature-item'), {
+                    clearProps: 'all'
+                });
+                
+                // Animate the detail panel elements
+                const tl = gsap.timeline();
+                
+                tl.fromTo(activePanel.querySelector('.detail-icon'), 
+                    { scale: 0.5, opacity: 0 },
+                    { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.7)' }
+                );
+                
+                tl.fromTo(activePanel.querySelector('.detail-heading'), 
+                    { x: -20, opacity: 0 },
+                    { x: 0, opacity: 1, duration: 0.5, ease: 'power2.out' },
+                    '-=0.3'
+                );
+                
+                tl.fromTo(activePanel.querySelector('.detail-description p'), 
+                    { y: 20, opacity: 0 },
+                    { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out' },
+                    '-=0.2'
+                );
+                
+                // Animate feature items with stagger
+                tl.fromTo(activePanel.querySelectorAll('.feature-item'), 
+                    { y: 20, opacity: 0 },
+                    { y: 0, opacity: 1, duration: 0.5, stagger: 0.1, ease: 'power2.out' },
+                    '-=0.2'
+                );
+            }
+        }
+        
+        // Initial animation for the first panel
+        animateActivePanel();
+        
+        // Observe changes to detail panels to animate when they become active
+        const panelObserver = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'class' && 
+                    mutation.target.classList.contains('active')) {
+                    animateActivePanel();
+                }
+            });
+        });
+        
+        // Observe all detail panels
+        detailPanels.forEach(panel => {
+            panelObserver.observe(panel, { attributes: true });
+        });
+    }
 } 
