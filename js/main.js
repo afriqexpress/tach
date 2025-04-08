@@ -444,7 +444,7 @@ function initCrisisSection() {
     let isAnimating = false;
     let touchStartY = 0;
     let touchEndY = 0;
-    let autoSlideInterval; // Variable to store interval for auto-slide
+    let autoSlideTimer; // Timer for auto-sliding
     
     // Initialize slides
     function setActiveSlide(index) {
@@ -479,22 +479,34 @@ function initCrisisSection() {
         setTimeout(() => {
             isAnimating = false;
         }, 800); // Match this with slide transition duration
+        
+        // Reset auto-slide timer when manually changing slides
+        resetAutoSlideTimer();
     }
     
-    // Function to advance to the next slide
-    function nextSlide() {
-        let nextIndex = currentSlideIndex + 1;
-        if (nextIndex >= galaxySlides.length) nextIndex = 0;
-        setActiveSlide(nextIndex);
+    // Start auto-slide timer
+    function startAutoSlideTimer() {
+        clearTimeout(autoSlideTimer); // Clear any existing timer
+        autoSlideTimer = setTimeout(() => {
+            let nextIndex = currentSlideIndex + 1;
+            if (nextIndex >= galaxySlides.length) nextIndex = 0; // Loop back to first slide
+            setActiveSlide(nextIndex);
+        }, 60000); // Auto-slide every 60 seconds
     }
+    
+    // Reset auto-slide timer
+    function resetAutoSlideTimer() {
+        clearTimeout(autoSlideTimer);
+        startAutoSlideTimer();
+    }
+    
+    // Initialize auto-slide
+    startAutoSlideTimer();
     
     // Navigation click events
     galaxyNavItems.forEach((item, index) => {
         item.addEventListener('click', () => {
             setActiveSlide(index);
-            
-            // Reset auto-slide timer when user interacts
-            resetAutoSlideTimer();
         });
     });
     
@@ -506,9 +518,6 @@ function initCrisisSection() {
     crisisSection.addEventListener('touchend', (e) => {
         touchEndY = e.changedTouches[0].screenY;
         handleSwipe();
-        
-        // Reset auto-slide timer when user interacts
-        resetAutoSlideTimer();
     });
     
     function handleSwipe() {
@@ -533,42 +542,20 @@ function initCrisisSection() {
             if (e.key === 'ArrowDown' || e.key === 'PageDown') {
                 setActiveSlide(currentSlideIndex + 1);
                 e.preventDefault();
-                
-                // Reset auto-slide timer when user interacts
-                resetAutoSlideTimer();
             } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
                 setActiveSlide(currentSlideIndex - 1);
                 e.preventDefault();
-                
-                // Reset auto-slide timer when user interacts
-                resetAutoSlideTimer();
             }
         }
     });
     
-    // Set up auto slide timer
-    function startAutoSlideTimer() {
-        autoSlideInterval = setInterval(() => {
-            nextSlide();
-        }, 60000); // 60000 milliseconds = 1 minute
-    }
+    // Pause auto-slide when user is interacting with the section
+    crisisSection.addEventListener('mouseenter', () => {
+        clearTimeout(autoSlideTimer);
+    });
     
-    // Reset auto slide timer
-    function resetAutoSlideTimer() {
-        clearInterval(autoSlideInterval);
+    crisisSection.addEventListener('mouseleave', () => {
         startAutoSlideTimer();
-    }
-    
-    // Start auto slide on initialization
-    startAutoSlideTimer();
-    
-    // Pause auto slide when user leaves the window/tab
-    document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-            clearInterval(autoSlideInterval);
-        } else {
-            startAutoSlideTimer();
-        }
     });
     
     // GSAP Animations for slide content
@@ -893,7 +880,7 @@ function initSolutionShowcase() {
     
     let currentStep = 1;
     const totalSteps = detailPanels.length;
-    let autoSlideInterval; // Variable to store interval for auto-slide
+    let autoSlideTimer; // Timer for auto-sliding
     
     // Initialize the first step (usually already set in HTML)
     function setActiveStep(step) {
@@ -911,23 +898,35 @@ function initSolutionShowcase() {
             const panelStep = parseInt(panel.getAttribute('data-step'));
             panel.classList.toggle('active', panelStep === step);
         });
+        
+        // Reset auto-slide timer when manually changing steps
+        resetAutoSlideTimer();
     }
     
-    // Function to advance to the next step
-    function nextStep() {
-        let nextStepNum = currentStep + 1;
-        if (nextStepNum > totalSteps) nextStepNum = 1;
-        setActiveStep(nextStepNum);
+    // Start auto-slide timer
+    function startAutoSlideTimer() {
+        clearTimeout(autoSlideTimer); // Clear any existing timer
+        autoSlideTimer = setTimeout(() => {
+            let nextStep = currentStep + 1;
+            if (nextStep > totalSteps) nextStep = 1; // Loop back to first step
+            setActiveStep(nextStep);
+        }, 60000); // Auto-slide every 60 seconds
     }
+    
+    // Reset auto-slide timer
+    function resetAutoSlideTimer() {
+        clearTimeout(autoSlideTimer);
+        startAutoSlideTimer();
+    }
+    
+    // Initialize auto-slide
+    startAutoSlideTimer();
     
     // Path dot click events
     pathDots.forEach(dot => {
         dot.addEventListener('click', () => {
             const step = parseInt(dot.getAttribute('data-step'));
             setActiveStep(step);
-            
-            // Reset auto-slide timer when user interacts
-            resetAutoSlideTimer();
         });
     });
     
@@ -937,45 +936,23 @@ function initSolutionShowcase() {
         if (!isElementInViewport(solutionSection)) return;
         
         if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-            let nextStepNum = currentStep + 1;
-            if (nextStepNum > totalSteps) nextStepNum = 1;
-            setActiveStep(nextStepNum);
-            
-            // Reset auto-slide timer when user interacts
-            resetAutoSlideTimer();
+            let nextStep = currentStep + 1;
+            if (nextStep > totalSteps) nextStep = 1;
+            setActiveStep(nextStep);
         } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
             let prevStep = currentStep - 1;
             if (prevStep < 1) prevStep = totalSteps;
             setActiveStep(prevStep);
-            
-            // Reset auto-slide timer when user interacts
-            resetAutoSlideTimer();
         }
     });
     
-    // Set up auto slide timer
-    function startAutoSlideTimer() {
-        autoSlideInterval = setInterval(() => {
-            nextStep();
-        }, 60000); // 60000 milliseconds = 1 minute
-    }
+    // Pause auto-slide when user is interacting with the section
+    solutionSection.addEventListener('mouseenter', () => {
+        clearTimeout(autoSlideTimer);
+    });
     
-    // Reset auto slide timer
-    function resetAutoSlideTimer() {
-        clearInterval(autoSlideInterval);
+    solutionSection.addEventListener('mouseleave', () => {
         startAutoSlideTimer();
-    }
-    
-    // Start auto slide on initialization
-    startAutoSlideTimer();
-    
-    // Pause auto slide when user leaves the window/tab
-    document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-            clearInterval(autoSlideInterval);
-        } else {
-            startAutoSlideTimer();
-        }
     });
     
     // GSAP animations
@@ -1065,5 +1042,51 @@ function initSolutionShowcase() {
         detailPanels.forEach(panel => {
             panelObserver.observe(panel, { attributes: true });
         });
+        
+        // Add visual indicator for auto-slide timer
+        const solutionWrapper = document.querySelector('.solution-content');
+        if (solutionWrapper) {
+            // Create timer progress element
+            const timerProgress = document.createElement('div');
+            timerProgress.className = 'auto-slide-progress';
+            solutionWrapper.appendChild(timerProgress);
+            
+            // Animate timer progress
+            function animateTimerProgress() {
+                gsap.fromTo(timerProgress,
+                    { width: '0%' },
+                    { 
+                        width: '100%', 
+                        duration: 60,
+                        ease: 'none',
+                        onComplete: () => {
+                            gsap.set(timerProgress, { width: '0%' });
+                        }
+                    }
+                );
+            }
+            
+            // Initialize timer progress animation
+            animateTimerProgress();
+            
+            // Reset and restart timer progress animation when slides change
+            const resetTimerProgress = () => {
+                gsap.killTweensOf(timerProgress);
+                gsap.set(timerProgress, { width: '0%' });
+                animateTimerProgress();
+            };
+            
+            // When manually changing slides, reset progress bar
+            pathDots.forEach(dot => {
+                dot.addEventListener('click', resetTimerProgress);
+            });
+            
+            // Reset progress bar when auto-sliding
+            const originalSetActiveStep = setActiveStep;
+            setActiveStep = function(step) {
+                originalSetActiveStep(step);
+                resetTimerProgress();
+            };
+        }
     }
 } 

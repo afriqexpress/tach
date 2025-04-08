@@ -3162,6 +3162,8 @@ select {
     position: relative;
     padding: var(--spacing-3xl) 0;
     background-color: var(--color-white);
+    overflow: hidden;
+    /* Ensure the progress bar doesn't overflow */
 }
 
 /* Path with dots */
@@ -3532,4 +3534,16 @@ select {
     .feature-text p {
         font-size: 0.9rem;
     }
+}
+
+/* Auto-slide progress indicator */
+.auto-slide-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 0;
+    background: linear-gradient(to right, var(--color-primary-light), var(--color-primary));
+    z-index: 10;
+    opacity: 0.7;
 }
