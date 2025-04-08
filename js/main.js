@@ -432,6 +432,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Models section tabs functionality
     initModelsSection();
+
+    // Initialize the Solution Section
+    initInnovativeSolution();
 });
 
 // Crisis section animations - updated for Galaxy theme
@@ -1151,4 +1154,117 @@ function initModelsSection() {
             });
         });
     }
+}
+
+// Initialize Innovative Solution Section
+function initInnovativeSolution() {
+    // Solution Cards Flip Effect
+    const solutionCards = document.querySelectorAll('.solution-card');
+    
+    solutionCards.forEach(card => {
+        card.addEventListener('click', function() {
+            this.querySelector('.card-inner').classList.toggle('flipped');
+        });
+        
+        // Allow clicking the back button specifically
+        const backBtn = card.querySelector('.card-back .card-flip-btn');
+        if (backBtn) {
+            backBtn.addEventListener('click', function(e) {
+                e.stopPropagation(); // Prevent the card click event
+                card.querySelector('.card-inner').classList.remove('flipped');
+            });
+        }
+    });
+
+    // Showcase Tabs
+    const showcaseTabs = document.querySelectorAll('.showcase-tab');
+    const showcasePanels = document.querySelectorAll('.showcase-panel');
+    
+    showcaseTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const target = this.getAttribute('data-showcase');
+            
+            // Update active tab
+            showcaseTabs.forEach(tab => tab.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Show corresponding panel
+            showcasePanels.forEach(panel => {
+                panel.classList.remove('active');
+                if (panel.getAttribute('data-showcase') === target) {
+                    panel.classList.add('active');
+                }
+            });
+        });
+    });
+
+    // Hotspot animations
+    const hotspots = document.querySelectorAll('.hotspot');
+    
+    hotspots.forEach(hotspot => {
+        // Add entrance animation for hotspots
+        gsap.from(hotspot, {
+            scale: 0,
+            opacity: 0,
+            duration: 0.6,
+            delay: Math.random() * 0.8,
+            ease: "back.out"
+        });
+    });
+
+    // Animate solution section elements on scroll
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // Animate background shapes
+    gsap.utils.toArray('.bg-shape').forEach((shape, i) => {
+        gsap.from(shape, {
+            opacity: 0,
+            scale: 0.8,
+            duration: 1.5,
+            delay: i * 0.2,
+            scrollTrigger: {
+                trigger: '.solution-innovative',
+                start: 'top 80%',
+            }
+        });
+    });
+    
+    // Animate solution cards
+    gsap.from('.solution-card', {
+        y: 100,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: "power2.out",
+        scrollTrigger: {
+            trigger: '.solution-cards',
+            start: 'top 80%',
+        }
+    });
+    
+    // Animate showcase container
+    gsap.from('.showcase-container', {
+        y: 80,
+        opacity: 0,
+        duration: 1,
+        scrollTrigger: {
+            trigger: '.showcase-container',
+            start: 'top 80%',
+        }
+    });
+    
+    // Floating particles
+    const particles = document.querySelectorAll('.solution-particle');
+    
+    particles.forEach((particle, i) => {
+        gsap.to(particle, {
+            x: `random(-100, 100)`,
+            y: `random(-100, 100)`,
+            opacity: `random(0.2, 0.5)`,
+            duration: `random(20, 40)`,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+    });
 } 
