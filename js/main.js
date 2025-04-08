@@ -1,441 +1,449 @@
 // Initialize GSAP and ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
 
-// Wait for the DOM to be fully loaded
-document.addEventListener('DOMContentLoaded', function() {
-    // Navigation toggle for mobile
-    const navToggle = document.getElementById('navToggle');
-    const navMenu = document.querySelector('.nav-menu');
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    // Existing initializations
+    initNavbar();
+    initModelsSection();
+    initHeroAnimations();
+    initScrollAnimations();
+    initPersonasTabs();
+    initCrisisSection();
     
-    if (navToggle) {
-        navToggle.addEventListener('click', function() {
-            this.classList.toggle('active');
-            navMenu.classList.toggle('active');
-        });
+    // Solution related initializations
+    initSolutionTabs(); // Ensure this runs first
+    initSolutionCarousel();
+    initSolutionInteractive();
+    initSolutionShowcase();
+    initInnovativeSolution();
+    
+    // Debug check 
+    console.log('All initializations complete');
+    setTimeout(() => {
+        console.log('Re-checking solution tabs...');
+        // Re-initialize tabs as a fallback
+        initSolutionTabs();
+    }, 1000);
+});
+
+// Navigation toggle for mobile
+const navToggle = document.getElementById('navToggle');
+const navMenu = document.querySelector('.nav-menu');
+
+if (navToggle) {
+    navToggle.addEventListener('click', function() {
+        this.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+}
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', function(e) {
+    if (navToggle && !navToggle.contains(e.target) && !navMenu.contains(e.target) && navMenu.classList.contains('active')) {
+        navToggle.classList.remove('active');
+        navMenu.classList.remove('active');
     }
-    
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', function(e) {
-        if (navToggle && !navToggle.contains(e.target) && !navMenu.contains(e.target) && navMenu.classList.contains('active')) {
-            navToggle.classList.remove('active');
-            navMenu.classList.remove('active');
-        }
+});
+
+// Navbar scroll effect
+const navbar = document.querySelector('.navbar');
+const scrollTopBtn = document.getElementById('scrollToTop');
+
+window.addEventListener('scroll', function() {
+    if (window.scrollY > 100) {
+        navbar.classList.add('scrolled');
+        if (scrollTopBtn) scrollTopBtn.classList.add('visible');
+    } else {
+        navbar.classList.remove('scrolled');
+        if (scrollTopBtn) scrollTopBtn.classList.remove('visible');
+    }
+});
+
+// Scroll to top button
+if (scrollTopBtn) {
+    scrollTopBtn.addEventListener('click', function() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     });
-    
-    // Navbar scroll effect
-    const navbar = document.querySelector('.navbar');
-    const scrollTopBtn = document.getElementById('scrollToTop');
-    
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 100) {
-            navbar.classList.add('scrolled');
-            if (scrollTopBtn) scrollTopBtn.classList.add('visible');
-        } else {
-            navbar.classList.remove('scrolled');
-            if (scrollTopBtn) scrollTopBtn.classList.remove('visible');
-        }
+}
+
+// Form submission
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Show success message (in a real app, you'd send the form data to a server here)
+        const formContainer = this.parentElement;
+        const successMessage = document.createElement('div');
+        successMessage.className = 'form-success';
+        successMessage.innerHTML = '<i class="fas fa-check-circle"></i><h3>Thank You!</h3><p>Your message has been sent successfully. We\'ll get back to you soon.</p>';
+        
+        // Hide form and show success message
+        this.style.display = 'none';
+        formContainer.appendChild(successMessage);
+        
+        // Reset form for future submissions
+        setTimeout(() => {
+            this.reset();
+            successMessage.remove();
+            this.style.display = 'block';
+        }, 5000);
     });
-    
-    // Scroll to top button
-    if (scrollTopBtn) {
-        scrollTopBtn.addEventListener('click', function() {
+}
+
+// Smooth scroll for navigation links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+            // Close mobile menu if open
+            if (navMenu.classList.contains('active')) {
+                navToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+            
+            // Scroll to element
             window.scrollTo({
-                top: 0,
+                top: targetElement.offsetTop - 100, // Offset to account for sticky header
                 behavior: 'smooth'
             });
-        });
-    }
+        }
+    });
+});
+
+// Animation for story cards with more interactive effects
+const storyItems = document.querySelectorAll('.story-item');
+storyItems.forEach((item, index) => {
+    // Create staggered entrance animations
+    gsap.from(item, {
+        scrollTrigger: {
+            trigger: item,
+            start: "top 80%",
+            once: true
+        },
+        opacity: 0,
+        y: 50,
+        duration: 0.8,
+        delay: index * 0.3,
+        ease: "power2.out"
+    });
     
-    // Form submission
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Show success message (in a real app, you'd send the form data to a server here)
-            const formContainer = this.parentElement;
-            const successMessage = document.createElement('div');
-            successMessage.className = 'form-success';
-            successMessage.innerHTML = '<i class="fas fa-check-circle"></i><h3>Thank You!</h3><p>Your message has been sent successfully. We\'ll get back to you soon.</p>';
-            
-            // Hide form and show success message
-            this.style.display = 'none';
-            formContainer.appendChild(successMessage);
-            
-            // Reset form for future submissions
-            setTimeout(() => {
-                this.reset();
-                successMessage.remove();
-                this.style.display = 'block';
-            }, 5000);
-        });
-    }
-    
-    // Smooth scroll for navigation links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-            
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                // Close mobile menu if open
-                if (navMenu.classList.contains('active')) {
-                    navToggle.classList.remove('active');
-                    navMenu.classList.remove('active');
-                }
-                
-                // Scroll to element
-                window.scrollTo({
-                    top: targetElement.offsetTop - 100, // Offset to account for sticky header
-                    behavior: 'smooth'
+    // Add parallax effect to the images
+    const illustration = item.querySelector('.story-illustration img');
+    if (illustration) {
+        ScrollTrigger.create({
+            trigger: item,
+            start: "top bottom",
+            end: "bottom top",
+            onUpdate: (self) => {
+                const progress = self.progress;
+                gsap.to(illustration, {
+                    y: progress * 50,
+                    duration: 0.1,
+                    ease: "none"
                 });
             }
         });
-    });
+    }
     
-    // Animation for story cards with more interactive effects
-    const storyItems = document.querySelectorAll('.story-item');
-    storyItems.forEach((item, index) => {
-        // Create staggered entrance animations
-        gsap.from(item, {
-            scrollTrigger: {
-                trigger: item,
-                start: "top 80%",
-                once: true
-            },
-            opacity: 0,
-            y: 50,
-            duration: 0.8,
-            delay: index * 0.3,
-            ease: "power2.out"
+    // Add rotation effect to the numbers
+    const number = item.querySelector('.story-number');
+    if (number) {
+        ScrollTrigger.create({
+            trigger: item,
+            start: "top 80%",
+            end: "bottom 20%",
+            onEnter: () => {
+                gsap.from(number, {
+                    rotation: -180,
+                    scale: 0,
+                    duration: 0.8,
+                    ease: "back.out(1.7)"
+                });
+            }
         });
-        
-        // Add parallax effect to the images
-        const illustration = item.querySelector('.story-illustration img');
-        if (illustration) {
-            ScrollTrigger.create({
-                trigger: item,
-                start: "top bottom",
-                end: "bottom top",
-                onUpdate: (self) => {
-                    const progress = self.progress;
-                    gsap.to(illustration, {
-                        y: progress * 50,
-                        duration: 0.1,
-                        ease: "none"
-                    });
-                }
-            });
-        }
-        
-        // Add rotation effect to the numbers
-        const number = item.querySelector('.story-number');
-        if (number) {
-            ScrollTrigger.create({
-                trigger: item,
-                start: "top 80%",
-                end: "bottom 20%",
-                onEnter: () => {
-                    gsap.from(number, {
-                        rotation: -180,
-                        scale: 0,
-                        duration: 0.8,
-                        ease: "back.out(1.7)"
-                    });
-                }
-            });
-        }
+    }
+});
+
+// Animation for solution cards
+const solutionCards = document.querySelectorAll('.solution-card');
+solutionCards.forEach((card, index) => {
+    gsap.from(card, {
+        scrollTrigger: {
+            trigger: card,
+            start: "top 85%",
+            once: true
+        },
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        delay: index * 0.2,
+        ease: "power2.out"
     });
-    
-    // Animation for solution cards
-    const solutionCards = document.querySelectorAll('.solution-card');
-    solutionCards.forEach((card, index) => {
-        gsap.from(card, {
-            scrollTrigger: {
-                trigger: card,
-                start: "top 85%",
-                once: true
-            },
-            y: 50,
-            opacity: 0,
-            duration: 0.8,
-            delay: index * 0.2,
+});
+
+// Hover animations for cards
+const cardImages = document.querySelectorAll('.card-img img');
+cardImages.forEach(img => {
+    img.addEventListener('mouseenter', () => {
+        gsap.to(img, {
+            scale: 1.05,
+            duration: 0.4,
             ease: "power2.out"
         });
     });
     
-    // Hover animations for cards
-    const cardImages = document.querySelectorAll('.card-img img');
-    cardImages.forEach(img => {
-        img.addEventListener('mouseenter', () => {
+    img.addEventListener('mouseleave', () => {
+        gsap.to(img, {
+            scale: 1,
+            duration: 0.4,
+            ease: "power2.out"
+        });
+    });
+});
+
+// Hero background animation - create a more visible animation effect
+gsap.fromTo('.hero-background', 
+    { 
+        backgroundPosition: '0% 0%'
+    }, 
+    {
+        backgroundPosition: '0% 100%',
+        duration: 30, 
+        repeat: -1, 
+        yoyo: true, 
+        ease: "none"
+    }
+);
+
+// For-Who section tabs
+const personaTabs = document.querySelectorAll('.persona-tab');
+const personaPanels = document.querySelectorAll('.persona-panel');
+
+personaTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+        const target = tab.dataset.target;
+        
+        // Remove active class from all tabs and panels
+        personaTabs.forEach(t => t.classList.remove('active'));
+        personaPanels.forEach(p => p.classList.remove('active'));
+        
+        // Add active class to clicked tab and matching panel
+        tab.classList.add('active');
+        document.getElementById(target).classList.add('active');
+    });
+});
+
+// CTA section option tabs
+const ctaOptions = document.querySelectorAll('.cta-option');
+const formHeader = document.querySelector('.form-header h3');
+const formSubheader = document.querySelector('.form-header p');
+const submitBtn = document.querySelector('.submit-btn');
+
+ctaOptions.forEach(option => {
+    option.addEventListener('click', () => {
+        const formType = option.dataset.form;
+        
+        // Remove active class from all options
+        ctaOptions.forEach(o => o.classList.remove('active'));
+        
+        // Add active class to clicked option
+        option.classList.add('active');
+        
+        // Change form texts based on form type
+        if (formHeader && formSubheader && submitBtn) {
+            switch(formType) {
+                case 'tour':
+                    formHeader.textContent = 'Book Your Tour';
+                    formSubheader.textContent = 'Experience TACH homes in person';
+                    submitBtn.textContent = 'Book My Tour';
+                    break;
+                case 'info':
+                    formHeader.textContent = 'Request Information';
+                    formSubheader.textContent = 'Learn more about TACH homes';
+                    submitBtn.textContent = 'Send Request';
+                    break;
+                case 'invest':
+                    formHeader.textContent = 'Investment Opportunities';
+                    formSubheader.textContent = 'Discover how to invest in TACH';
+                    submitBtn.textContent = 'Get Investment Details';
+                    break;
+            }
+        }
+    });
+});
+
+// Image hover animations
+const modelImages = document.querySelectorAll('.model-card .model-image');
+modelImages.forEach(image => {
+    image.addEventListener('mouseenter', () => {
+        const img = image.querySelector('img');
+        if (img) {
             gsap.to(img, {
                 scale: 1.05,
-                duration: 0.4,
-                ease: "power2.out"
+                duration: 0.5,
+                ease: 'power2.out'
             });
-        });
-        
-        img.addEventListener('mouseleave', () => {
+        }
+    });
+    
+    image.addEventListener('mouseleave', () => {
+        const img = image.querySelector('img');
+        if (img) {
             gsap.to(img, {
                 scale: 1,
-                duration: 0.4,
-                ease: "power2.out"
+                duration: 0.5,
+                ease: 'power2.out'
             });
-        });
-    });
-    
-    // Hero background animation - create a more visible animation effect
-    gsap.fromTo('.hero-background', 
-        { 
-            backgroundPosition: '0% 0%'
-        }, 
-        {
-            backgroundPosition: '0% 100%',
-            duration: 30, 
-            repeat: -1, 
-            yoyo: true, 
-            ease: "none"
         }
-    );
-    
-    // For-Who section tabs
-    const personaTabs = document.querySelectorAll('.persona-tab');
-    const personaPanels = document.querySelectorAll('.persona-panel');
-
-    personaTabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            const target = tab.dataset.target;
-            
-            // Remove active class from all tabs and panels
-            personaTabs.forEach(t => t.classList.remove('active'));
-            personaPanels.forEach(p => p.classList.remove('active'));
-            
-            // Add active class to clicked tab and matching panel
-            tab.classList.add('active');
-            document.getElementById(target).classList.add('active');
-        });
     });
+});
 
-    // CTA section option tabs
-    const ctaOptions = document.querySelectorAll('.cta-option');
-    const formHeader = document.querySelector('.form-header h3');
-    const formSubheader = document.querySelector('.form-header p');
-    const submitBtn = document.querySelector('.submit-btn');
+// Story navigation
+const storyPrev = document.querySelector('.story-nav-btn.prev');
+const storyNext = document.querySelector('.story-nav-btn.next');
+const storySlides = document.querySelectorAll('.story-slide');
+const storyDots = document.querySelectorAll('.story-dot');
+let currentSlide = 0;
 
-    ctaOptions.forEach(option => {
-        option.addEventListener('click', () => {
-            const formType = option.dataset.form;
-            
-            // Remove active class from all options
-            ctaOptions.forEach(o => o.classList.remove('active'));
-            
-            // Add active class to clicked option
-            option.classList.add('active');
-            
-            // Change form texts based on form type
-            if (formHeader && formSubheader && submitBtn) {
-                switch(formType) {
-                    case 'tour':
-                        formHeader.textContent = 'Book Your Tour';
-                        formSubheader.textContent = 'Experience TACH homes in person';
-                        submitBtn.textContent = 'Book My Tour';
-                        break;
-                    case 'info':
-                        formHeader.textContent = 'Request Information';
-                        formSubheader.textContent = 'Learn more about TACH homes';
-                        submitBtn.textContent = 'Send Request';
-                        break;
-                    case 'invest':
-                        formHeader.textContent = 'Investment Opportunities';
-                        formSubheader.textContent = 'Discover how to invest in TACH';
-                        submitBtn.textContent = 'Get Investment Details';
-                        break;
-                }
-            }
-        });
-    });
-    
-    // Image hover animations
-    const modelImages = document.querySelectorAll('.model-card .model-image');
-    modelImages.forEach(image => {
-        image.addEventListener('mouseenter', () => {
-            const img = image.querySelector('img');
-            if (img) {
-                gsap.to(img, {
-                    scale: 1.05,
-                    duration: 0.5,
-                    ease: 'power2.out'
-                });
-            }
-        });
+if (storyNext && storyPrev && storySlides.length > 0 && storyDots.length > 0) {
+    const updateStoryNav = (index) => {
+        storySlides.forEach(slide => slide.classList.remove('active'));
+        storyDots.forEach(dot => dot.classList.remove('active'));
         
-        image.addEventListener('mouseleave', () => {
-            const img = image.querySelector('img');
-            if (img) {
-                gsap.to(img, {
-                    scale: 1,
-                    duration: 0.5,
-                    ease: 'power2.out'
-                });
-            }
-        });
-    });
-
-    // Story navigation
-    const storyPrev = document.querySelector('.story-nav-btn.prev');
-    const storyNext = document.querySelector('.story-nav-btn.next');
-    const storySlides = document.querySelectorAll('.story-slide');
-    const storyDots = document.querySelectorAll('.story-dot');
-    let currentSlide = 0;
-
-    if (storyNext && storyPrev && storySlides.length > 0 && storyDots.length > 0) {
-        const updateStoryNav = (index) => {
-            storySlides.forEach(slide => slide.classList.remove('active'));
-            storyDots.forEach(dot => dot.classList.remove('active'));
-            
-            storySlides[index].classList.add('active');
-            storyDots[index].classList.add('active');
-        };
-
-        storyNext.addEventListener('click', () => {
-            currentSlide = (currentSlide + 1) % storySlides.length;
-            updateStoryNav(currentSlide);
-        });
-
-        storyPrev.addEventListener('click', () => {
-            currentSlide = (currentSlide - 1 + storySlides.length) % storySlides.length;
-            updateStoryNav(currentSlide);
-        });
-
-        storyDots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                currentSlide = index;
-                updateStoryNav(currentSlide);
-            });
-        });
-    }
-
-    // Scroll animations
-    const fadeInElements = document.querySelectorAll('[data-scroll]');
-    
-    fadeInElements.forEach(element => {
-        gsap.fromTo(element, 
-            { opacity: 0, y: 30 },
-            { 
-                opacity: 1, 
-                y: 0, 
-                duration: 0.8, 
-                scrollTrigger: {
-                    trigger: element,
-                    start: "top 90%",
-                    toggleActions: "play none none none"
-                }
-            }
-        );
-    });
-
-    // Counter animation
-    const animateCounter = (el, target) => {
-        const duration = 2000;
-        const stepTime = 50;
-        const steps = duration / stepTime;
-        const increment = target / steps;
-        let current = 0;
-        
-        const timer = setInterval(() => {
-            current += increment;
-            if (current > target) current = target;
-            el.textContent = Math.floor(current);
-            
-            if (current === target) clearInterval(timer);
-        }, stepTime);
+        storySlides[index].classList.add('active');
+        storyDots[index].classList.add('active');
     };
 
-    // Start counter animation when counter section is visible
-    const counterItems = document.querySelectorAll('.counter');
-    
-    counterItems.forEach(counter => {
-        if (counter.hasAttribute('data-target')) {
-            const targetValue = parseInt(counter.getAttribute('data-target'));
-            
-            ScrollTrigger.create({
-                trigger: counter,
-                start: "top 90%",
-                onEnter: () => animateCounter(counter, targetValue)
-            });
-        }
+    storyNext.addEventListener('click', () => {
+        currentSlide = (currentSlide + 1) % storySlides.length;
+        updateStoryNav(currentSlide);
     });
 
-    // Hero intro animation
-    const heroTimeline = gsap.timeline();
-    
-    heroTimeline
-        .fromTo('.hero-title .line', 
-            { y: 50, opacity: 0 }, 
-            { y: 0, opacity: 1, duration: 0.8, stagger: 0.2 }
-        )
-        .fromTo('.hero-subtitle', 
-            { opacity: 0 }, 
-            { opacity: 1, duration: 0.8 }, 
-            "-=0.3"
-        )
-        .fromTo('.hero-cta', 
-            { y: 20, opacity: 0 }, 
-            { y: 0, opacity: 1, duration: 0.5 }, 
-            "-=0.3"
-        )
-        .fromTo('.scroll-indicator', 
-            { opacity: 0 }, 
-            { opacity: 1, duration: 0.5 }, 
-            "-=0.2"
-        );
+    storyPrev.addEventListener('click', () => {
+        currentSlide = (currentSlide - 1 + storySlides.length) % storySlides.length;
+        updateStoryNav(currentSlide);
+    });
 
-    // Enhanced animation for the story conclusion
-    const storyConclusion = document.querySelector('.story-conclusion');
-    if (storyConclusion) {
-        gsap.from(storyConclusion, {
-            scrollTrigger: {
-                trigger: storyConclusion,
-                start: "top 80%",
-                once: true
-            },
-            opacity: 0,
-            scale: 0.9,
-            y: 30,
-            duration: 1,
-            ease: "power3.out"
+    storyDots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            currentSlide = index;
+            updateStoryNav(currentSlide);
         });
-        
-        // Add pulse animation to the CTA button
-        const storyCta = storyConclusion.querySelector('.story-cta');
-        if (storyCta) {
-            const pulseTimeline = gsap.timeline({repeat: -1, yoyo: true, repeatDelay: 1});
-            pulseTimeline.to(storyCta, {
-                boxShadow: "0 15px 40px rgba(0, 0, 0, 0.3)",
-                scale: 1.05,
-                duration: 1.5,
-                ease: "power1.inOut"
-            });
+    });
+}
+
+// Scroll animations
+const fadeInElements = document.querySelectorAll('[data-scroll]');
+
+fadeInElements.forEach(element => {
+    gsap.fromTo(element, 
+        { opacity: 0, y: 30 },
+        { 
+            opacity: 1, 
+            y: 0, 
+            duration: 0.8, 
+            scrollTrigger: {
+                trigger: element,
+                start: "top 90%",
+                toggleActions: "play none none none"
+            }
         }
-    }
-
-    // Crisis section animations - updated for Galaxy theme
-    initCrisisSection();
-
-    // Solution section interactive 3D container model
-    initSolutionInteractive();
-
-    // Initialize the solution showcase section
-    initSolutionShowcase();
-
-    // Models section tabs functionality
-    initModelsSection();
-
-    // Initialize the Solution Section
-    initInnovativeSolution();
+    );
 });
+
+// Counter animation
+const animateCounter = (el, target) => {
+    const duration = 2000;
+    const stepTime = 50;
+    const steps = duration / stepTime;
+    const increment = target / steps;
+    let current = 0;
+    
+    const timer = setInterval(() => {
+        current += increment;
+        if (current > target) current = target;
+        el.textContent = Math.floor(current);
+        
+        if (current === target) clearInterval(timer);
+    }, stepTime);
+};
+
+// Start counter animation when counter section is visible
+const counterItems = document.querySelectorAll('.counter');
+
+counterItems.forEach(counter => {
+    if (counter.hasAttribute('data-target')) {
+        const targetValue = parseInt(counter.getAttribute('data-target'));
+        
+        ScrollTrigger.create({
+            trigger: counter,
+            start: "top 90%",
+            onEnter: () => animateCounter(counter, targetValue)
+        });
+    }
+});
+
+// Hero intro animation
+const heroTimeline = gsap.timeline();
+
+heroTimeline
+    .fromTo('.hero-title .line', 
+        { y: 50, opacity: 0 }, 
+        { y: 0, opacity: 1, duration: 0.8, stagger: 0.2 }
+    )
+    .fromTo('.hero-subtitle', 
+        { opacity: 0 }, 
+        { opacity: 1, duration: 0.8 }, 
+        "-=0.3"
+    )
+    .fromTo('.hero-cta', 
+        { y: 20, opacity: 0 }, 
+        { y: 0, opacity: 1, duration: 0.5 }, 
+        "-=0.3"
+    )
+    .fromTo('.scroll-indicator', 
+        { opacity: 0 }, 
+        { opacity: 1, duration: 0.5 }, 
+        "-=0.2"
+    );
+
+// Enhanced animation for the story conclusion
+const storyConclusion = document.querySelector('.story-conclusion');
+if (storyConclusion) {
+    gsap.from(storyConclusion, {
+        scrollTrigger: {
+            trigger: storyConclusion,
+            start: "top 80%",
+            once: true
+        },
+        opacity: 0,
+        scale: 0.9,
+        y: 30,
+        duration: 1,
+        ease: "power3.out"
+    });
+    
+    // Add pulse animation to the CTA button
+    const storyCta = storyConclusion.querySelector('.story-cta');
+    if (storyCta) {
+        const pulseTimeline = gsap.timeline({repeat: -1, yoyo: true, repeatDelay: 1});
+        pulseTimeline.to(storyCta, {
+            boxShadow: "0 15px 40px rgba(0, 0, 0, 0.3)",
+            scale: 1.05,
+            duration: 1.5,
+            ease: "power1.inOut"
+        });
+    }
+}
 
 // Crisis section animations - updated for Galaxy theme
 function initCrisisSection() {
@@ -1266,5 +1274,142 @@ function initInnovativeSolution() {
             yoyo: true,
             ease: "sine.inOut"
         });
+    });
+}
+
+// Solution Carousel
+function initSolutionCarousel() {
+    const carousel = document.querySelector('.carousel-container');
+    const cards = document.querySelectorAll('.solution-card');
+    const dots = document.querySelectorAll('.dot');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    let currentIndex = 0;
+    const totalCards = cards.length;
+
+    function updateCarousel() {
+        // Update card positions
+        cards.forEach((card, index) => {
+            const angle = (index - currentIndex) * 120;
+            const z = Math.abs(index - currentIndex) * -200;
+            card.style.transform = `translate(-50%, -50%) translateZ(${z}px) rotateY(${angle}deg)`;
+            card.classList.toggle('active', index === currentIndex);
+        });
+
+        // Update dots
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentIndex);
+        });
+    }
+
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % totalCards;
+        updateCarousel();
+    }
+
+    function prevSlide() {
+        currentIndex = (currentIndex - 1 + totalCards) % totalCards;
+        updateCarousel();
+    }
+
+    // Event Listeners
+    prevBtn.addEventListener('click', prevSlide);
+    nextBtn.addEventListener('click', nextSlide);
+
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            currentIndex = index;
+            updateCarousel();
+        });
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+            prevSlide();
+        } else if (e.key === 'ArrowRight') {
+            nextSlide();
+        }
+    });
+
+    // Touch swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    carousel.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+
+    carousel.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    });
+
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = touchStartX - touchEndX;
+
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+                nextSlide();
+            } else {
+                prevSlide();
+            }
+        }
+    }
+
+    // Initialize carousel
+    updateCarousel();
+}
+
+// Solution Tabs
+function initSolutionTabs() {
+    const tabItems = document.querySelectorAll('.tab-item');
+    const solutionPanels = document.querySelectorAll('.solution-panel');
+    
+    if (!tabItems.length || !solutionPanels.length) {
+        console.log('Solution tabs elements not found');
+        return;
+    }
+    
+    console.log('Solution tabs initialized with:', tabItems.length, 'tabs and', solutionPanels.length, 'panels');
+    
+    tabItems.forEach(tab => {
+        tab.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Get the solution data attribute
+            const solutionType = tab.getAttribute('data-solution');
+            console.log('Tab clicked:', solutionType);
+            
+            // Remove active class from all tabs and panels
+            tabItems.forEach(item => item.classList.remove('active'));
+            solutionPanels.forEach(panel => panel.classList.remove('active'));
+            
+            // Add active class to the clicked tab
+            tab.classList.add('active');
+            
+            // Activate the corresponding panel
+            const targetPanel = document.getElementById(`${solutionType}-solution`);
+            if (targetPanel) {
+                targetPanel.classList.add('active');
+                console.log('Activated panel:', solutionType);
+            } else {
+                console.log('Target panel not found:', `${solutionType}-solution`);
+            }
+            
+            // Smooth scroll to the solution content on mobile
+            if (window.innerWidth < 768) {
+                const solutionContent = document.querySelector('.solution-content');
+                if (solutionContent) {
+                    solutionContent.scrollIntoView({behavior: 'smooth'});
+                }
+            }
+        });
+    });
+    
+    // Make sure all tabs have proper cursor style
+    tabItems.forEach(tab => {
+        tab.style.cursor = 'pointer';
     });
 } 
