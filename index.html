@@ -562,79 +562,392 @@
     <!-- Models Section -->
     <section id="models" class="models">
         <div class="container">
-            <h2 class="section-title">Our Innovative Homes</h2>
+            <h2 class="section-title">Our Container Living Spaces</h2>
             <div class="models-intro">
-                <p>From compact studios to family-sized multi-container designs, discover the perfect space for your
-                    lifestyle.</p>
+                <p>Discover the perfect space designed for your lifestyle needs and budget</p>
             </div>
 
-            <div class="models-showcase">
-                <div class="model-card featured">
-                    <div class="model-image">
-                        <img src="https://images.unsplash.com/photo-1572297870735-065a267d562b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
-                            alt="The Studio">
-                        <div class="model-tag">Best Seller</div>
+            <div class="models-tabs">
+                <div class="tab-nav">
+                    <div class="tab-button active" data-model="studio">
+                        <i class="fas fa-home"></i>
+                        <span>Studio</span>
                     </div>
-                    <div class="model-info">
-                        <h3>The Studio</h3>
-                        <p class="model-subtitle">Compact & Affordable</p>
-                        <div class="model-specs">
-                            <div class="spec-item"><i class="fas fa-expand-arrows-alt"></i> 20m²</div>
-                            <div class="spec-item"><i class="fas fa-dollar-sign"></i> From $8,500</div>
-                            <div class="spec-item"><i class="fas fa-bolt"></i> Solar Ready</div>
-                        </div>
-                        <p class="model-description">Perfect for individuals or couples seeking an affordable first home
-                            or rental property with all essential amenities in a compact space.</p>
-                        <a href="#contact" class="model-cta">Learn More</a>
+                    <div class="tab-button" data-model="big-studio">
+                        <i class="fas fa-bath"></i>
+                        <span>Big Studio</span>
+                    </div>
+                    <div class="tab-button" data-model="apartment">
+                        <i class="fas fa-users"></i>
+                        <span>Apartment</span>
+                    </div>
+                    <div class="tab-button" data-model="coworking">
+                        <i class="fas fa-laptop"></i>
+                        <span>Co-Working</span>
                     </div>
                 </div>
 
-                <div class="model-selection">
-                    <div class="model-card">
-                        <div class="model-image">
-                            <img src="https://images.unsplash.com/photo-1554995207-c18c203602cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
-                                alt="The One Bedroom">
-                        </div>
+                <div class="models-content">
+                    <!-- Studio Model -->
+                    <div class="model-panel active" id="studio-panel">
                         <div class="model-info">
-                            <h3>The One Bedroom</h3>
-                            <p class="model-subtitle">Versatile Living</p>
-                            <div class="model-specs">
-                                <div class="spec-item"><i class="fas fa-expand-arrows-alt"></i> 30m²</div>
-                                <div class="spec-item"><i class="fas fa-dollar-sign"></i> From $12,500</div>
+                            <div class="model-header">
+                                <h3>The Studio</h3>
+                                <div class="model-tag">Most Affordable</div>
                             </div>
-                            <a href="#contact" class="model-cta outline">See Details</a>
+                            <p class="model-subtitle">Compact & Efficient Living for One</p>
+
+                            <div class="model-specs">
+                                <div class="spec-item">
+                                    <div class="spec-icon"><i class="fas fa-expand-arrows-alt"></i></div>
+                                    <div class="spec-detail">
+                                        <span class="spec-value">20m²</span>
+                                        <span class="spec-label">Floor Area</span>
+                                    </div>
+                                </div>
+                                <div class="spec-item">
+                                    <div class="spec-icon"><i class="fas fa-bed"></i></div>
+                                    <div class="spec-detail">
+                                        <span class="spec-value">1 Person</span>
+                                        <span class="spec-label">Capacity</span>
+                                    </div>
+                                </div>
+                                <div class="spec-item">
+                                    <div class="spec-icon"><i class="fas fa-shower"></i></div>
+                                    <div class="spec-detail">
+                                        <span class="spec-value">Shared</span>
+                                        <span class="spec-label">Bathroom</span>
+                                    </div>
+                                </div>
+                                <div class="spec-item">
+                                    <div class="spec-icon"><i class="fas fa-utensils"></i></div>
+                                    <div class="spec-detail">
+                                        <span class="spec-value">Shared</span>
+                                        <span class="spec-label">Kitchen</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="model-description">
+                                <p>Our entry-level studio offers a comfortable and affordable living space perfect for
+                                    individuals seeking their own private sanctuary. With shared bathroom and kitchen
+                                    facilities, this model provides the perfect balance of privacy and community living
+                                    at our most accessible price point.</p>
+                            </div>
+
+                            <div class="model-features">
+                                <div class="feature-tag"><i class="fas fa-bolt"></i> Solar Ready</div>
+                                <div class="feature-tag"><i class="fas fa-wifi"></i> WiFi Ready</div>
+                                <div class="feature-tag"><i class="fas fa-tint"></i> Water Harvesting</div>
+                                <div class="feature-tag"><i class="fas fa-leaf"></i> Eco Materials</div>
+                            </div>
+
+                            <div class="model-price">
+                                <div class="price-label">Starting at</div>
+                                <div class="price-amount">$8,500</div>
+                                <div class="price-note">or $189/month with financing</div>
+                            </div>
+
+                            <div class="model-actions">
+                                <a href="#contact" class="primary-btn">Book a Tour</a>
+                                <a href="#" class="secondary-btn view-floorplan" data-model="studio">View Floorplan</a>
+                            </div>
+                        </div>
+
+                        <div class="model-showcase">
+                            <div class="model-image-slider">
+                                <div class="model-main-image">
+                                    <img src="https://images.unsplash.com/photo-1572297870735-065a267d562b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                                        alt="Studio Container Home">
+                                </div>
+                                <div class="model-thumbnails">
+                                    <div class="thumbnail active">
+                                        <img src="https://images.unsplash.com/photo-1572297870735-065a267d562b?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                                            alt="Studio Exterior">
+                                    </div>
+                                    <div class="thumbnail">
+                                        <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                                            alt="Studio Interior">
+                                    </div>
+                                    <div class="thumbnail">
+                                        <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                                            alt="Studio Bed Area">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="model-card">
-                        <div class="model-image">
-                            <img src="https://images.unsplash.com/photo-1565183928294-7256f2af5e96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
-                                alt="The Family">
-                        </div>
+                    <!-- Big Studio Model -->
+                    <div class="model-panel" id="big-studio-panel">
                         <div class="model-info">
-                            <h3>The Family</h3>
-                            <p class="model-subtitle">Spacious & Practical</p>
-                            <div class="model-specs">
-                                <div class="spec-item"><i class="fas fa-expand-arrows-alt"></i> 60m²</div>
-                                <div class="spec-item"><i class="fas fa-dollar-sign"></i> From $18,500</div>
+                            <div class="model-header">
+                                <h3>The Big Studio</h3>
+                                <div class="model-tag">Independence</div>
                             </div>
-                            <a href="#contact" class="model-cta outline">See Details</a>
+                            <p class="model-subtitle">Complete Privacy & Comfort for One</p>
+
+                            <div class="model-specs">
+                                <div class="spec-item">
+                                    <div class="spec-icon"><i class="fas fa-expand-arrows-alt"></i></div>
+                                    <div class="spec-detail">
+                                        <span class="spec-value">30m²</span>
+                                        <span class="spec-label">Floor Area</span>
+                                    </div>
+                                </div>
+                                <div class="spec-item">
+                                    <div class="spec-icon"><i class="fas fa-bed"></i></div>
+                                    <div class="spec-detail">
+                                        <span class="spec-value">1 Person</span>
+                                        <span class="spec-label">Capacity</span>
+                                    </div>
+                                </div>
+                                <div class="spec-item">
+                                    <div class="spec-icon"><i class="fas fa-shower"></i></div>
+                                    <div class="spec-detail">
+                                        <span class="spec-value">Private</span>
+                                        <span class="spec-label">Bathroom</span>
+                                    </div>
+                                </div>
+                                <div class="spec-item">
+                                    <div class="spec-icon"><i class="fas fa-utensils"></i></div>
+                                    <div class="spec-detail">
+                                        <span class="spec-value">Private</span>
+                                        <span class="spec-label">Kitchen</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="model-description">
+                                <p>For those seeking complete independence, our Big Studio offers a fully self-contained
+                                    living space with private kitchen and bathroom facilities. The thoughtfully designed
+                                    layout maximizes space efficiency while providing all the comforts of a conventional
+                                    home in a compact footprint.</p>
+                            </div>
+
+                            <div class="model-features">
+                                <div class="feature-tag"><i class="fas fa-bolt"></i> Solar Ready</div>
+                                <div class="feature-tag"><i class="fas fa-wifi"></i> WiFi Ready</div>
+                                <div class="feature-tag"><i class="fas fa-tint"></i> Water Harvesting</div>
+                                <div class="feature-tag"><i class="fas fa-thermometer-half"></i> Climate Control</div>
+                            </div>
+
+                            <div class="model-price">
+                                <div class="price-label">Starting at</div>
+                                <div class="price-amount">$12,500</div>
+                                <div class="price-note">or $279/month with financing</div>
+                            </div>
+
+                            <div class="model-actions">
+                                <a href="#contact" class="primary-btn">Book a Tour</a>
+                                <a href="#" class="secondary-btn view-floorplan" data-model="big-studio">View
+                                    Floorplan</a>
+                            </div>
+                        </div>
+
+                        <div class="model-showcase">
+                            <div class="model-image-slider">
+                                <div class="model-main-image">
+                                    <img src="https://images.unsplash.com/photo-1554995207-c18c203602cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                                        alt="Big Studio Container Home">
+                                </div>
+                                <div class="model-thumbnails">
+                                    <div class="thumbnail active">
+                                        <img src="https://images.unsplash.com/photo-1554995207-c18c203602cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                                            alt="Big Studio Exterior">
+                                    </div>
+                                    <div class="thumbnail">
+                                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                                            alt="Big Studio Interior">
+                                    </div>
+                                    <div class="thumbnail">
+                                        <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                                            alt="Big Studio Kitchen">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="model-card">
-                        <div class="model-image">
-                            <img src="https://images.unsplash.com/photo-1618219740975-d40978bb7378?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
-                                alt="The Workspace">
-                        </div>
+                    <!-- Apartment Model -->
+                    <div class="model-panel" id="apartment-panel">
                         <div class="model-info">
-                            <h3>The Workspace</h3>
-                            <p class="model-subtitle">Creative Hub</p>
-                            <div class="model-specs">
-                                <div class="spec-item"><i class="fas fa-expand-arrows-alt"></i> 40m²</div>
-                                <div class="spec-item"><i class="fas fa-dollar-sign"></i> From $15,000</div>
+                            <div class="model-header">
+                                <h3>The Apartment</h3>
+                                <div class="model-tag">Family Living</div>
                             </div>
-                            <a href="#contact" class="model-cta outline">See Details</a>
+                            <p class="model-subtitle">Spacious Living for Couples & Families</p>
+
+                            <div class="model-specs">
+                                <div class="spec-item">
+                                    <div class="spec-icon"><i class="fas fa-expand-arrows-alt"></i></div>
+                                    <div class="spec-detail">
+                                        <span class="spec-value">60m²</span>
+                                        <span class="spec-label">Floor Area</span>
+                                    </div>
+                                </div>
+                                <div class="spec-item">
+                                    <div class="spec-icon"><i class="fas fa-users"></i></div>
+                                    <div class="spec-detail">
+                                        <span class="spec-value">2-4 People</span>
+                                        <span class="spec-label">Capacity</span>
+                                    </div>
+                                </div>
+                                <div class="spec-item">
+                                    <div class="spec-icon"><i class="fas fa-door-open"></i></div>
+                                    <div class="spec-detail">
+                                        <span class="spec-value">1-2 Bedrooms</span>
+                                        <span class="spec-label">Layout</span>
+                                    </div>
+                                </div>
+                                <div class="spec-item">
+                                    <div class="spec-icon"><i class="fas fa-couch"></i></div>
+                                    <div class="spec-detail">
+                                        <span class="spec-value">Living Room</span>
+                                        <span class="spec-label">Common Area</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="model-description">
+                                <p>Our most spacious residential option, The Apartment combines multiple container units
+                                    to create a modern family home. With separate bedrooms, a dedicated living area, and
+                                    complete kitchen facilities, this model provides the space and functionality needed
+                                    for families or couples who want room to grow.</p>
+                            </div>
+
+                            <div class="model-features">
+                                <div class="feature-tag"><i class="fas fa-solar-panel"></i> Full Solar System</div>
+                                <div class="feature-tag"><i class="fas fa-wifi"></i> WiFi Ready</div>
+                                <div class="feature-tag"><i class="fas fa-tint"></i> Water Harvesting</div>
+                                <div class="feature-tag"><i class="fas fa-expand"></i> Expandable</div>
+                            </div>
+
+                            <div class="model-price">
+                                <div class="price-label">Starting at</div>
+                                <div class="price-amount">$18,500</div>
+                                <div class="price-note">or $412/month with financing</div>
+                            </div>
+
+                            <div class="model-actions">
+                                <a href="#contact" class="primary-btn">Book a Tour</a>
+                                <a href="#" class="secondary-btn view-floorplan" data-model="apartment">View
+                                    Floorplan</a>
+                            </div>
+                        </div>
+
+                        <div class="model-showcase">
+                            <div class="model-image-slider">
+                                <div class="model-main-image">
+                                    <img src="https://images.unsplash.com/photo-1565183928294-7256f2af5e96?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                                        alt="Apartment Container Home">
+                                </div>
+                                <div class="model-thumbnails">
+                                    <div class="thumbnail active">
+                                        <img src="https://images.unsplash.com/photo-1565183928294-7256f2af5e96?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                                            alt="Apartment Exterior">
+                                    </div>
+                                    <div class="thumbnail">
+                                        <img src="https://images.unsplash.com/photo-1595526051245-3e9f22a4b8d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                                            alt="Apartment Living Room">
+                                    </div>
+                                    <div class="thumbnail">
+                                        <img src="https://images.unsplash.com/photo-1588854337236-6889d631faa8?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                                            alt="Apartment Kitchen">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Co-Working Space Model -->
+                    <div class="model-panel" id="coworking-panel">
+                        <div class="model-info">
+                            <div class="model-header">
+                                <h3>The Co-Working Space</h3>
+                                <div class="model-tag">Productivity</div>
+                            </div>
+                            <p class="model-subtitle">Professional Environment for Entrepreneurs</p>
+
+                            <div class="model-specs">
+                                <div class="spec-item">
+                                    <div class="spec-icon"><i class="fas fa-expand-arrows-alt"></i></div>
+                                    <div class="spec-detail">
+                                        <span class="spec-value">40m²</span>
+                                        <span class="spec-label">Floor Area</span>
+                                    </div>
+                                </div>
+                                <div class="spec-item">
+                                    <div class="spec-icon"><i class="fas fa-users"></i></div>
+                                    <div class="spec-detail">
+                                        <span class="spec-value">4-8 People</span>
+                                        <span class="spec-label">Capacity</span>
+                                    </div>
+                                </div>
+                                <div class="spec-item">
+                                    <div class="spec-icon"><i class="fas fa-chalkboard"></i></div>
+                                    <div class="spec-detail">
+                                        <span class="spec-value">Meeting Room</span>
+                                        <span class="spec-label">Included</span>
+                                    </div>
+                                </div>
+                                <div class="spec-item">
+                                    <div class="spec-icon"><i class="fas fa-coffee"></i></div>
+                                    <div class="spec-detail">
+                                        <span class="spec-value">Kitchenette</span>
+                                        <span class="spec-label">Included</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="model-description">
+                                <p>Transform how you work with our dedicated co-working container. Designed specifically
+                                    for entrepreneurs, remote workers, and small teams, this model provides a
+                                    professional workspace with high-speed connectivity, collaborative areas, and
+                                    everything needed for peak productivity and innovation.</p>
+                            </div>
+
+                            <div class="model-features">
+                                <div class="feature-tag"><i class="fas fa-bolt"></i> Backup Power</div>
+                                <div class="feature-tag"><i class="fas fa-wifi"></i> Fiber Internet</div>
+                                <div class="feature-tag"><i class="fas fa-lock"></i> Security System</div>
+                                <div class="feature-tag"><i class="fas fa-laptop"></i> Workstations</div>
+                            </div>
+
+                            <div class="model-price">
+                                <div class="price-label">Starting at</div>
+                                <div class="price-amount">$15,000</div>
+                                <div class="price-note">or $335/month with financing</div>
+                            </div>
+
+                            <div class="model-actions">
+                                <a href="#contact" class="primary-btn">Book a Tour</a>
+                                <a href="#" class="secondary-btn view-floorplan" data-model="coworking">View
+                                    Floorplan</a>
+                            </div>
+                        </div>
+
+                        <div class="model-showcase">
+                            <div class="model-image-slider">
+                                <div class="model-main-image">
+                                    <img src="https://images.unsplash.com/photo-1618219740975-d40978bb7378?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                                        alt="Co-Working Container Space">
+                                </div>
+                                <div class="model-thumbnails">
+                                    <div class="thumbnail active">
+                                        <img src="https://images.unsplash.com/photo-1618219740975-d40978bb7378?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                                            alt="Co-Working Exterior">
+                                    </div>
+                                    <div class="thumbnail">
+                                        <img src="https://images.unsplash.com/photo-1517502884422-41eaead166d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                                            alt="Co-Working Interior">
+                                    </div>
+                                    <div class="thumbnail">
+                                        <img src="https://images.unsplash.com/photo-1600508774634-4e11d34730e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                                            alt="Co-Working Meeting Area">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -642,8 +955,8 @@
 
             <div class="models-explore">
                 <div class="explore-cta">
-                    <h3>Can't find what you're looking for?</h3>
-                    <p>We offer custom designs tailored to your specific needs and budget.</p>
+                    <h3>Looking for something custom?</h3>
+                    <p>We offer bespoke designs tailored to your specific needs and preferences.</p>
                     <a href="#contact" class="primary-btn">Request Custom Design</a>
                 </div>
             </div>

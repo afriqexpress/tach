@@ -429,6 +429,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize the solution showcase section
     initSolutionShowcase();
+
+    // Models section tabs functionality
+    initModelsSection();
 });
 
 // Crisis section animations - updated for Galaxy theme
@@ -1062,51 +1065,90 @@ function initSolutionShowcase() {
         detailPanels.forEach(panel => {
             panelObserver.observe(panel, { attributes: true });
         });
-        
-        // Add visual indicator for auto-slide timer
-        const solutionWrapper = document.querySelector('.solution-content');
-        if (solutionWrapper) {
-            // Create timer progress element
-            const timerProgress = document.createElement('div');
-            timerProgress.className = 'auto-slide-progress';
-            solutionWrapper.appendChild(timerProgress);
-            
-            // Animate timer progress
-            function animateTimerProgress() {
-                gsap.fromTo(timerProgress,
-                    { width: '0%' },
-                    { 
-                        width: '100%', 
-                        duration: 30,
-                        ease: 'none',
-                        onComplete: () => {
-                            gsap.set(timerProgress, { width: '0%' });
+    }
+}
+
+// Models section tabs and thumbnail functionality
+function initModelsSection() {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const modelPanels = document.querySelectorAll('.model-panel');
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    
+    // Tab switching functionality
+    if (tabButtons.length > 0 && modelPanels.length > 0) {
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const modelType = button.getAttribute('data-model');
+                
+                // Update active tab button
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                // Update active model panel
+                modelPanels.forEach(panel => {
+                    panel.classList.remove('active');
+                    if (panel.id === `${modelType}-panel`) {
+                        panel.classList.add('active');
+                        
+                        // Animate panel entrance
+                        if (window.gsap) {
+                            gsap.fromTo(panel, 
+                                { opacity: 0, y: 20 }, 
+                                { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }
+                            );
                         }
                     }
-                );
-            }
-            
-            // Initialize timer progress animation
-            animateTimerProgress();
-            
-            // Reset and restart timer progress animation when slides change
-            const resetTimerProgress = () => {
-                gsap.killTweensOf(timerProgress);
-                gsap.set(timerProgress, { width: '0%' });
-                animateTimerProgress();
-            };
-            
-            // When manually changing slides, reset progress bar
-            pathDots.forEach(dot => {
-                dot.addEventListener('click', resetTimerProgress);
+                });
             });
-            
-            // Reset progress bar when auto-sliding
-            const originalSetActiveStep = setActiveStep;
-            setActiveStep = function(step) {
-                originalSetActiveStep(step);
-                resetTimerProgress();
-            };
-        }
+        });
+    }
+    
+    // Thumbnail image switching
+    if (thumbnails.length > 0) {
+        thumbnails.forEach(thumb => {
+            thumb.addEventListener('click', () => {
+                // Get parent container and main image
+                const slider = thumb.closest('.model-image-slider');
+                const mainImage = slider.querySelector('.model-main-image img');
+                const thumbImage = thumb.querySelector('img');
+                
+                // Update active thumbnail
+                slider.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+                thumb.classList.add('active');
+                
+                // Update main image with thumbnail source (but larger size)
+                // We're using a simple string replacement to get the high-res version
+                const highResUrl = thumbImage.src.replace('w=200', 'w=1200');
+                
+                // Animate the image change
+                if (window.gsap) {
+                    gsap.to(mainImage, { opacity: 0, duration: 0.2, onComplete: () => {
+                        mainImage.src = highResUrl;
+                        gsap.to(mainImage, { opacity: 1, duration: 0.3 });
+                    }});
+                } else {
+                    mainImage.src = highResUrl;
+                }
+            });
+        });
+    }
+    
+    // Floor plan view functionality
+    const floorplanButtons = document.querySelectorAll('.view-floorplan');
+    
+    if (floorplanButtons.length > 0) {
+        floorplanButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const modelType = button.getAttribute('data-model');
+                
+                // Here you would typically show a modal with the floor plan
+                // For this implementation, we'll use a simple alert
+                alert(`Floor plan for ${modelType} would display in a modal here`);
+                
+                // In a real implementation, you might have:
+                // openFloorplanModal(modelType);
+            });
+        });
     }
 } 
