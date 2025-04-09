@@ -1,14 +1,14 @@
 /* ===== VARIABLES ===== */
 :root {
     /* Color Palette */
-    --color-primary: #1ca350;
-    --color-primary-dark: #158a41;
-    --color-primary-light: #8be0aa;
-    --color-secondary: #ff7846;
-    --color-secondary-dark: #e85f2e;
-    --color-secondary-light: #ffa98d;
-    --color-accent: #2c5aa0;
-    --color-accent-light: #5d8fd6;
+    --color-primary: #ff7846;
+    --color-primary-dark: #e85f2e;
+    --color-primary-light: #ffa98d;
+    --color-secondary: #1ca350;
+    --color-secondary-dark: #158a41;
+    --color-secondary-light: #8be0aa;
+    --color-accent: #3f7de6;
+    --color-accent-light: #7aafff;
 
     --color-black: #111111;
     --color-dark: #222222;
@@ -1708,8 +1708,8 @@ select {
 .model-features {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.8rem;
-    margin-bottom: 2rem;
+    gap: 10px;
+    margin-bottom: 25px;
 }
 
 .feature-tag {
@@ -1761,7 +1761,8 @@ select {
 /* Actions */
 .model-actions {
     display: flex;
-    gap: 1rem;
+    justify-content: space-between;
+    margin-top: 10px;
 }
 
 .view-floorplan {
@@ -7460,4 +7461,16 @@ select {
     .btn-text {
         font-size: var(--font-size-sm);
     }
+}
+
+.price-amount {
+    display: none;
+}
+
+.model-actions .primary-btn {
+    display: none;
+}
+
+.models-explore {
+    display: none;
 }
