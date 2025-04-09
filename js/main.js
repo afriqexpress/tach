@@ -465,255 +465,219 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize model tabs
     initModelTabs();
+
+    // Optimize animations for mobile devices
+    optimizeForMobile();
 });
+
+// Function to detect if the device is mobile
+function isMobileDevice() {
+    return (window.innerWidth <= 768) || 
+           ('ontouchstart' in window) || 
+           (navigator.maxTouchPoints > 0);
+}
+
+// Add optimized animations for mobile
+function optimizeForMobile() {
+    if (isMobileDevice()) {
+        // Reduce animation complexity for mobile
+        document.querySelectorAll('.floating-illustration').forEach(el => {
+            el.style.animation = 'none'; // Disable complex animations
+            el.style.transform = 'none'; // Reset transforms
+        });
+        
+        // Simplify background effects
+        const starsBg = document.querySelector('.stars-bg');
+        if (starsBg) {
+            starsBg.style.backgroundSize = '50%'; // Reduce the number of elements
+        }
+        
+        // Add a class to help with CSS targeting
+        document.body.classList.add('is-mobile');
+    }
+}
 
 // Crisis section animations - updated for Galaxy theme
 function initCrisisSection() {
-    const crisisSection = document.querySelector('.crisis-galaxy');
-    if (!crisisSection) return;
-    
-    // Variables for navigation
-    const galaxyNavItems = document.querySelectorAll('.galaxy-nav-item');
-    const galaxySlides = document.querySelectorAll('.galaxy-slide');
+    const slides = document.querySelectorAll('.galaxy-slide');
+    const navItems = document.querySelectorAll('.galaxy-nav-item');
     const progressFill = document.querySelector('.progress-fill');
-    let currentSlideIndex = 0;
-    let isAnimating = false;
-    let touchStartY = 0;
-    let touchEndY = 0;
-    let autoSlideTimer; // Timer for auto-sliding
     
-    // Initialize slides
-    function setActiveSlide(index) {
-        // Prevent rapid changes
-        if (isAnimating) return;
-        isAnimating = true;
-        
-        // Constrain index
-        if (index < 0) index = 0;
-        if (index >= galaxySlides.length) index = galaxySlides.length - 1;
-        
-        // Update current index
-        currentSlideIndex = index;
-        
-        // Update navigation items
-        galaxyNavItems.forEach((item, i) => {
-            item.classList.toggle('active', i === index);
-        });
-        
-        // Update slides
-        galaxySlides.forEach((slide, i) => {
-            slide.classList.toggle('active', i === index);
-        });
-        
-        // Update progress bar
-        if (progressFill) {
-            const progressWidth = ((index + 1) / galaxySlides.length) * 100;
-            progressFill.style.width = `${progressWidth}%`;
-        }
-        
-        // Allow animations after a delay
-        setTimeout(() => {
-            isAnimating = false;
-        }, 800); // Match this with slide transition duration
-        
-        // Reset auto-slide timer when manually changing slides
-        resetAutoSlideTimer();
-    }
+    if (!slides.length || !navItems.length) return;
     
-    // Start auto-slide timer
-    function startAutoSlideTimer() {
-        clearTimeout(autoSlideTimer); // Clear any existing timer
-        autoSlideTimer = setTimeout(() => {
-            let nextIndex = currentSlideIndex + 1;
-            if (nextIndex >= galaxySlides.length) nextIndex = 0; // Loop back to first slide
-            setActiveSlide(nextIndex);
-        }, 30000); // Auto-slide every 30 seconds
-    }
+    let currentSlide = 0;
+    let autoSlideTimer;
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let isSwiping = false;
     
-    // Reset auto-slide timer
-    function resetAutoSlideTimer() {
-        clearTimeout(autoSlideTimer);
-        startAutoSlideTimer();
-    }
-    
-    // Initialize auto-slide
+    // Initialize
+    setActiveSlide(0);
     startAutoSlideTimer();
     
-    // Navigation click events
-    galaxyNavItems.forEach((item, index) => {
+    // Event Listeners
+    navItems.forEach((item, index) => {
         item.addEventListener('click', () => {
             setActiveSlide(index);
+            resetAutoSlideTimer();
         });
     });
     
     // Touch events for mobile
-    crisisSection.addEventListener('touchstart', (e) => {
-        touchStartY = e.changedTouches[0].screenY;
+    const crisisSection = document.querySelector('.galaxy-slides');
+    if (crisisSection) {
+        crisisSection.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+        crisisSection.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+    }
+    
+    // Handle keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (isElementInViewport(slides[0])) {
+            if (e.key === 'ArrowLeft') {
+                goToPrevSlide();
+                resetAutoSlideTimer();
+            } else if (e.key === 'ArrowRight') {
+                goToNextSlide();
+                resetAutoSlideTimer();
+            }
+        }
     });
     
-    crisisSection.addEventListener('touchend', (e) => {
-        touchEndY = e.changedTouches[0].screenY;
-        handleSwipe();
-    });
-    
-    function handleSwipe() {
-        const swipeThreshold = 50;
+    function setActiveSlide(index) {
+        // Update current slide index
+        currentSlide = index;
         
-        if (touchStartY - touchEndY > swipeThreshold) {
-            // Swipe up
-            setActiveSlide(currentSlideIndex + 1);
-        } else if (touchEndY - touchStartY > swipeThreshold) {
-            // Swipe down
-            setActiveSlide(currentSlideIndex - 1);
+        // Update slides
+        slides.forEach((slide, i) => {
+            if (i === index) {
+                slide.classList.add('active');
+                animateSlideContent(slide);
+            } else {
+                slide.classList.remove('active');
+            }
+        });
+        
+        // Update navigation
+        navItems.forEach((item, i) => {
+            if (i === index) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        });
+        
+        // Update progress bar
+        if (progressFill) {
+            const progressPercent = ((index + 1) / slides.length) * 100;
+            progressFill.style.width = `${progressPercent}%`;
         }
     }
     
-    // Keyboard navigation, only active when crisis section is in viewport
-    document.addEventListener('keydown', (e) => {
-        // Check if crisis section is in viewport before handling keyboard events
-        const rect = crisisSection.getBoundingClientRect();
-        const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
+    function goToNextSlide() {
+        let nextSlide = currentSlide + 1;
+        if (nextSlide >= slides.length) nextSlide = 0;
+        setActiveSlide(nextSlide);
+    }
+    
+    function goToPrevSlide() {
+        let prevSlide = currentSlide - 1;
+        if (prevSlide < 0) prevSlide = slides.length - 1;
+        setActiveSlide(prevSlide);
+    }
+    
+    function startAutoSlideTimer() {
+        // Clear any existing timer
+        if (autoSlideTimer) clearInterval(autoSlideTimer);
         
-        if (isInViewport) {
-            if (e.key === 'ArrowDown' || e.key === 'PageDown') {
-                setActiveSlide(currentSlideIndex + 1);
-                e.preventDefault();
-            } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-                setActiveSlide(currentSlideIndex - 1);
-                e.preventDefault();
+        // Start new timer
+        autoSlideTimer = setInterval(() => {
+            // Only auto-advance if the section is in viewport
+            if (isElementInViewport(slides[0])) {
+                goToNextSlide();
             }
-        }
-    });
+        }, 8000); // Change slide every 8 seconds
+    }
     
-    // Pause auto-slide when user is interacting with the section
-    crisisSection.addEventListener('mouseenter', () => {
-        clearTimeout(autoSlideTimer);
-    });
-    
-    crisisSection.addEventListener('mouseleave', () => {
+    function resetAutoSlideTimer() {
+        clearInterval(autoSlideTimer);
         startAutoSlideTimer();
-    });
+    }
     
-    // GSAP Animations for slide content
-    if (window.gsap) {
-        // Initial animations for the first slide
-        animateSlideContent(galaxySlides[0]);
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        const deltaX = touchEndX - touchStartX;
         
-        // Observer to detect when slides become active
-        const slideObserver = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                if (mutation.attributeName === 'class') {
-                    const slide = mutation.target;
-                    if (slide.classList.contains('active')) {
-                        animateSlideContent(slide);
-                    }
-                }
-            });
-        });
-        
-        // Observe all slides for class changes
-        galaxySlides.forEach(slide => {
-            slideObserver.observe(slide, { attributes: true });
-        });
-        
-        // Function to animate slide content
-        function animateSlideContent(slide) {
-            if (!slide) return;
-            
-            const tl = gsap.timeline();
-            
-            // Animate title
-            tl.fromTo(slide.querySelector('.slide-title'), 
-                { opacity: 0, y: 30 },
-                { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }
-            );
-            
-            // Animate stat
-            tl.fromTo(slide.querySelector('.slide-stat'), 
-                { opacity: 0, scale: 0.9 },
-                { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.7)" },
-                "-=0.5"
-            );
-            
-            // Animate description
-            tl.fromTo(slide.querySelector('.slide-description'), 
-                { opacity: 0, y: 20 },
-                { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
-                "-=0.6"
-            );
-            
-            // Animate impact section
-            tl.fromTo(slide.querySelector('.slide-impact'), 
-                { opacity: 0, y: 20 },
-                { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
-                "-=0.6"
-            );
-            
-            // Animate the floating illustration
-            const illustration = slide.querySelector('.floating-illustration');
-            if (illustration) {
-                gsap.fromTo(illustration,
-                    { opacity: 0, scale: 0.8 },
-                    { 
-                        opacity: 1, 
-                        scale: 1,
-                        duration: 0.8, 
-                        ease: "back.out(1.7)" 
-                    }
-                );
+        if (Math.abs(deltaX) > swipeThreshold) {
+            if (deltaX > swipeThreshold) {
+                goToPrevSlide();
+            } else if (deltaX < -swipeThreshold) {
+                goToNextSlide();
             }
         }
+    }
+    
+    function animateSlideContent(slide) {
+        // Get elements to animate
+        const title = slide.querySelector('.slide-title');
+        const stat = slide.querySelector('.slide-stat');
+        const description = slide.querySelector('.slide-description');
+        const impact = slide.querySelector('.slide-impact');
+        const visual = slide.querySelector('.floating-illustration');
         
-        // Enhanced parallax effect for the background patterns
-        const starsBg = document.querySelector('.stars-bg');
-        
-        // Parallax effect on mouse movement
-        crisisSection.addEventListener('mousemove', (e) => {
-            if (!starsBg) return;
-            
-            // Calculate mouse position percentage
-            const mouseX = e.clientX / window.innerWidth;
-            const mouseY = e.clientY / window.innerHeight;
-            
-            // Apply subtle parallax movement to the background patterns
-            gsap.to(starsBg, {
-                x: (mouseX - 0.5) * 30,
-                y: (mouseY - 0.5) * 30,
-                duration: 0.5,
-                ease: "power1.out"
-            });
-            
-            // Apply movement to the before/after pseudo-elements using CSS variables
-            crisisSection.style.setProperty('--parallax-x', `${(mouseX - 0.5) * 20}px`);
-            crisisSection.style.setProperty('--parallax-y', `${(mouseY - 0.5) * 20}px`);
-        });
-        
-        // Create a scroll-triggered parallax effect
-        ScrollTrigger.create({
-            trigger: crisisSection,
-            start: "top bottom",
-            end: "bottom top",
-            onUpdate: (self) => {
-                const scrollProgress = self.progress;
-                
-                // Move background elements based on scroll position
-                gsap.to(crisisSection, {
-                    backgroundPosition: `0% ${scrollProgress * 20}%`,
-                    duration: 0.1,
-                    ease: "none"
-                });
-                
-                // Parallax effect for floating illustrations
-                const illustrations = crisisSection.querySelectorAll('.floating-illustration');
-                illustrations.forEach((illustration) => {
-                    gsap.to(illustration, {
-                        y: (scrollProgress - 0.5) * 30,
-                        duration: 0.1,
-                        ease: "none"
-                    });
-                });
+        // Reset animation by removing and re-adding class
+        const elements = [title, stat, description, impact, visual];
+        elements.forEach(el => {
+            if (el) {
+                el.style.opacity = 0;
+                el.style.transform = 'translateY(20px)';
             }
         });
+        
+        // Animate elements with staggered timing
+        setTimeout(() => {
+            if (title) {
+                title.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                title.style.opacity = 1;
+                title.style.transform = 'translateY(0)';
+            }
+        }, 100);
+        
+        setTimeout(() => {
+            if (stat) {
+                stat.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                stat.style.opacity = 1;
+                stat.style.transform = 'translateY(0)';
+            }
+        }, 300);
+        
+        setTimeout(() => {
+            if (description) {
+                description.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                description.style.opacity = 1;
+                description.style.transform = 'translateY(0)';
+            }
+        }, 500);
+        
+        setTimeout(() => {
+            if (impact) {
+                impact.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                impact.style.opacity = 1;
+                impact.style.transform = 'translateY(0)';
+            }
+        }, 700);
+        
+        setTimeout(() => {
+            if (visual) {
+                visual.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                visual.style.opacity = 1;
+                visual.style.transform = 'translateY(0) scale(1)';
+            }
+        }, 300);
     }
 }
 
@@ -1565,7 +1529,7 @@ function initSolutionCube() {
     function updateCubeRotation() {
         cube.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
     }
-    
+
     function handleMouseDown(e) {
         isDragging = true;
         previousX = e.clientX;
@@ -1720,7 +1684,7 @@ function initSolutionCube() {
             }
         }
     }
-    
+
     function hideAllDetailPanels() {
         detailPanels.forEach(panel => {
             panel.classList.remove('active');
@@ -2142,7 +2106,7 @@ function initImpactCounters() {
                 const target = parseInt(counter.getAttribute('data-target'));
                 let count = 0;
                 const interval = setInterval(() => {
-                    count += Math.ceil(target / 30);
+                    count++;
                     counter.innerText = count;
                     
                     if (count >= target) {
