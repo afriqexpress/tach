@@ -1,3 +1,12 @@
+// Import GSAP and its plugins
+// These imports are now handled via CDN includes in the HTML
+// import { gsap } from "gsap";
+// import { ScrollTrigger } from "gsap/ScrollTrigger";
+// import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+
+// Register plugins
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
 // Initialize GSAP and ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
 
@@ -448,6 +457,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize the solution carousel
     initSolutionCarousel();
 
+    // Initialize the solutions scroll section
+    initSolutionsScroll();
+
     // Solution section static functionality
     initSolutionsStatic();
 
@@ -466,6 +478,350 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize model tabs
     initModelTabs();
 });
+
+// Initialize the solutions scroll section
+function initSolutionsScroll() {
+    const solutionsSection = document.querySelector('.solutions-scroll');
+    if (!solutionsSection) return;
+    
+    const panels = document.querySelectorAll('.solution-panel');
+    const navDots = document.querySelectorAll('.solutions-nav .nav-dot');
+    const solutionsHeader = document.querySelector('.solutions-header');
+    const bgShapes = document.querySelectorAll('.bg-shape');
+    
+    // Create a scroll-based animation for the header
+    gsap.from(solutionsHeader, {
+        opacity: 0,
+        y: -50,
+        duration: 1,
+        scrollTrigger: {
+            trigger: solutionsSection,
+            start: "top 80%",
+            end: "top 50%",
+            toggleActions: "play none none none"
+        }
+    });
+    
+    // Set up ScrollTrigger for each panel
+    panels.forEach((panel, index) => {
+        ScrollTrigger.create({
+            trigger: panel,
+            start: "top center",
+            end: "bottom center",
+            onEnter: () => activatePanel(index),
+            onEnterBack: () => activatePanel(index),
+            markers: false
+        });
+        
+        // Panel content animations
+        const statNumber = panel.querySelector('.stat-number');
+        const statLabel = panel.querySelector('.stat-label');
+        const panelTitle = panel.querySelector('.panel-title');
+        const panelDesc = panel.querySelector('.panel-description');
+        const panelFeatures = panel.querySelectorAll('.panel-feature');
+        const panelVisual = panel.querySelector('.panel-visual');
+        const panelIcon = panel.querySelector('.panel-icon');
+        
+        // Create timeline for each panel
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: panel,
+                start: "top 70%",
+                toggleActions: "play none none reset"
+            }
+        });
+        
+        // Add animations to the timeline
+        if (statNumber) {
+            // Animated counter effect
+            let startValue = 0;
+            let endValue = parseInt(statNumber.textContent);
+            
+            tl.from(statNumber, {
+                textContent: startValue,
+                duration: 2,
+                ease: "power2.out",
+                snap: { textContent: 1 },
+                onUpdate: function() {
+                    // Add thousand separators for better readability
+                    if (endValue > 999) {
+                        statNumber.textContent = parseInt(statNumber.textContent).toLocaleString();
+                    }
+                }
+            }, 0);
+        }
+        
+        if (statLabel) {
+            tl.from(statLabel, {
+                opacity: 0,
+                y: 20,
+                duration: 0.6
+            }, 0.3);
+        }
+        
+        if (panelTitle) {
+            tl.from(panelTitle, {
+                opacity: 0,
+                y: 30,
+                duration: 0.7
+            }, 0.4);
+        }
+        
+        if (panelDesc) {
+            tl.from(panelDesc, {
+                opacity: 0,
+                y: 30,
+                duration: 0.7
+            }, 0.6);
+        }
+        
+        // Stagger the features with a bouncy effect
+        if (panelFeatures.length > 0) {
+            tl.from(panelFeatures, {
+                opacity: 0,
+                x: -20,
+                stagger: 0.15,
+                duration: 0.6,
+                ease: "back.out(1.2)"
+            }, 0.8);
+        }
+        
+        // Animate the panel icon with a spin effect
+        if (panelIcon) {
+            tl.from(panelIcon, {
+                opacity: 0,
+                scale: 0,
+                rotation: -180,
+                duration: 0.8,
+                ease: "back.out(1.7)"
+            }, 0.2);
+        }
+        
+        // Animate the visual with a more dynamic effect
+        if (panelVisual) {
+            tl.from(panelVisual, {
+                opacity: 0,
+                scale: 0.8,
+                duration: 1,
+                ease: "elastic.out(1, 0.5)"
+            }, 0.5);
+            
+            // Add floating animation that continues after the initial animation
+            gsap.to(panelVisual, {
+                y: "+=15",
+                duration: 2.5,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+            
+            // Add subtle rotation to make it more dynamic
+            gsap.to(panelVisual, {
+                rotation: "+=3",
+                duration: 3,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+        }
+        
+        // Add a subtle scale effect to the entire panel when it becomes active
+        ScrollTrigger.create({
+            trigger: panel,
+            start: "top center",
+            end: "bottom center",
+            onEnter: () => {
+                gsap.to(panel, {
+                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                    boxShadow: '0 15px 50px rgba(0, 0, 0, 0.12)',
+                    duration: 0.5
+                });
+            },
+            onLeave: () => {
+                gsap.to(panel, {
+                    backgroundColor: 'rgba(255, 255, 255, 0)',
+                    boxShadow: '0 5px 30px rgba(0, 0, 0, 0.05)',
+                    duration: 0.5
+                });
+            },
+            onEnterBack: () => {
+                gsap.to(panel, {
+                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                    boxShadow: '0 15px 50px rgba(0, 0, 0, 0.12)',
+                    duration: 0.5
+                });
+            },
+            onLeaveBack: () => {
+                gsap.to(panel, {
+                    backgroundColor: 'rgba(255, 255, 255, 0)',
+                    boxShadow: '0 5px 30px rgba(0, 0, 0, 0.05)',
+                    duration: 0.5
+                });
+            }
+        });
+    });
+    
+    // Click navigation with smooth animation
+    navDots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            const panel = panels[index];
+            
+            // Animate scroll with GSAP for smoother motion
+            gsap.to(window, {
+                scrollTo: {
+                    y: panel.offsetTop - 100,
+                    autoKill: false
+                },
+                duration: 1,
+                ease: "power2.inOut"
+            });
+            
+            // Update nav dots immediately for better UX
+            activatePanel(index);
+        });
+        
+        // Add hover animation for dots
+        dot.addEventListener('mouseenter', () => {
+            gsap.to(dot, {
+                scale: 1.2,
+                duration: 0.3,
+                ease: "power1.out"
+            });
+        });
+        
+        dot.addEventListener('mouseleave', () => {
+            gsap.to(dot, {
+                scale: 1,
+                duration: 0.3,
+                ease: "power1.out"
+            });
+        });
+    });
+    
+    // Function to activate a panel and its corresponding nav dot
+    function activatePanel(index) {
+        // Update nav dots
+        navDots.forEach((dot, i) => {
+            if (i === index) {
+                gsap.to(dot, {
+                    scale: 1.2,
+                    backgroundColor: 'var(--primary-color)',
+                    duration: 0.3,
+                    onComplete: () => {
+                        dot.classList.add('active');
+                        gsap.to(dot, {
+                            scale: 1,
+                            duration: 0.2,
+                            delay: 0.1
+                        });
+                    }
+                });
+            } else {
+                dot.classList.remove('active');
+                gsap.to(dot, {
+                    scale: 1,
+                    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+                    duration: 0.3
+                });
+            }
+        });
+    }
+    
+    // Set the first panel as active initially
+    if (navDots.length > 0) {
+        activatePanel(0);
+    }
+    
+    // Add parallax effects to background elements
+    if (bgShapes.length > 0) {
+        bgShapes.forEach(shape => {
+            // Random values for more natural movement
+            const xMove = (Math.random() * 100) - 50; // -50 to 50
+            const yMove = (Math.random() * 100) - 50; // -50 to 50
+            const rotationAmount = (Math.random() * 40) - 20; // -20 to 20
+            
+            gsap.to(shape, {
+                y: yMove,
+                x: xMove,
+                rotation: rotationAmount,
+                scrollTrigger: {
+                    trigger: solutionsSection,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: true
+                }
+            });
+            
+            // Add floating animation independent of scroll
+            gsap.to(shape, {
+                y: "+=15",
+                duration: 3 + Math.random() * 2, // 3-5 seconds
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+        });
+    }
+    
+    // Add scroll indicator animation at the beginning of the section
+    const scrollIndicator = document.querySelector('.scroll-indicator');
+    if (scrollIndicator) {
+        gsap.from(scrollIndicator, {
+            opacity: 0,
+            y: -20,
+            duration: 1,
+            delay: 1,
+            scrollTrigger: {
+                trigger: solutionsSection,
+                start: "top 70%"
+            }
+        });
+        
+        // Add infinite pulse animation
+        gsap.to(scrollIndicator, {
+            y: "+=10",
+            opacity: 0.7,
+            duration: 1.5,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+    }
+    
+    // Add mouse wheel event for smooth panel navigation
+    solutionsSection.addEventListener('wheel', function(e) {
+        // Find current active panel index
+        let currentIndex = 0;
+        navDots.forEach((dot, i) => {
+            if (dot.classList.contains('active')) currentIndex = i;
+        });
+        
+        // Determine direction and next panel
+        if (e.deltaY > 0 && currentIndex < panels.length - 1) {
+            // Scrolling down, go to next panel
+            const nextPanel = panels[currentIndex + 1];
+            gsap.to(window, {
+                scrollTo: {
+                    y: nextPanel.offsetTop - 100,
+                    autoKill: false
+                },
+                duration: 0.7,
+                ease: "power2.out"
+            });
+        } else if (e.deltaY < 0 && currentIndex > 0) {
+            // Scrolling up, go to previous panel
+            const prevPanel = panels[currentIndex - 1];
+            gsap.to(window, {
+                scrollTo: {
+                    y: prevPanel.offsetTop - 100,
+                    autoKill: false
+                },
+                duration: 0.7,
+                ease: "power2.out"
+            });
+        }
+    });
+}
 
 // Crisis section animations - updated for Galaxy theme
 function initCrisisSection() {
@@ -757,15 +1113,7 @@ function initSolutionInteractive() {
     });
     
     document.addEventListener('mousemove', handleDragMove);
-    document.addEventListener('touchmove', e => {
-        if (!isDragging) return;
-        const touch = e.touches[0];
-        e.preventDefault();
-        handleDragMove({ clientX: touch.clientX, clientY: touch.clientY });
-    }, { passive: false });
-    
     document.addEventListener('mouseup', handleDragEnd);
-    document.addEventListener('touchend', handleDragEnd);
     
     function handleDragStart(e) {
         isDragging = true;
