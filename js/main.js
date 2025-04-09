@@ -1,449 +1,471 @@
 // Initialize GSAP and ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
 
-// Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    // Existing initializations
-    initNavbar();
-    initModelsSection();
-    initHeroAnimations();
-    initScrollAnimations();
-    initPersonasTabs();
-    initCrisisSection();
+// Wait for the DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Navigation toggle for mobile
+    const navToggle = document.getElementById('navToggle');
+    const navMenu = document.querySelector('.nav-menu');
     
-    // Solution related initializations
-    initSolutionTabs(); // Ensure this runs first
-    initSolutionCarousel();
-    initSolutionInteractive();
-    initSolutionShowcase();
-    initInnovativeSolution();
-    
-    // Debug check 
-    console.log('All initializations complete');
-    setTimeout(() => {
-        console.log('Re-checking solution tabs...');
-        // Re-initialize tabs as a fallback
-        initSolutionTabs();
-    }, 1000);
-});
-
-// Navigation toggle for mobile
-const navToggle = document.getElementById('navToggle');
-const navMenu = document.querySelector('.nav-menu');
-
-if (navToggle) {
-    navToggle.addEventListener('click', function() {
-        this.classList.toggle('active');
-        navMenu.classList.toggle('active');
-    });
-}
-
-// Close mobile menu when clicking outside
-document.addEventListener('click', function(e) {
-    if (navToggle && !navToggle.contains(e.target) && !navMenu.contains(e.target) && navMenu.classList.contains('active')) {
-        navToggle.classList.remove('active');
-        navMenu.classList.remove('active');
-    }
-});
-
-// Navbar scroll effect
-const navbar = document.querySelector('.navbar');
-const scrollTopBtn = document.getElementById('scrollToTop');
-
-window.addEventListener('scroll', function() {
-    if (window.scrollY > 100) {
-        navbar.classList.add('scrolled');
-        if (scrollTopBtn) scrollTopBtn.classList.add('visible');
-    } else {
-        navbar.classList.remove('scrolled');
-        if (scrollTopBtn) scrollTopBtn.classList.remove('visible');
-    }
-});
-
-// Scroll to top button
-if (scrollTopBtn) {
-    scrollTopBtn.addEventListener('click', function() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
+    if (navToggle) {
+        navToggle.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navMenu.classList.toggle('active');
         });
+    }
+    
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (navToggle && !navToggle.contains(e.target) && !navMenu.contains(e.target) && navMenu.classList.contains('active')) {
+            navToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+        }
     });
-}
-
-// Form submission
-const contactForm = document.getElementById('contactForm');
-if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Show success message (in a real app, you'd send the form data to a server here)
-        const formContainer = this.parentElement;
-        const successMessage = document.createElement('div');
-        successMessage.className = 'form-success';
-        successMessage.innerHTML = '<i class="fas fa-check-circle"></i><h3>Thank You!</h3><p>Your message has been sent successfully. We\'ll get back to you soon.</p>';
-        
-        // Hide form and show success message
-        this.style.display = 'none';
-        formContainer.appendChild(successMessage);
-        
-        // Reset form for future submissions
-        setTimeout(() => {
-            this.reset();
-            successMessage.remove();
-            this.style.display = 'block';
-        }, 5000);
+    
+    // Navbar scroll effect
+    const navbar = document.querySelector('.navbar');
+    const scrollTopBtn = document.getElementById('scrollToTop');
+    
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 100) {
+            navbar.classList.add('scrolled');
+            if (scrollTopBtn) scrollTopBtn.classList.add('visible');
+        } else {
+            navbar.classList.remove('scrolled');
+            if (scrollTopBtn) scrollTopBtn.classList.remove('visible');
+        }
     });
-}
-
-// Smooth scroll for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href');
-        if (targetId === '#') return;
-        
-        const targetElement = document.querySelector(targetId);
-        if (targetElement) {
-            // Close mobile menu if open
-            if (navMenu.classList.contains('active')) {
-                navToggle.classList.remove('active');
-                navMenu.classList.remove('active');
-            }
-            
-            // Scroll to element
+    
+    // Scroll to top button
+    if (scrollTopBtn) {
+        scrollTopBtn.addEventListener('click', function() {
             window.scrollTo({
-                top: targetElement.offsetTop - 100, // Offset to account for sticky header
+                top: 0,
                 behavior: 'smooth'
             });
+        });
+    }
+    
+    // Form submission
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show success message (in a real app, you'd send the form data to a server here)
+            const formContainer = this.parentElement;
+            const successMessage = document.createElement('div');
+            successMessage.className = 'form-success';
+            successMessage.innerHTML = '<i class="fas fa-check-circle"></i><h3>Thank You!</h3><p>Your message has been sent successfully. We\'ll get back to you soon.</p>';
+            
+            // Hide form and show success message
+            this.style.display = 'none';
+            formContainer.appendChild(successMessage);
+            
+            // Reset form for future submissions
+            setTimeout(() => {
+                this.reset();
+                successMessage.remove();
+                this.style.display = 'block';
+            }, 5000);
+        });
+    }
+    
+    // Smooth scroll for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                // Close mobile menu if open
+                if (navMenu.classList.contains('active')) {
+                    navToggle.classList.remove('active');
+                    navMenu.classList.remove('active');
+                }
+                
+                // Scroll to element
+                window.scrollTo({
+                    top: targetElement.offsetTop - 100, // Offset to account for sticky header
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+    
+    // Animation for story cards with more interactive effects
+    const storyItems = document.querySelectorAll('.story-item');
+    storyItems.forEach((item, index) => {
+        // Create staggered entrance animations
+        gsap.from(item, {
+            scrollTrigger: {
+                trigger: item,
+                start: "top 80%",
+                once: true
+            },
+            opacity: 0,
+            y: 50,
+            duration: 0.8,
+            delay: index * 0.3,
+            ease: "power2.out"
+        });
+        
+        // Add parallax effect to the images
+        const illustration = item.querySelector('.story-illustration img');
+        if (illustration) {
+            ScrollTrigger.create({
+                trigger: item,
+                start: "top bottom",
+                end: "bottom top",
+                onUpdate: (self) => {
+                    const progress = self.progress;
+                    gsap.to(illustration, {
+                        y: progress * 50,
+                        duration: 0.1,
+                        ease: "none"
+                    });
+                }
+            });
+        }
+        
+        // Add rotation effect to the numbers
+        const number = item.querySelector('.story-number');
+        if (number) {
+            ScrollTrigger.create({
+                trigger: item,
+                start: "top 80%",
+                end: "bottom 20%",
+                onEnter: () => {
+                    gsap.from(number, {
+                        rotation: -180,
+                        scale: 0,
+                        duration: 0.8,
+                        ease: "back.out(1.7)"
+                    });
+                }
+            });
         }
     });
-});
-
-// Animation for story cards with more interactive effects
-const storyItems = document.querySelectorAll('.story-item');
-storyItems.forEach((item, index) => {
-    // Create staggered entrance animations
-    gsap.from(item, {
-        scrollTrigger: {
-            trigger: item,
-            start: "top 80%",
-            once: true
-        },
-        opacity: 0,
-        y: 50,
-        duration: 0.8,
-        delay: index * 0.3,
-        ease: "power2.out"
-    });
     
-    // Add parallax effect to the images
-    const illustration = item.querySelector('.story-illustration img');
-    if (illustration) {
-        ScrollTrigger.create({
-            trigger: item,
-            start: "top bottom",
-            end: "bottom top",
-            onUpdate: (self) => {
-                const progress = self.progress;
-                gsap.to(illustration, {
-                    y: progress * 50,
-                    duration: 0.1,
-                    ease: "none"
-                });
-            }
-        });
-    }
-    
-    // Add rotation effect to the numbers
-    const number = item.querySelector('.story-number');
-    if (number) {
-        ScrollTrigger.create({
-            trigger: item,
-            start: "top 80%",
-            end: "bottom 20%",
-            onEnter: () => {
-                gsap.from(number, {
-                    rotation: -180,
-                    scale: 0,
-                    duration: 0.8,
-                    ease: "back.out(1.7)"
-                });
-            }
-        });
-    }
-});
-
-// Animation for solution cards
-const solutionCards = document.querySelectorAll('.solution-card');
-solutionCards.forEach((card, index) => {
-    gsap.from(card, {
-        scrollTrigger: {
-            trigger: card,
-            start: "top 85%",
-            once: true
-        },
-        y: 50,
-        opacity: 0,
-        duration: 0.8,
-        delay: index * 0.2,
-        ease: "power2.out"
-    });
-});
-
-// Hover animations for cards
-const cardImages = document.querySelectorAll('.card-img img');
-cardImages.forEach(img => {
-    img.addEventListener('mouseenter', () => {
-        gsap.to(img, {
-            scale: 1.05,
-            duration: 0.4,
+    // Animation for solution cards
+    const solutionCards = document.querySelectorAll('.solution-card');
+    solutionCards.forEach((card, index) => {
+        gsap.from(card, {
+            scrollTrigger: {
+                trigger: card,
+                start: "top 85%",
+                once: true
+            },
+            y: 50,
+            opacity: 0,
+            duration: 0.8,
+            delay: index * 0.2,
             ease: "power2.out"
         });
     });
     
-    img.addEventListener('mouseleave', () => {
-        gsap.to(img, {
-            scale: 1,
-            duration: 0.4,
-            ease: "power2.out"
-        });
-    });
-});
-
-// Hero background animation - create a more visible animation effect
-gsap.fromTo('.hero-background', 
-    { 
-        backgroundPosition: '0% 0%'
-    }, 
-    {
-        backgroundPosition: '0% 100%',
-        duration: 30, 
-        repeat: -1, 
-        yoyo: true, 
-        ease: "none"
-    }
-);
-
-// For-Who section tabs
-const personaTabs = document.querySelectorAll('.persona-tab');
-const personaPanels = document.querySelectorAll('.persona-panel');
-
-personaTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-        const target = tab.dataset.target;
-        
-        // Remove active class from all tabs and panels
-        personaTabs.forEach(t => t.classList.remove('active'));
-        personaPanels.forEach(p => p.classList.remove('active'));
-        
-        // Add active class to clicked tab and matching panel
-        tab.classList.add('active');
-        document.getElementById(target).classList.add('active');
-    });
-});
-
-// CTA section option tabs
-const ctaOptions = document.querySelectorAll('.cta-option');
-const formHeader = document.querySelector('.form-header h3');
-const formSubheader = document.querySelector('.form-header p');
-const submitBtn = document.querySelector('.submit-btn');
-
-ctaOptions.forEach(option => {
-    option.addEventListener('click', () => {
-        const formType = option.dataset.form;
-        
-        // Remove active class from all options
-        ctaOptions.forEach(o => o.classList.remove('active'));
-        
-        // Add active class to clicked option
-        option.classList.add('active');
-        
-        // Change form texts based on form type
-        if (formHeader && formSubheader && submitBtn) {
-            switch(formType) {
-                case 'tour':
-                    formHeader.textContent = 'Book Your Tour';
-                    formSubheader.textContent = 'Experience TACH homes in person';
-                    submitBtn.textContent = 'Book My Tour';
-                    break;
-                case 'info':
-                    formHeader.textContent = 'Request Information';
-                    formSubheader.textContent = 'Learn more about TACH homes';
-                    submitBtn.textContent = 'Send Request';
-                    break;
-                case 'invest':
-                    formHeader.textContent = 'Investment Opportunities';
-                    formSubheader.textContent = 'Discover how to invest in TACH';
-                    submitBtn.textContent = 'Get Investment Details';
-                    break;
-            }
-        }
-    });
-});
-
-// Image hover animations
-const modelImages = document.querySelectorAll('.model-card .model-image');
-modelImages.forEach(image => {
-    image.addEventListener('mouseenter', () => {
-        const img = image.querySelector('img');
-        if (img) {
+    // Hover animations for cards
+    const cardImages = document.querySelectorAll('.card-img img');
+    cardImages.forEach(img => {
+        img.addEventListener('mouseenter', () => {
             gsap.to(img, {
                 scale: 1.05,
-                duration: 0.5,
-                ease: 'power2.out'
+                duration: 0.4,
+                ease: "power2.out"
             });
-        }
-    });
-    
-    image.addEventListener('mouseleave', () => {
-        const img = image.querySelector('img');
-        if (img) {
+        });
+        
+        img.addEventListener('mouseleave', () => {
             gsap.to(img, {
                 scale: 1,
-                duration: 0.5,
-                ease: 'power2.out'
+                duration: 0.4,
+                ease: "power2.out"
+            });
+        });
+    });
+    
+    // Hero background animation - create a more visible animation effect
+    gsap.fromTo('.hero-background', 
+        { 
+            backgroundPosition: '0% 0%'
+        }, 
+        {
+            backgroundPosition: '0% 100%',
+            duration: 30, 
+            repeat: -1, 
+            yoyo: true, 
+            ease: "none"
+        }
+    );
+    
+    // For-Who section tabs
+    const personaTabs = document.querySelectorAll('.persona-tab');
+    const personaPanels = document.querySelectorAll('.persona-panel');
+
+    personaTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const target = tab.dataset.target;
+            
+            // Remove active class from all tabs and panels
+            personaTabs.forEach(t => t.classList.remove('active'));
+            personaPanels.forEach(p => p.classList.remove('active'));
+            
+            // Add active class to clicked tab and matching panel
+            tab.classList.add('active');
+            document.getElementById(target).classList.add('active');
+        });
+    });
+
+    // CTA section option tabs
+    const ctaOptions = document.querySelectorAll('.cta-option');
+    const formHeader = document.querySelector('.form-header h3');
+    const formSubheader = document.querySelector('.form-header p');
+    const submitBtn = document.querySelector('.submit-btn');
+
+    ctaOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            const formType = option.dataset.form;
+            
+            // Remove active class from all options
+            ctaOptions.forEach(o => o.classList.remove('active'));
+            
+            // Add active class to clicked option
+            option.classList.add('active');
+            
+            // Change form texts based on form type
+            if (formHeader && formSubheader && submitBtn) {
+                switch(formType) {
+                    case 'tour':
+                        formHeader.textContent = 'Book Your Tour';
+                        formSubheader.textContent = 'Experience TACH homes in person';
+                        submitBtn.textContent = 'Book My Tour';
+                        break;
+                    case 'info':
+                        formHeader.textContent = 'Request Information';
+                        formSubheader.textContent = 'Learn more about TACH homes';
+                        submitBtn.textContent = 'Send Request';
+                        break;
+                    case 'invest':
+                        formHeader.textContent = 'Investment Opportunities';
+                        formSubheader.textContent = 'Discover how to invest in TACH';
+                        submitBtn.textContent = 'Get Investment Details';
+                        break;
+                }
+            }
+        });
+    });
+    
+    // Image hover animations
+    const modelImages = document.querySelectorAll('.model-card .model-image');
+    modelImages.forEach(image => {
+        image.addEventListener('mouseenter', () => {
+            const img = image.querySelector('img');
+            if (img) {
+                gsap.to(img, {
+                    scale: 1.05,
+                    duration: 0.5,
+                    ease: 'power2.out'
+                });
+            }
+        });
+        
+        image.addEventListener('mouseleave', () => {
+            const img = image.querySelector('img');
+            if (img) {
+                gsap.to(img, {
+                    scale: 1,
+                    duration: 0.5,
+                    ease: 'power2.out'
+                });
+            }
+        });
+    });
+
+    // Story navigation
+    const storyPrev = document.querySelector('.story-nav-btn.prev');
+    const storyNext = document.querySelector('.story-nav-btn.next');
+    const storySlides = document.querySelectorAll('.story-slide');
+    const storyDots = document.querySelectorAll('.story-dot');
+    let currentSlide = 0;
+
+    if (storyNext && storyPrev && storySlides.length > 0 && storyDots.length > 0) {
+        const updateStoryNav = (index) => {
+            storySlides.forEach(slide => slide.classList.remove('active'));
+            storyDots.forEach(dot => dot.classList.remove('active'));
+            
+            storySlides[index].classList.add('active');
+            storyDots[index].classList.add('active');
+        };
+
+        storyNext.addEventListener('click', () => {
+            currentSlide = (currentSlide + 1) % storySlides.length;
+            updateStoryNav(currentSlide);
+        });
+
+        storyPrev.addEventListener('click', () => {
+            currentSlide = (currentSlide - 1 + storySlides.length) % storySlides.length;
+            updateStoryNav(currentSlide);
+        });
+
+        storyDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentSlide = index;
+                updateStoryNav(currentSlide);
+            });
+        });
+    }
+
+    // Scroll animations
+    const fadeInElements = document.querySelectorAll('[data-scroll]');
+    
+    fadeInElements.forEach(element => {
+        gsap.fromTo(element, 
+            { opacity: 0, y: 30 },
+            { 
+                opacity: 1, 
+                y: 0, 
+                duration: 0.8, 
+                scrollTrigger: {
+                    trigger: element,
+                    start: "top 90%",
+                    toggleActions: "play none none none"
+                }
+            }
+        );
+    });
+
+    // Counter animation
+    const animateCounter = (el, target) => {
+        const duration = 2000;
+        const stepTime = 50;
+        const steps = duration / stepTime;
+        const increment = target / steps;
+        let current = 0;
+        
+        const timer = setInterval(() => {
+            current += increment;
+            if (current > target) current = target;
+            el.textContent = Math.floor(current);
+            
+            if (current === target) clearInterval(timer);
+        }, stepTime);
+    };
+
+    // Start counter animation when counter section is visible
+    const counterItems = document.querySelectorAll('.counter');
+    
+    counterItems.forEach(counter => {
+        if (counter.hasAttribute('data-target')) {
+            const targetValue = parseInt(counter.getAttribute('data-target'));
+            
+            ScrollTrigger.create({
+                trigger: counter,
+                start: "top 90%",
+                onEnter: () => animateCounter(counter, targetValue)
             });
         }
     });
-});
 
-// Story navigation
-const storyPrev = document.querySelector('.story-nav-btn.prev');
-const storyNext = document.querySelector('.story-nav-btn.next');
-const storySlides = document.querySelectorAll('.story-slide');
-const storyDots = document.querySelectorAll('.story-dot');
-let currentSlide = 0;
+    // Hero intro animation
+    const heroTimeline = gsap.timeline();
+    
+    heroTimeline
+        .fromTo('.hero-title .line', 
+            { y: 50, opacity: 0 }, 
+            { y: 0, opacity: 1, duration: 0.8, stagger: 0.2 }
+        )
+        .fromTo('.hero-subtitle', 
+            { opacity: 0 }, 
+            { opacity: 1, duration: 0.8 }, 
+            "-=0.3"
+        )
+        .fromTo('.hero-cta', 
+            { y: 20, opacity: 0 }, 
+            { y: 0, opacity: 1, duration: 0.5 }, 
+            "-=0.3"
+        )
+        .fromTo('.scroll-indicator', 
+            { opacity: 0 }, 
+            { opacity: 1, duration: 0.5 }, 
+            "-=0.2"
+        );
 
-if (storyNext && storyPrev && storySlides.length > 0 && storyDots.length > 0) {
-    const updateStoryNav = (index) => {
-        storySlides.forEach(slide => slide.classList.remove('active'));
-        storyDots.forEach(dot => dot.classList.remove('active'));
-        
-        storySlides[index].classList.add('active');
-        storyDots[index].classList.add('active');
-    };
-
-    storyNext.addEventListener('click', () => {
-        currentSlide = (currentSlide + 1) % storySlides.length;
-        updateStoryNav(currentSlide);
-    });
-
-    storyPrev.addEventListener('click', () => {
-        currentSlide = (currentSlide - 1 + storySlides.length) % storySlides.length;
-        updateStoryNav(currentSlide);
-    });
-
-    storyDots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            currentSlide = index;
-            updateStoryNav(currentSlide);
-        });
-    });
-}
-
-// Scroll animations
-const fadeInElements = document.querySelectorAll('[data-scroll]');
-
-fadeInElements.forEach(element => {
-    gsap.fromTo(element, 
-        { opacity: 0, y: 30 },
-        { 
-            opacity: 1, 
-            y: 0, 
-            duration: 0.8, 
+    // Enhanced animation for the story conclusion
+    const storyConclusion = document.querySelector('.story-conclusion');
+    if (storyConclusion) {
+        gsap.from(storyConclusion, {
             scrollTrigger: {
-                trigger: element,
-                start: "top 90%",
-                toggleActions: "play none none none"
-            }
+                trigger: storyConclusion,
+                start: "top 80%",
+                once: true
+            },
+            opacity: 0,
+            scale: 0.9,
+            y: 30,
+            duration: 1,
+            ease: "power3.out"
+        });
+        
+        // Add pulse animation to the CTA button
+        const storyCta = storyConclusion.querySelector('.story-cta');
+        if (storyCta) {
+            const pulseTimeline = gsap.timeline({repeat: -1, yoyo: true, repeatDelay: 1});
+            pulseTimeline.to(storyCta, {
+                boxShadow: "0 15px 40px rgba(0, 0, 0, 0.3)",
+                scale: 1.05,
+                duration: 1.5,
+                ease: "power1.inOut"
+            });
         }
-    );
-});
-
-// Counter animation
-const animateCounter = (el, target) => {
-    const duration = 2000;
-    const stepTime = 50;
-    const steps = duration / stepTime;
-    const increment = target / steps;
-    let current = 0;
-    
-    const timer = setInterval(() => {
-        current += increment;
-        if (current > target) current = target;
-        el.textContent = Math.floor(current);
-        
-        if (current === target) clearInterval(timer);
-    }, stepTime);
-};
-
-// Start counter animation when counter section is visible
-const counterItems = document.querySelectorAll('.counter');
-
-counterItems.forEach(counter => {
-    if (counter.hasAttribute('data-target')) {
-        const targetValue = parseInt(counter.getAttribute('data-target'));
-        
-        ScrollTrigger.create({
-            trigger: counter,
-            start: "top 90%",
-            onEnter: () => animateCounter(counter, targetValue)
-        });
     }
-});
 
-// Hero intro animation
-const heroTimeline = gsap.timeline();
+    // Crisis section animations - updated for Galaxy theme
+    initCrisisSection();
 
-heroTimeline
-    .fromTo('.hero-title .line', 
-        { y: 50, opacity: 0 }, 
-        { y: 0, opacity: 1, duration: 0.8, stagger: 0.2 }
-    )
-    .fromTo('.hero-subtitle', 
-        { opacity: 0 }, 
-        { opacity: 1, duration: 0.8 }, 
-        "-=0.3"
-    )
-    .fromTo('.hero-cta', 
-        { y: 20, opacity: 0 }, 
-        { y: 0, opacity: 1, duration: 0.5 }, 
-        "-=0.3"
-    )
-    .fromTo('.scroll-indicator', 
-        { opacity: 0 }, 
-        { opacity: 1, duration: 0.5 }, 
-        "-=0.2"
-    );
+    // Solution section interactive 3D container model
+    initSolutionInteractive();
 
-// Enhanced animation for the story conclusion
-const storyConclusion = document.querySelector('.story-conclusion');
-if (storyConclusion) {
-    gsap.from(storyConclusion, {
-        scrollTrigger: {
-            trigger: storyConclusion,
-            start: "top 80%",
-            once: true
-        },
-        opacity: 0,
-        scale: 0.9,
-        y: 30,
-        duration: 1,
-        ease: "power3.out"
-    });
+    // Initialize the solution showcase section
+    initSolutionShowcase();
+
+    // Models section tabs functionality
+    initModelsSection();
+
+    // Initialize the Solution Section
+    initInnovativeSolution();
+
+    // Initialize the Solution Wheel
+    initSolutionWheel();
+
+    // Initialize Solution Perspective with 3D Card Flip
+    initSolutionPerspective();
+
+    // Initialize the 3D cube solution section
+    initSolutionCube();
+
+    // Initialize the solution carousel
+    initSolutionCarousel();
+
+    // Solution section static functionality
+    initSolutionsStatic();
+
+    // Experience section features animation
+    initExperienceFeatures();
     
-    // Add pulse animation to the CTA button
-    const storyCta = storyConclusion.querySelector('.story-cta');
-    if (storyCta) {
-        const pulseTimeline = gsap.timeline({repeat: -1, yoyo: true, repeatDelay: 1});
-        pulseTimeline.to(storyCta, {
-            boxShadow: "0 15px 40px rgba(0, 0, 0, 0.3)",
-            scale: 1.05,
-            duration: 1.5,
-            ease: "power1.inOut"
-        });
-    }
-}
+    // For who section tabs
+    initForWhoTabs();
+    
+    // Impact section counters
+    initImpactCounters();
+    
+    // CTA option switcher
+    initCtaOptions();
+    
+    // Initialize model tabs
+    initModelTabs();
+});
 
 // Crisis section animations - updated for Galaxy theme
 function initCrisisSection() {
@@ -473,21 +495,14 @@ function initCrisisSection() {
         // Update current index
         currentSlideIndex = index;
         
-        // Debugging log
-        console.log('Setting active slide to:', index);
-        console.log('Number of slides:', galaxySlides.length);
-        console.log('Number of nav items:', galaxyNavItems.length);
-        
         // Update navigation items
         galaxyNavItems.forEach((item, i) => {
             item.classList.toggle('active', i === index);
-            console.log('Nav item', i, i === index ? 'activated' : 'deactivated');
         });
         
         // Update slides
         galaxySlides.forEach((slide, i) => {
             slide.classList.toggle('active', i === index);
-            console.log('Slide', i, i === index ? 'activated' : 'deactivated');
         });
         
         // Update progress bar
@@ -524,27 +539,10 @@ function initCrisisSection() {
     // Initialize auto-slide
     startAutoSlideTimer();
     
-    // Create a mapping from slide IDs to indices for more reliable slide navigation
-    const slideIndexMap = {};
-    galaxySlides.forEach((slide, index) => {
-        slideIndexMap[slide.id] = index;
-    });
-    
     // Navigation click events
-    galaxyNavItems.forEach((item) => {
+    galaxyNavItems.forEach((item, index) => {
         item.addEventListener('click', () => {
-            const targetSlideId = item.getAttribute('data-slide');
-            console.log('Nav item clicked for slide:', targetSlideId);
-            
-            // Find the index of the target slide
-            const targetIndex = slideIndexMap[targetSlideId];
-            
-            if (targetIndex !== undefined) {
-                console.log('Target index found:', targetIndex);
-                setActiveSlide(targetIndex);
-            } else {
-                console.error('Could not find slide with ID:', targetSlideId);
-            }
+            setActiveSlide(index);
         });
     });
     
@@ -1301,155 +1299,918 @@ function initInnovativeSolution() {
     });
 }
 
-// Solution Carousel
-function initSolutionCarousel() {
-    const carousel = document.querySelector('.carousel-container');
-    const cards = document.querySelectorAll('.solution-card');
-    const dots = document.querySelectorAll('.dot');
-    const prevBtn = document.querySelector('.prev-btn');
-    const nextBtn = document.querySelector('.next-btn');
+// Initialize the Solution Wheel
+function initSolutionWheel() {
+    const solutionSpokes = document.querySelectorAll('.solution-spoke');
+    const solutionDetails = document.querySelectorAll('.solution-detail');
+    const navDots = document.querySelectorAll('.nav-dot');
+    const prevButton = document.querySelector('.prev-solution');
+    const nextButton = document.querySelector('.next-solution');
+    
+    // Array of solution types in order
+    const solutionTypes = ['housing', 'energy', 'innovation', 'financial', 'urbanization'];
     let currentIndex = 0;
-    const totalCards = cards.length;
-
-    function updateCarousel() {
-        // Update card positions
-        cards.forEach((card, index) => {
-            const angle = (index - currentIndex) * 120;
-            const z = Math.abs(index - currentIndex) * -200;
-            card.style.transform = `translate(-50%, -50%) translateZ(${z}px) rotateY(${angle}deg)`;
-            card.classList.toggle('active', index === currentIndex);
+    
+    // Set the active solution
+    function setActiveSolution(solutionType) {
+        // Get the index from the solution type
+        const index = solutionTypes.indexOf(solutionType);
+        if (index === -1) return;
+        
+        // Update current index
+        currentIndex = index;
+        
+        // Update spokes
+        solutionSpokes.forEach(spoke => {
+            spoke.classList.toggle('active', spoke.getAttribute('data-solution') === solutionType);
         });
+        
+        // Update details
+        solutionDetails.forEach(detail => {
+            detail.classList.toggle('active', detail.id === `${solutionType}-detail`);
+        });
+        
+        // Update nav dots
+        navDots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === index);
+        });
+        
+        // Animate the active solution
+        animateActiveSolution(solutionType);
+    }
+    
+    // Handle next/previous navigation
+    function goToNextSolution() {
+        currentIndex = (currentIndex + 1) % solutionTypes.length;
+        setActiveSolution(solutionTypes[currentIndex]);
+    }
+    
+    function goToPrevSolution() {
+        currentIndex = (currentIndex - 1 + solutionTypes.length) % solutionTypes.length;
+        setActiveSolution(solutionTypes[currentIndex]);
+    }
+    
+    // Animate the solution content when it becomes active
+    function animateActiveSolution(solutionType) {
+        if (!window.gsap) return;
+        
+        const activeDetail = document.getElementById(`${solutionType}-detail`);
+        if (!activeDetail) return;
+        
+        // Animate the visual stat
+        const statElement = activeDetail.querySelector('.visual-stat');
+        gsap.fromTo(statElement, 
+            { scale: 0.8, opacity: 0 },
+            { scale: 1, opacity: 1, duration: 0.8, ease: "back.out(1.7)" }
+        );
+        
+        // Animate the content elements
+        const contentElements = activeDetail.querySelectorAll('.detail-content > *');
+        gsap.fromTo(contentElements,
+            { y: 20, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power2.out" }
+        );
+        
+        // Animate benefits with stagger
+        const benefits = activeDetail.querySelectorAll('.benefit');
+        gsap.fromTo(benefits,
+            { x: -10, opacity: 0 },
+            { x: 0, opacity: 1, duration: 0.5, stagger: 0.1, ease: "power2.out", delay: 0.3 }
+        );
+    }
+    
+    // Add event listeners to spokes
+    solutionSpokes.forEach(spoke => {
+        spoke.addEventListener('click', () => {
+            const solutionType = spoke.getAttribute('data-solution');
+            setActiveSolution(solutionType);
+        });
+    });
+    
+    // Add event listeners to nav dots
+    navDots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            setActiveSolution(solutionTypes[index]);
+        });
+    });
+    
+    // Add event listeners to nav buttons
+    if (prevButton) prevButton.addEventListener('click', goToPrevSolution);
+    if (nextButton) nextButton.addEventListener('click', goToNextSolution);
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', e => {
+        // Only handle if solution section is visible in viewport
+        const solutionSection = document.querySelector('.solution-wheel');
+        if (!solutionSection) return;
+        
+        const rect = solutionSection.getBoundingClientRect();
+        const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
+        
+        if (isInViewport) {
+            if (e.key === 'ArrowRight') {
+                goToNextSolution();
+            } else if (e.key === 'ArrowLeft') {
+                goToPrevSolution();
+            }
+        }
+    });
+    
+    // Add wheel hub click event to show a random solution
+    const wheelHub = document.querySelector('.wheel-hub');
+    if (wheelHub) {
+        wheelHub.addEventListener('click', () => {
+            // Get random solution except current one
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * solutionTypes.length);
+            } while (randomIndex === currentIndex);
+            
+            setActiveSolution(solutionTypes[randomIndex]);
+        });
+    }
+    
+    // Initialize with first solution
+    setActiveSolution(solutionTypes[0]);
+    
+    // Create particles animation for background
+    if (window.gsap) {
+        const particles = document.querySelector('.solution-particles');
+        if (particles) {
+            gsap.to(particles, {
+                backgroundPosition: '100% 100%',
+                duration: 30,
+                repeat: -1,
+                ease: "none",
+                yoyo: true
+            });
+        }
+        
+        // Create pulse animation for wheel hub
+        gsap.to('.wheel-hub', {
+            boxShadow: '0 10px 40px rgba(var(--color-primary-rgb), 0.3)',
+            scale: 1.03,
+            duration: 1.5,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+    }
+}
 
-        // Update dots
-        dots.forEach((dot, index) => {
+// Initialize Solution Perspective with 3D Card Flip
+function initSolutionPerspective() {
+    const perspectiveCards = document.querySelectorAll('.perspective-card');
+    
+    // Add event listeners to each card
+    perspectiveCards.forEach(card => {
+        // Flip card on click
+        card.addEventListener('click', function() {
+            this.classList.toggle('flipped');
+        });
+        
+        // Add close button functionality
+        const closeBtn = card.querySelector('.back-close');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function(e) {
+                e.stopPropagation(); // Prevent card click event
+                card.classList.remove('flipped');
+            });
+        }
+    });
+    
+    // Create and animate floating shapes
+    const shapeContainer = document.querySelector('.shape-container');
+    if (shapeContainer) {
+        // Animation is handled by CSS
+        
+        // Add intersection observer for animation optimization
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Add class to start animations when in view
+                    shapeContainer.classList.add('animate');
+                } else {
+                    // Optionally pause animations when out of view
+                    shapeContainer.classList.remove('animate');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        observer.observe(document.querySelector('.solution-perspective'));
+    }
+    
+    // Add keyboard accessibility
+    document.addEventListener('keydown', function(e) {
+        const activeCard = document.activeElement.closest('.perspective-card');
+        if (activeCard) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                activeCard.classList.toggle('flipped');
+            } else if (e.key === 'Escape') {
+                activeCard.classList.remove('flipped');
+            }
+        }
+    });
+    
+    // Add focus management for accessibility
+    perspectiveCards.forEach(card => {
+        // Make cards focusable
+        card.setAttribute('tabindex', '0');
+        
+        // Add ARIA attributes for screen readers
+        card.setAttribute('role', 'button');
+        card.setAttribute('aria-expanded', 'false');
+        
+        // Update ARIA attributes when flipped
+        card.addEventListener('click', function() {
+            const isFlipped = this.classList.contains('flipped');
+            this.setAttribute('aria-expanded', isFlipped.toString());
+        });
+    });
+}
+
+// Interactive 3D Cube Solution Section
+function initSolutionCube() {
+    const cube = document.querySelector('.cube');
+    const detailPanels = document.querySelectorAll('.detail-panel');
+    const actionButtons = document.querySelectorAll('.action-btn');
+    const rotateButtons = document.querySelectorAll('.rotate-btn');
+    const resetButton = document.querySelector('.reset-btn');
+    
+    if (!cube) return;
+    
+    // Initialize particles
+    const particlesContainer = document.querySelector('.solution-particles');
+    if (particlesContainer) {
+        for (let i = 1; i <= 4; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle', `p${i}`);
+            particlesContainer.appendChild(particle);
+        }
+    }
+    
+    let isDragging = false;
+    let previousX = 0;
+    let previousY = 0;
+    let rotX = -15;
+    let rotY = 15;
+    
+    // Generate initial transform
+    updateCubeRotation();
+    
+    // Cube rotation functions
+    function updateCubeRotation() {
+        cube.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+    }
+    
+    function handleMouseDown(e) {
+        isDragging = true;
+        previousX = e.clientX;
+        previousY = e.clientY;
+        document.querySelector('.cube-scene').style.cursor = 'grabbing';
+    }
+    
+    function handleMouseMove(e) {
+        if (!isDragging) return;
+        
+        const deltaX = e.clientX - previousX;
+        const deltaY = e.clientY - previousY;
+        
+        rotY += deltaX * 0.5;
+        rotX -= deltaY * 0.5;
+        
+        // Limit rotation to reasonable angles
+        rotX = Math.max(-60, Math.min(60, rotX));
+        
+        updateCubeRotation();
+        
+        previousX = e.clientX;
+        previousY = e.clientY;
+    }
+    
+    function handleMouseUp() {
+        isDragging = false;
+        document.querySelector('.cube-scene').style.cursor = 'grab';
+    }
+    
+    // Touch events for mobile
+    function handleTouchStart(e) {
+        if (e.touches.length === 1) {
+            isDragging = true;
+            previousX = e.touches[0].clientX;
+            previousY = e.touches[0].clientY;
+        }
+    }
+    
+    function handleTouchMove(e) {
+        if (!isDragging || e.touches.length !== 1) return;
+        
+        const deltaX = e.touches[0].clientX - previousX;
+        const deltaY = e.touches[0].clientY - previousY;
+        
+        rotY += deltaX * 0.5;
+        rotX -= deltaY * 0.5;
+        
+        // Limit rotation to reasonable angles
+        rotX = Math.max(-60, Math.min(60, rotX));
+        
+        updateCubeRotation();
+        
+        previousX = e.touches[0].clientX;
+        previousY = e.touches[0].clientY;
+        
+        // Prevent scrolling while rotating the cube
+        e.preventDefault();
+    }
+    
+    function handleTouchEnd() {
+        isDragging = false;
+    }
+    
+    // Control button rotation
+    function rotateLeft() {
+        rotY -= 90;
+        updateCubeRotation();
+        checkActiveFace();
+    }
+    
+    function rotateRight() {
+        rotY += 90;
+        updateCubeRotation();
+        checkActiveFace();
+    }
+    
+    function rotateUp() {
+        rotX -= 90;
+        updateCubeRotation();
+        checkActiveFace();
+    }
+    
+    function rotateDown() {
+        rotX += 90;
+        updateCubeRotation();
+        checkActiveFace();
+    }
+    
+    function resetRotation() {
+        rotX = -15;
+        rotY = 15;
+        updateCubeRotation();
+        hideAllDetailPanels();
+    }
+    
+    // Check which face is active based on rotation
+    function checkActiveFace() {
+        // Normalize angles
+        let normalizedX = ((rotX % 360) + 360) % 360;
+        let normalizedY = ((rotY % 360) + 360) % 360;
+        
+        // Simple algorithm to determine the most front-facing side
+        let activeFace = 'front';
+        
+        if (normalizedX > 45 && normalizedX < 135) {
+            activeFace = 'bottom';
+        } else if (normalizedX > 225 && normalizedX < 315) {
+            activeFace = 'top';
+        } else if (normalizedY > 45 && normalizedY < 135) {
+            activeFace = 'right';
+        } else if (normalizedY > 225 && normalizedY < 315) {
+            activeFace = 'left';
+        } else if ((normalizedY > 135 && normalizedY < 225) || normalizedY > 315 || normalizedY < 45) {
+            if (Math.abs(normalizedY - 180) < 45) {
+                activeFace = 'back';
+            } else {
+                activeFace = 'front';
+            }
+        }
+        
+        return activeFace;
+    }
+    
+    // Show detail panel based on active face
+    function showDetailPanel(faceName) {
+        hideAllDetailPanels();
+        
+        // Map face names to panel IDs
+        const panelMap = {
+            'front': 'housing',
+            'right': 'energy',
+            'back': 'innovation',
+            'left': 'financial',
+            'top': 'urbanization',
+            'bottom': 'company'
+        };
+        
+        const panelId = panelMap[faceName];
+        if (panelId) {
+            const panel = document.getElementById(`${panelId}-panel`);
+            if (panel) {
+                panel.classList.add('active');
+                
+                // Scroll to panel if it's below the fold
+                const panelRect = panel.getBoundingClientRect();
+                const viewportHeight = window.innerHeight;
+                
+                if (panelRect.top > viewportHeight * 0.8) {
+                    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        }
+    }
+    
+    function hideAllDetailPanels() {
+        detailPanels.forEach(panel => {
+            panel.classList.remove('active');
+        });
+    }
+    
+    // Set up event listeners
+    const cubeScene = document.querySelector('.cube-scene');
+    if (cubeScene) {
+        cubeScene.addEventListener('mousedown', handleMouseDown);
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', handleMouseUp);
+        
+        cubeScene.addEventListener('touchstart', handleTouchStart, { passive: false });
+        cubeScene.addEventListener('touchmove', handleTouchMove, { passive: false });
+        document.addEventListener('touchend', handleTouchEnd);
+    }
+    
+    // Button controls
+    if (rotateButtons.length > 0) {
+        rotateButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const direction = this.getAttribute('data-direction');
+                switch(direction) {
+                    case 'left':
+                        rotateLeft();
+                        break;
+                    case 'right':
+                        rotateRight();
+                        break;
+                    case 'up':
+                        rotateUp();
+                        break;
+                    case 'down':
+                        rotateDown();
+                        break;
+                }
+                
+                // Show corresponding detail panel
+                const activeFace = checkActiveFace();
+                showDetailPanel(activeFace);
+            });
+        });
+    }
+    
+    if (resetButton) {
+        resetButton.addEventListener('click', resetRotation);
+    }
+    
+    // Action buttons in cube faces
+    if (actionButtons.length > 0) {
+        actionButtons.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const solutionId = this.getAttribute('data-solution');
+                if (solutionId) {
+                    showDetailPanel(solutionId);
+                }
+            });
+        });
+    }
+    
+    // Keyboard controls
+    document.addEventListener('keydown', function(e) {
+        if (!isElementInViewport(cube)) return;
+        
+        switch(e.key) {
+            case 'ArrowLeft':
+                rotateLeft();
+                break;
+            case 'ArrowRight':
+                rotateRight();
+                break;
+            case 'ArrowUp':
+                rotateUp();
+                break;
+            case 'ArrowDown':
+                rotateDown();
+                break;
+            case 'Escape':
+                resetRotation();
+                break;
+        }
+        
+        // Show corresponding detail panel
+        const activeFace = checkActiveFace();
+        showDetailPanel(activeFace);
+    });
+    
+    // Helper function to check if element is in viewport
+    function isElementInViewport(el) {
+        const rect = el.getBoundingClientRect();
+        return (
+            rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.bottom >= 0
+        );
+    }
+}
+
+// Initialize Solution Carousel
+function initSolutionCarousel() {
+    const container = document.querySelector('.carousel-container');
+    const cards = document.querySelectorAll('.solution-card');
+    const prevBtn = document.querySelector('.nav-arrow.prev');
+    const nextBtn = document.querySelector('.nav-arrow.next');
+    const navDots = document.querySelectorAll('.nav-dot');
+    
+    let currentIndex = 0;
+    let startX, moveX, isAnimating = false;
+    
+    // Initialize card positions
+    function initCarousel() {
+        updateCardClasses();
+        
+        // Add event listeners
+        prevBtn.addEventListener('click', goToPrevSlide);
+        nextBtn.addEventListener('click', goToNextSlide);
+        
+        // Navigation dots
+        navDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                if (isAnimating || currentIndex === index) return;
+                currentIndex = index;
+                updateCardClasses();
+            });
+        });
+        
+        // Touch events
+        container.addEventListener('touchstart', handleTouchStart, { passive: true });
+        container.addEventListener('touchmove', handleTouchMove, { passive: true });
+        container.addEventListener('touchend', handleTouchEnd, { passive: true });
+        
+        // Mouse drag events
+        container.addEventListener('mousedown', handleMouseDown);
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', handleKeydown);
+    }
+    
+    function updateCardClasses() {
+        isAnimating = true;
+        
+        cards.forEach((card, index) => {
+            card.classList.remove('active', 'prev', 'next');
+            
+            if (index === currentIndex) {
+                card.classList.add('active');
+            } else if (index === getPrevIndex()) {
+                card.classList.add('prev');
+            } else if (index === getNextIndex()) {
+                card.classList.add('next');
+            }
+        });
+        
+        // Update navigation dots
+        navDots.forEach((dot, index) => {
             dot.classList.toggle('active', index === currentIndex);
         });
+        
+        // Use GSAP to animate card transitions
+        gsap.fromTo('.solution-card.active .card-icon', 
+            { y: 30, opacity: 0 }, 
+            { y: 0, opacity: 1, duration: 0.7, delay: 0.2, ease: "back.out(1.7)" }
+        );
+        
+        gsap.fromTo('.solution-card.active h3', 
+            { y: 20, opacity: 0 }, 
+            { y: 0, opacity: 1, duration: 0.6, delay: 0.3, ease: "power2.out" }
+        );
+        
+        gsap.fromTo('.solution-card.active .card-stat', 
+            { y: 15, opacity: 0 }, 
+            { y: 0, opacity: 1, duration: 0.5, delay: 0.4, ease: "power2.out" }
+        );
+        
+        gsap.fromTo('.solution-card.active p, .solution-card.active .feature-list', 
+            { y: 10, opacity: 0 }, 
+            { y: 0, opacity: 1, duration: 0.5, delay: 0.5, ease: "power2.out", onComplete: () => {
+                isAnimating = false;
+            }}
+        );
     }
-
-    function nextSlide() {
-        currentIndex = (currentIndex + 1) % totalCards;
-        updateCarousel();
+    
+    function getPrevIndex() {
+        return currentIndex === 0 ? cards.length - 1 : currentIndex - 1;
     }
-
-    function prevSlide() {
-        currentIndex = (currentIndex - 1 + totalCards) % totalCards;
-        updateCarousel();
+    
+    function getNextIndex() {
+        return currentIndex === cards.length - 1 ? 0 : currentIndex + 1;
     }
+    
+    function goToPrevSlide() {
+        if (isAnimating) return;
+        currentIndex = getPrevIndex();
+        updateCardClasses();
+    }
+    
+    function goToNextSlide() {
+        if (isAnimating) return;
+        currentIndex = getNextIndex();
+        updateCardClasses();
+    }
+    
+    // Touch event handlers
+    function handleTouchStart(e) {
+        if (isAnimating) return;
+        startX = e.touches[0].clientX;
+        moveX = 0;
+    }
+    
+    function handleTouchMove(e) {
+        if (startX === null) return;
+        moveX = e.touches[0].clientX - startX;
+    }
+    
+    function handleTouchEnd() {
+        if (startX === null || isAnimating) return;
+        
+        if (moveX < -50) {
+            goToNextSlide();
+        } else if (moveX > 50) {
+            goToPrevSlide();
+        }
+        
+        startX = null;
+        moveX = 0;
+    }
+    
+    // Mouse drag event handlers
+    function handleMouseDown(e) {
+        if (isAnimating) return;
+        startX = e.clientX;
+        moveX = 0;
+        
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', handleMouseUp);
+    }
+    
+    function handleMouseMove(e) {
+        if (startX === null) return;
+        moveX = e.clientX - startX;
+    }
+    
+    function handleMouseUp() {
+        if (startX === null || isAnimating) return;
+        
+        if (moveX < -50) {
+            goToNextSlide();
+        } else if (moveX > 50) {
+            goToPrevSlide();
+        }
+        
+        startX = null;
+        moveX = 0;
+        
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+    }
+    
+    // Keyboard navigation
+    function handleKeydown(e) {
+        // Only handle keyboard navigation when the solution section is in viewport
+        const solutionSection = document.querySelector('.solution-carousel');
+        if (!isElementInViewport(solutionSection)) return;
+        
+        if (e.key === 'ArrowLeft') {
+            goToPrevSlide();
+        } else if (e.key === 'ArrowRight') {
+            goToNextSlide();
+        }
+    }
+    
+    // Initialize carousel
+    if (cards.length > 0) {
+        initCarousel();
+        
+        // Add subtle floating animation to active card
+        function animateActiveCard() {
+            gsap.to('.solution-card.active .card-inner', {
+                y: -10,
+                duration: 2,
+                ease: "sine.inOut",
+                yoyo: true,
+                repeat: -1
+            });
+        }
+        
+        // Wait for initial animations to complete
+        setTimeout(animateActiveCard, 1200);
+    }
+}
 
-    // Event Listeners
-    prevBtn.addEventListener('click', prevSlide);
-    nextBtn.addEventListener('click', nextSlide);
+function initSolutionsStatic() {
+    const solutionsSection = document.querySelector('.solutions-static');
+    if (!solutionsSection) return;
 
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            currentIndex = index;
-            updateCarousel();
+    const navTabs = document.querySelectorAll('.nav-tab');
+    const panels = document.querySelectorAll('.solution-panel');
+
+    // Initialize panels
+    panels.forEach((panel, index) => {
+        if (index === 0) {
+            panel.classList.add('active');
+        } else {
+            panel.classList.remove('active');
+        }
+    });
+
+    // Tab click event
+    navTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            // Get the panel ID from the tab
+            const targetPanelId = this.getAttribute('data-panel');
+            
+            // Remove active class from all tabs and panels
+            navTabs.forEach(tab => tab.classList.remove('active'));
+            panels.forEach(panel => panel.classList.remove('active'));
+            
+            // Add active class to clicked tab
+            this.classList.add('active');
+            
+            // Activate the corresponding panel
+            const targetPanel = document.getElementById(`${targetPanelId}-panel`);
+            if (targetPanel) {
+                targetPanel.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize feature card hover animations
+    const featureCards = document.querySelectorAll('.feature-card');
+    featureCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+            this.style.boxShadow = 'var(--shadow-lg)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = 'var(--shadow-md)';
         });
     });
 
     // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', function(e) {
+        // Only handle keyboard navigation when the solution section is in viewport
+        if (!isInViewport(solutionsSection)) return;
+        
+        const activeTab = document.querySelector('.nav-tab.active');
+        if (!activeTab) return;
+        
+        const currentIndex = Array.from(navTabs).indexOf(activeTab);
+        let nextIndex = currentIndex;
+        
+        // Left/Right arrow keys
         if (e.key === 'ArrowLeft') {
-            prevSlide();
+            nextIndex = (currentIndex - 1 + navTabs.length) % navTabs.length;
         } else if (e.key === 'ArrowRight') {
-            nextSlide();
+            nextIndex = (currentIndex + 1) % navTabs.length;
+        } else {
+            return; // If not arrow keys, do nothing
         }
+        
+        // Trigger click on the next tab
+        navTabs[nextIndex].click();
     });
-
-    // Touch swipe support
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    carousel.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-    });
-
-    carousel.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    });
-
-    function handleSwipe() {
-        const swipeThreshold = 50;
-        const diff = touchStartX - touchEndX;
-
-        if (Math.abs(diff) > swipeThreshold) {
-            if (diff > 0) {
-                nextSlide();
-            } else {
-                prevSlide();
-            }
-        }
-    }
-
-    // Initialize carousel
-    updateCarousel();
 }
 
-// Solution Tabs
-function initSolutionTabs() {
-    const tabItems = document.querySelectorAll('.tab-item');
-    const solutionPanels = document.querySelectorAll('.solution-panel');
+// Helper function to check if element is in viewport
+function isInViewport(element) {
+    const rect = element.getBoundingClientRect();
+    return (
+        rect.top < window.innerHeight &&
+        rect.bottom > 0
+    );
+}
+
+function initExperienceFeatures() {
+    const featureItems = document.querySelectorAll('.experience .feature-item');
     
-    if (!tabItems.length || !solutionPanels.length) {
-        console.error('Solution tabs elements not found:', tabItems.length, 'tabs,', solutionPanels.length, 'panels');
-        return;
-    }
-    
-    console.log('Solution tabs initialized with:', tabItems.length, 'tabs and', solutionPanels.length, 'panels');
-    
-    // Make all tabs explicitly clickable
-    tabItems.forEach(tab => {
-        tab.style.pointerEvents = 'auto'; 
-        tab.style.cursor = 'pointer';
+    featureItems.forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            this.classList.add('active');
+        });
+        
+        item.addEventListener('mouseleave', function() {
+            this.classList.remove('active');
+        });
     });
+}
+
+function initForWhoTabs() {
+    const personaTabs = document.querySelectorAll('.persona-tab');
+    const personaPanels = document.querySelectorAll('.persona-panel');
     
-    // Handle clicks on tab items directly
-    document.addEventListener('click', function(e) {
-        // Find if click was on a tab or child of a tab
-        let targetTab = null;
-        let element = e.target;
-        
-        // Traverse up to find if clicked element is a tab or child of a tab
-        while (element && !targetTab) {
-            if (element.classList && element.classList.contains('tab-item')) {
-                targetTab = element;
-            }
-            element = element.parentElement;
-        }
-        
-        // If we clicked on a tab or its child, process it
-        if (targetTab) {
-            const solutionType = targetTab.getAttribute('data-solution');
-            console.log('Tab clicked:', solutionType);
+    personaTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const target = this.getAttribute('data-target');
             
             // Remove active class from all tabs and panels
-            tabItems.forEach(item => item.classList.remove('active'));
-            solutionPanels.forEach(panel => panel.classList.remove('active'));
+            personaTabs.forEach(tab => tab.classList.remove('active'));
+            personaPanels.forEach(panel => panel.classList.remove('active'));
             
-            // Add active class to the clicked tab
-            targetTab.classList.add('active');
-            
-            // Activate the corresponding panel
-            const targetPanel = document.getElementById(`${solutionType}-solution`);
-            if (targetPanel) {
-                targetPanel.classList.add('active');
-                console.log('Activated panel:', solutionType);
-            } else {
-                console.error('Target panel not found:', `${solutionType}-solution`);
+            // Add active class to clicked tab and corresponding panel
+            this.classList.add('active');
+            document.getElementById(target).classList.add('active');
+        });
+    });
+}
+
+function initImpactCounters() {
+    const counters = document.querySelectorAll('.impact .counter');
+    
+    // Only run animation when counters are in viewport
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counter = entry.target;
+                const target = parseInt(counter.getAttribute('data-target'));
+                let count = 0;
+                const interval = setInterval(() => {
+                    count += Math.ceil(target / 30);
+                    counter.innerText = count;
+                    
+                    if (count >= target) {
+                        counter.innerText = target;
+                        clearInterval(interval);
+                    }
+                }, 30);
+                
+                observer.unobserve(counter);
             }
+        });
+    }, { threshold: 0.5 });
+    
+    counters.forEach(counter => {
+        observer.observe(counter);
+    });
+}
+
+function initCtaOptions() {
+    const ctaOptions = document.querySelectorAll('.cta-option');
+    const contactForm = document.getElementById('contactForm');
+    const formHeader = document.querySelector('.form-header h3');
+    const formDesc = document.querySelector('.form-header p');
+    const submitBtn = document.querySelector('.submit-btn');
+    
+    ctaOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const formType = this.getAttribute('data-form');
             
-            // Smooth scroll to the solution content on mobile
-            if (window.innerWidth < 768) {
-                const solutionContent = document.querySelector('.solution-content');
-                if (solutionContent) {
-                    solutionContent.scrollIntoView({behavior: 'smooth'});
-                }
+            // Remove active class from all options
+            ctaOptions.forEach(opt => opt.classList.remove('active'));
+            
+            // Add active class to clicked option
+            this.classList.add('active');
+            
+            // Update form UI based on selected option
+            if (formType === 'tour') {
+                formHeader.textContent = 'Book Your Tour';
+                formDesc.textContent = 'Experience TACH homes in person';
+                submitBtn.textContent = 'Book My Tour';
+            } else if (formType === 'info') {
+                formHeader.textContent = 'Request Information';
+                formDesc.textContent = 'Get detailed information about our solutions';
+                submitBtn.textContent = 'Send Request';
+            } else if (formType === 'invest') {
+                formHeader.textContent = 'Investment Inquiry';
+                formDesc.textContent = 'Learn about investment opportunities';
+                submitBtn.textContent = 'Submit Inquiry';
             }
+        });
+    });
+}
+
+function initModelTabs() {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const modelPanels = document.querySelectorAll('.model-panel');
+    
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const modelId = this.getAttribute('data-model');
             
-            // Prevent default behavior and stop propagation
-            e.preventDefault();
-            e.stopPropagation();
-        }
+            // Remove active class from all buttons and panels
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            modelPanels.forEach(panel => panel.classList.remove('active'));
+            
+            // Add active class to clicked button and corresponding panel
+            this.classList.add('active');
+            document.getElementById(`${modelId}-panel`).classList.add('active');
+        });
     });
 } 

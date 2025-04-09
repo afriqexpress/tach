@@ -297,177 +297,360 @@
         <div class="stars-bg"></div>
     </section>
 
-    <!-- Solution Section -->
-    <section id="solution" class="solution-tabs">
-        <div class="container">
-            <div class="solution-header">
-                <h2 class="section-title">Our Solutions</h2>
-                <p class="section-intro">Innovative approaches to Africa's most pressing challenges</p>
+    <!-- Solution Section - Static Design -->
+    <section id="solution" class="solutions-static">
+        <div class="solutions-header">
+            <div class="container">
+                <h2 class="section-title">Solutions for Africa's Challenges</h2>
+                <p class="section-intro">Our innovative container-based approach addresses multiple critical issues
+                    facing the continent, providing sustainable and scalable solutions.</p>
             </div>
+        </div>
 
-            <div class="solution-content-wrapper">
-                <div class="tab-navigation">
-                    <div class="tab-item active" data-solution="housing">
+        <div class="solutions-tabs">
+            <div class="container">
+                <ul class="nav-tabs">
+                    <li class="nav-tab active" data-panel="housing">
                         <div class="tab-icon"><i class="fas fa-home"></i></div>
-                        <div class="tab-label">Housing Deficit</div>
-                    </div>
-                    <div class="tab-item" data-solution="energy">
+                        <span class="tab-label">Housing</span>
+                    </li>
+                    <li class="nav-tab" data-panel="energy">
                         <div class="tab-icon"><i class="fas fa-solar-panel"></i></div>
-                        <div class="tab-label">Energy Crisis</div>
-                    </div>
-                    <div class="tab-item" data-solution="innovation">
+                        <span class="tab-label">Energy</span>
+                    </li>
+                    <li class="nav-tab" data-panel="innovation">
                         <div class="tab-icon"><i class="fas fa-lightbulb"></i></div>
-                        <div class="tab-label">Innovation Spaces</div>
-                    </div>
-                    <div class="tab-item" data-solution="urbanization">
+                        <span class="tab-label">Innovation</span>
+                    </li>
+                    <li class="nav-tab" data-panel="financial">
+                        <div class="tab-icon"><i class="fas fa-wallet"></i></div>
+                        <span class="tab-label">Financial</span>
+                    </li>
+                    <li class="nav-tab" data-panel="urbanization">
                         <div class="tab-icon"><i class="fas fa-city"></i></div>
-                        <div class="tab-label">Urbanization</div>
-                    </div>
-                </div>
+                        <span class="tab-label">Urbanization</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
 
-                <div class="solution-content">
-                    <!-- Housing Deficit Solution -->
-                    <div class="solution-panel active" id="housing-solution">
-                        <div class="solution-image">
-                            <img src="https://images.unsplash.com/photo-1513880989635-6eb491ce7f5b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-                                alt="Container Home">
-                        </div>
-                        <div class="solution-details">
-                            <h3>Solving the Housing Deficit</h3>
-                            <div class="key-stats">
-                                <div class="stat">
-                                    <div class="stat-value">50%</div>
-                                    <div class="stat-label">Lower Cost</div>
-                                </div>
-                                <div class="stat">
-                                    <div class="stat-value">8x</div>
-                                    <div class="stat-label">Faster Construction</div>
-                                </div>
-                            </div>
-                            <p>Our container homes provide affordable, high-quality housing solutions that can be
-                                deployed rapidly. By repurposing shipping containers, we create durable, customizable
-                                living spaces at a fraction of traditional construction costs.</p>
-                            <div class="solution-features">
-                                <div class="feature"><i class="fas fa-check-circle"></i> Modular designs for all family
-                                    sizes</div>
-                                <div class="feature"><i class="fas fa-check-circle"></i> Quick deployment in weeks, not
-                                    months</div>
-                                <div class="feature"><i class="fas fa-check-circle"></i> Durable materials with long
-                                    lifespans</div>
-                                <div class="feature"><i class="fas fa-check-circle"></i> Customizable layouts and
-                                    finishes</div>
+        <div class="solutions-panels container">
+            <!-- Housing Solution Panel -->
+            <div class="solution-panel active" id="housing-panel" data-index="0">
+                <div class="panel-container">
+                    <div class="panel-content">
+                        <div class="panel-heading">
+                            <h2 class="panel-title">Housing Deficit Solution</h2>
+                            <div class="panel-stat">
+                                <div class="stat-number">40</div>
+                                <div class="stat-suffix">Million</div>
+                                <div class="stat-label">Housing Unit Shortage</div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Energy Crisis Solution -->
-                    <div class="solution-panel" id="energy-solution">
-                        <div class="solution-image">
-                            <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-                                alt="Solar Panels">
-                        </div>
-                        <div class="solution-details">
-                            <h3>Solving the Energy Crisis</h3>
-                            <div class="key-stats">
-                                <div class="stat">
-                                    <div class="stat-value">100%</div>
-                                    <div class="stat-label">Solar Powered</div>
-                                </div>
-                                <div class="stat">
-                                    <div class="stat-value">60%</div>
-                                    <div class="stat-label">Energy Cost Savings</div>
-                                </div>
-                            </div>
-                            <p>Every TACH home comes with integrated solar solutions, providing reliable power
-                                regardless of grid conditions. Our energy systems combine solar panels, efficient
-                                appliances, and smart home technology to minimize consumption and maximize independence.
+                        <div class="panel-description">
+                            <p>Our container homes are reimagining affordable housing across Africa, addressing the
+                                critical
+                                shortage with modular, sustainable solutions that deploy rapidly and scale efficiently.
                             </p>
-                            <div class="solution-features">
-                                <div class="feature"><i class="fas fa-check-circle"></i> Integrated solar panel systems
+
+                            <div class="feature-cards">
+                                <div class="feature-card">
+                                    <div class="card-icon">
+                                        <i class="fas fa-tags"></i>
+                                    </div>
+                                    <h3>Affordable Housing</h3>
+                                    <p>50% more affordable than traditional construction methods, making home ownership
+                                        accessible to millions.</p>
                                 </div>
-                                <div class="feature"><i class="fas fa-check-circle"></i> Battery storage for 24/7
-                                    reliability</div>
-                                <div class="feature"><i class="fas fa-check-circle"></i> Energy-efficient appliances
-                                    included</div>
-                                <div class="feature"><i class="fas fa-check-circle"></i> Smart home energy management
+
+                                <div class="feature-card">
+                                    <div class="card-icon">
+                                        <i class="fas fa-shipping-fast"></i>
+                                    </div>
+                                    <h3>Rapid Deployment</h3>
+                                    <p>From order to occupancy in weeks, not months, addressing housing needs with
+                                        unprecedented speed.</p>
+                                </div>
+
+                                <div class="feature-card">
+                                    <div class="card-icon">
+                                        <i class="fas fa-expand-arrows-alt"></i>
+                                    </div>
+                                    <h3>Scalable Model</h3>
+                                    <p>Adaptable designs for both urban centers and rural communities, scaling to meet
+                                        diverse needs.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Innovation Spaces Solution -->
-                    <div class="solution-panel" id="innovation-solution">
-                        <div class="solution-image">
-                            <img src="https://images.unsplash.com/photo-1572025442646-866d16c84a54?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-                                alt="Coworking Space">
-                        </div>
-                        <div class="solution-details">
-                            <h3>Creating Innovation Spaces</h3>
-                            <div class="key-stats">
-                                <div class="stat">
-                                    <div class="stat-value">75%</div>
-                                    <div class="stat-label">Cost Reduction</div>
-                                </div>
-                                <div class="stat">
-                                    <div class="stat-value">4-8</div>
-                                    <div class="stat-label">Workspace Capacity</div>
-                                </div>
-                            </div>
-                            <p>Our dedicated workspace containers transform how entrepreneurs and small businesses
-                                operate. Each unit provides a professional environment with high-speed connectivity,
-                                collaborative areas, and built-in infrastructure to foster innovation.</p>
-                            <div class="solution-features">
-                                <div class="feature"><i class="fas fa-check-circle"></i> Dedicated high-speed internet
-                                </div>
-                                <div class="feature"><i class="fas fa-check-circle"></i> Collaborative meeting spaces
-                                </div>
-                                <div class="feature"><i class="fas fa-check-circle"></i> 24/7 access with security
-                                    systems</div>
-                                <div class="feature"><i class="fas fa-check-circle"></i> Modular expansion capabilities
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Urbanization Solution -->
-                    <div class="solution-panel" id="urbanization-solution">
-                        <div class="solution-image">
-                            <img src="https://images.unsplash.com/photo-1505409859467-3a796fd5798e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-                                alt="Container Community">
-                        </div>
-                        <div class="solution-details">
-                            <h3>Addressing Urbanization Challenges</h3>
-                            <div class="key-stats">
-                                <div class="stat">
-                                    <div class="stat-value">3x</div>
-                                    <div class="stat-label">Density Optimization</div>
-                                </div>
-                                <div class="stat">
-                                    <div class="stat-value">40%</div>
-                                    <div class="stat-label">Greener Footprint</div>
-                                </div>
-                            </div>
-                            <p>Our planned container communities create sustainable urban living environments that
-                                maximize space efficiency while maintaining quality of life. These developments include
-                                shared amenities, green spaces, and integrated services to build complete neighborhoods.
-                            </p>
-                            <div class="solution-features">
-                                <div class="feature"><i class="fas fa-check-circle"></i> Planned community layouts</div>
-                                <div class="feature"><i class="fas fa-check-circle"></i> Integrated water management
-                                </div>
-                                <div class="feature"><i class="fas fa-check-circle"></i> Common areas and green spaces
-                                </div>
-                                <div class="feature"><i class="fas fa-check-circle"></i> Scalable development approach
-                                </div>
+                    <div class="panel-visual">
+                        <div class="simple-illustration housing-illustration">
+                            <img src="https://via.placeholder.com/400x300/1ca350/ffffff?text=Container+Home"
+                                alt="Container Home Illustration">
+                            <div class="illustration-icon">
+                                <i class="fas fa-home"></i>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="solution-cta">
-                <a href="#models" class="primary-btn">Explore Our Models</a>
-                <a href="#contact" class="secondary-btn">Book a Consultation</a>
+            <!-- Energy Solution Panel -->
+            <div class="solution-panel" id="energy-panel" data-index="1">
+                <div class="panel-container">
+                    <div class="panel-content">
+                        <div class="panel-heading">
+                            <h2 class="panel-title">Energy Crisis Solution</h2>
+                            <div class="panel-stat">
+                                <div class="stat-number">600</div>
+                                <div class="stat-suffix">Million</div>
+                                <div class="stat-label">People Without Reliable Power</div>
+                            </div>
+                        </div>
+
+                        <div class="panel-description">
+                            <p>Our integrated solar solutions transform living standards across Africa, providing
+                                renewable,
+                                reliable energy to homes and communities independent of unstable grid infrastructure.
+                            </p>
+
+                            <div class="feature-cards">
+                                <div class="feature-card">
+                                    <div class="card-icon">
+                                        <i class="fas fa-solar-panel"></i>
+                                    </div>
+                                    <h3>Solar-Powered Homes</h3>
+                                    <p>Every container includes integrated solar panels and battery storage for 24/7
+                                        reliable energy.</p>
+                                </div>
+
+                                <div class="feature-card">
+                                    <div class="card-icon">
+                                        <i class="fas fa-money-bill-wave"></i>
+                                    </div>
+                                    <h3>Cost-Effective Energy</h3>
+                                    <p>Save up to 70% on energy costs compared to traditional grid connections and
+                                        generators.</p>
+                                </div>
+
+                                <div class="feature-card">
+                                    <div class="card-icon">
+                                        <i class="fas fa-leaf"></i>
+                                    </div>
+                                    <h3>Sustainable Power</h3>
+                                    <p>Clean, renewable energy that eliminates pollution and reduces carbon footprint.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-visual">
+                        <div class="simple-illustration energy-illustration">
+                            <img src="https://via.placeholder.com/400x300/f39c12/ffffff?text=Solar+Energy"
+                                alt="Solar Energy Illustration">
+                            <div class="illustration-icon">
+                                <i class="fas fa-solar-panel"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Innovation Spaces Panel -->
+            <div class="solution-panel" id="innovation-panel" data-index="2">
+                <div class="panel-container">
+                    <div class="panel-content">
+                        <div class="panel-heading">
+                            <h2 class="panel-title">Innovation Spaces Solution</h2>
+                            <div class="panel-stat">
+                                <div class="stat-number">70</div>
+                                <div class="stat-suffix">%</div>
+                                <div class="stat-label">Innovation Gap Reduction</div>
+                            </div>
+                        </div>
+
+                        <div class="panel-description">
+                            <p>Our versatile container workspaces create affordable, connected environments for Africa's
+                                entrepreneurs and innovators, building a foundation for economic growth.</p>
+
+                            <div class="feature-cards">
+                                <div class="feature-card">
+                                    <div class="card-icon">
+                                        <i class="fas fa-building"></i>
+                                    </div>
+                                    <h3>Dedicated Innovation Hubs</h3>
+                                    <p>Purpose-built coworking and innovation spaces designed for maximum collaboration
+                                        and
+                                        creativity.</p>
+                                </div>
+
+                                <div class="feature-card">
+                                    <div class="card-icon">
+                                        <i class="fas fa-rocket"></i>
+                                    </div>
+                                    <h3>Startup Support</h3>
+                                    <p>Flexible spaces that grow with your business, from solo entrepreneurs to
+                                        expanding
+                                        teams.</p>
+                                </div>
+
+                                <div class="feature-card">
+                                    <div class="card-icon">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                    <h3>Economic Growth</h3>
+                                    <p>Community workspaces that foster local innovation, job creation, and economic
+                                        development.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-visual">
+                        <div class="simple-illustration innovation-illustration">
+                            <img src="https://via.placeholder.com/400x300/3498db/ffffff?text=Innovation+Space"
+                                alt="Innovation Space Illustration">
+                            <div class="illustration-icon">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Financial Inclusion Panel -->
+            <div class="solution-panel" id="financial-panel" data-index="3">
+                <div class="panel-container">
+                    <div class="panel-content">
+                        <div class="panel-heading">
+                            <h2 class="panel-title">Financial Exclusion Solution</h2>
+                            <div class="panel-stat">
+                                <div class="stat-number">57</div>
+                                <div class="stat-suffix">%</div>
+                                <div class="stat-label">Unbanked Adults</div>
+                            </div>
+                        </div>
+
+                        <div class="panel-description">
+                            <p>Our innovative financing models break down traditional barriers to homeownership,
+                                creating
+                                accessible pathways to property ownership for all income levels.</p>
+
+                            <div class="feature-cards">
+                                <div class="feature-card">
+                                    <div class="card-icon">
+                                        <i class="fas fa-house-user"></i>
+                                    </div>
+                                    <h3>Accessible Homeownership</h3>
+                                    <p>Flexible rent-to-own programs that build equity from day one, without traditional
+                                        mortgage requirements.</p>
+                                </div>
+
+                                <div class="feature-card">
+                                    <div class="card-icon">
+                                        <i class="fas fa-hand-holding-usd"></i>
+                                    </div>
+                                    <h3>Barrier Removal</h3>
+                                    <p>No large down payments or complex banking history required, opening homeownership
+                                        to
+                                        the unbanked.</p>
+                                </div>
+
+                                <div class="feature-card">
+                                    <div class="card-icon">
+                                        <i class="fas fa-piggy-bank"></i>
+                                    </div>
+                                    <h3>Wealth Building</h3>
+                                    <p>Turning housing expenses into asset ownership, creating generational wealth for
+                                        families.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-visual">
+                        <div class="simple-illustration financial-illustration">
+                            <img src="https://via.placeholder.com/400x300/9b59b6/ffffff?text=Financial+Access"
+                                alt="Financial Access Illustration">
+                            <div class="illustration-icon">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Urbanization Panel -->
+            <div class="solution-panel" id="urbanization-panel" data-index="4">
+                <div class="panel-container">
+                    <div class="panel-content">
+                        <div class="panel-heading">
+                            <h2 class="panel-title">Urbanization Challenges Solution</h2>
+                            <div class="panel-stat">
+                                <div class="stat-number">50</div>
+                                <div class="stat-suffix">%</div>
+                                <div class="stat-label">Urban Population by 2030</div>
+                            </div>
+                        </div>
+
+                        <div class="panel-description">
+                            <p>Our container housing solutions provide the scalability and speed needed to accommodate
+                                Africa's rapid urbanization, creating sustainable, organized urban development.</p>
+
+                            <div class="feature-cards">
+                                <div class="feature-card">
+                                    <div class="card-icon">
+                                        <i class="fas fa-city"></i>
+                                    </div>
+                                    <h3>Efficient Urban Expansion</h3>
+                                    <p>Rapidly deployable housing that allows cities to expand in an organized, planned
+                                        manner.</p>
+                                </div>
+
+                                <div class="feature-card">
+                                    <div class="card-icon">
+                                        <i class="fas fa-home"></i>
+                                    </div>
+                                    <h3>Slum Prevention</h3>
+                                    <p>Affordable, quality housing that prevents the formation of unplanned settlements
+                                        and
+                                        slums.</p>
+                                </div>
+
+                                <div class="feature-card">
+                                    <div class="card-icon">
+                                        <i class="fas fa-project-diagram"></i>
+                                    </div>
+                                    <h3>Modular Development</h3>
+                                    <p>Stackable, adaptable designs that maximize limited urban space for high-density
+                                        living.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-visual">
+                        <div class="simple-illustration urbanization-illustration">
+                            <img src="https://via.placeholder.com/400x300/34495e/ffffff?text=Urban+Development"
+                                alt="Urban Development Illustration">
+                            <div class="illustration-icon">
+                                <i class="fas fa-city"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="solution-cta">
+            <div class="container">
+                <a href="#models" class="action-btn">
+                    <span class="btn-text">Discover Our Container Models</span>
+                    <span class="btn-icon"><i class="fas fa-arrow-right"></i></span>
+                </a>
             </div>
         </div>
     </section>
