@@ -22,6 +22,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
 </head>
 
 <body>
@@ -29,7 +33,7 @@
     <nav class="navbar">
         <div class="container">
             <div class="logo">
-                <a href="#"><img src="https://via.placeholder.com/150x50/1ca350/ffffff?text=TACH+LOGO" alt="TACH Logo"
+                <a href="#"><img src="https://via.placeholder.com/150x50/1ca350/ffffff?text=TACH+LOGO" alt="TACH"
                         class="logo-img"></a>
             </div>
             <div class="nav-toggle" id="navToggle">
@@ -38,14 +42,23 @@
                 <span></span>
             </div>
             <ul class="nav-menu">
-                <li><a href="#hero" class="nav-link">Home</a></li>
-                <li><a href="#crisis" class="nav-link">The Crisis</a></li>
-                <li><a href="#solution" class="nav-link">Solution</a></li>
-                <li><a href="#models" class="nav-link">Models</a></li>
-                <li><a href="#experience" class="nav-link">Experience</a></li>
-                <li><a href="#for-who" class="nav-link">For Who</a></li>
-                <li><a href="#impact" class="nav-link">Impact</a></li>
-                <li><a href="#contact" class="nav-link contact-btn">Book Tour</a></li>
+                <li><a href="#crisis" class="nav-link" data-i18n="navigation.crisis">The Crisis</a></li>
+                <li><a href="#solution" class="nav-link" data-i18n="navigation.solutions">Solution</a></li>
+                <li><a href="#models" class="nav-link" data-i18n="navigation.models">Models</a></li>
+                <li><a href="#experience" class="nav-link" data-i18n="navigation.experience">Experience</a></li>
+                <li><a href="#for-who" class="nav-link" data-i18n="navigation.forWho">For Who</a></li>
+                <li><a href="#impact" class="nav-link" data-i18n="navigation.impact">Impact</a></li>
+                <li><a href="#contact" class="nav-link contact-btn" data-i18n="navigation.contact">Contact</a></li>
+                <li class="language-switcher">
+                    <button id="lang-toggle" class="lang-toggle">
+                        <span id="current-lang">EN</span>
+                        <i class="fas fa-globe"></i>
+                    </button>
+                    <div class="language-menu">
+                        <a href="#" data-lang="en" class="lang-option active">English</a>
+                        <a href="#" data-lang="fr" class="lang-option">Français</a>
+                    </div>
+                </li>
             </ul>
         </div>
     </nav>
@@ -54,20 +67,19 @@
     <section id="hero" class="hero fullscreen">
         <div class="hero-content">
             <h1 class="hero-title animate-text">
-                <span class="line">YOUR 21ST CENTURY</span>
-                <span class="line accent">SUSTAINABLE LIVING</span>
-                <span class="line">IN AFRICA</span>
+                <span class="line" data-i18n="hero.title">TOGO AFFORDABLE</span>
+                <span class="line accent">CONTAINER HOMES</span>
+                <span class="line tach">TACH</span>
             </h1>
-            <p class="hero-subtitle animate-text-delay">Transform how you live with our innovative container homes that
-                combine
-                affordability, sustainability, and modern design.</p>
+            <p class="hero-subtitle animate-text-delay" data-i18n="hero.subtitle">We Ensures affordability while
+                promoting innovation and environmental sustainability.</p>
             <div class="hero-cta animate-button">
-                <a href="#crisis" class="primary-btn">Discover How</a>
-                <a href="#models" class="secondary-btn">Explore Models</a>
+                <a href="#crisis" class="primary-btn" data-i18n="hero.discoverHow">Discover How</a>
+                <a href="#models" class="secondary-btn" data-i18n="hero.exploreModels">Explore Models</a>
             </div>
         </div>
         <div class="scroll-indicator">
-            <span>Scroll to explore</span>
+            <span data-i18n="hero.scroll">Scroll to explore</span>
             <i class="fas fa-chevron-down"></i>
         </div>
         <div class="hero-background"></div>
@@ -76,8 +88,8 @@
     <!-- The Crisis Section -->
     <section id="crisis" class="crisis-galaxy">
         <div class="container">
-            <h2 class="section-title">Africa's Housing Crisis</h2>
-            <p class="section-intro">Discover the key challenges facing housing in Africa today.</p>
+            <h2 class="section-title">Housing Crisis</h2>
+            <p class="section-intro">Discover why TACH solutions are more vital than ever</p>
         </div>
 
         <div class="galaxy-slides">
@@ -86,12 +98,13 @@
                 <div class="slide-content">
                     <h2 class="slide-title">Housing Shortage</h2>
                     <div class="slide-stat">
-                        <div class="stat-number">65<span>Million+</span></div>
-                        <div class="stat-caption">Housing unit deficit across Africa</div>
+                        <div class="stat-number">500<span>Thousand+</span></div>
+                        <div class="stat-caption">Housing unit deficit in TOGO</div>
                     </div>
-                    <p class="slide-description">African nations face a critical housing shortage as population growth
-                        outpaces construction. In urban areas, families often wait years for adequate housing options,
-                        with many forced to live in informal settlements.</p>
+                    <p class="slide-description">In Togo and across West Africa, there is a severe shortage of
+                        affordable housing, with hundreds of thousands of families
+                        unable to access safe, decent homes due to high construction costs and limited financing options
+                    </p>
                     <div class="slide-impact">
                         <h3>The Impact</h3>
                         <ul>
@@ -118,9 +131,8 @@
                         <div class="stat-number">40<span>%</span></div>
                         <div class="stat-caption">Higher construction costs compared to global averages</div>
                     </div>
-                    <p class="slide-description">Traditional building materials and techniques in Africa come with
-                        excessive costs. Imported materials, complex supply chains, and inefficient construction methods
-                        drive prices beyond what most families can afford.</p>
+                    <p class="slide-description">Traditional building methods are expensive and slow, leaving middle-
+                        and low-income earners unable to own homes</p>
                     <div class="slide-impact">
                         <h3>The Impact</h3>
                         <ul>
@@ -145,8 +157,8 @@
                 <div class="slide-content">
                     <h2 class="slide-title">Energy Unreliability</h2>
                     <div class="slide-stat">
-                        <div class="stat-number">600<span>Million</span></div>
-                        <div class="stat-caption">Africans without reliable access to electricity</div>
+                        <div class="stat-number">4<span>Million+</span></div>
+                        <div class="stat-caption">Togolese without reliable access to electricity</div>
                     </div>
                     <p class="slide-description">Across the continent, unreliable power grids disrupt daily life and
                         economic activity. Frequent outages force households and businesses to rely on expensive,
@@ -178,9 +190,10 @@
                         <div class="stat-number">75<span>%</span></div>
                         <div class="stat-caption">Of startups struggle to find suitable workspaces</div>
                     </div>
-                    <p class="slide-description">Africa's entrepreneurial ecosystem is hindered by a scarcity of
-                        affordable, flexible workspaces. Innovators and small businesses face prohibitive costs for
-                        commercial spaces, limiting creativity and economic growth.</p>
+                    <p class="slide-description">Entrepreneurial ecosystem is hindered by a scarcity of
+                        innovative workspaces. Young entrepreneurs and creators lack accessible,
+                        affordable workspaces with the tools and connectivity
+                        needed to develop ideas, build businesses, and thrive in the digital economy</p>
                     <div class="slide-impact">
                         <h3>The Impact</h3>
                         <ul>
@@ -205,9 +218,9 @@
                     <h2 class="slide-title">Financial Exclusion</h2>
                     <div class="slide-stat">
                         <div class="stat-number">80<span>%</span></div>
-                        <div class="stat-caption">Of Africans lack access to mortgage financing</div>
+                        <div class="stat-caption">Of Togolese lack access to mortgage financing</div>
                     </div>
-                    <p class="slide-description">Traditional housing finance remains out of reach for most Africans.
+                    <p class="slide-description">Traditional housing finance remains out of reach for most Togolese.
                         High interest rates, strict collateral requirements, and short loan terms create insurmountable
                         barriers to homeownership for working families.</p>
                     <div class="slide-impact">
@@ -234,9 +247,9 @@
                     <h2 class="slide-title">Urbanization Pressure</h2>
                     <div class="slide-stat">
                         <div class="stat-number">50<span>%</span></div>
-                        <div class="stat-caption">Of Africans will live in cities by 2030</div>
+                        <div class="stat-caption">Of Togolese will live in cities by 2030</div>
                     </div>
-                    <p class="slide-description">Africa is experiencing the world's fastest urbanization rate. Cities
+                    <p class="slide-description">TOGO is experiencing the a fast urbanization rate. Cities
                         struggle to accommodate this growth, leading to infrastructure strain, environmental
                         degradation, and a widening gap between housing supply and demand.</p>
                     <div class="slide-impact">
@@ -301,9 +314,10 @@
     <section id="solution" class="solutions-static">
         <div class="solutions-header">
             <div class="container">
-                <h2 class="section-title">Solutions for Africa's Challenges</h2>
-                <p class="section-intro">Our innovative container-based approach addresses multiple critical issues
-                    facing the continent, providing sustainable and scalable solutions.</p>
+                <h2 class="section-title">Solutions for Housing Challenges</h2>
+                <p class="section-intro">TACH provides an innovative and scalable solution to the housing and workspace
+                    crisis in Togo by leveraging affordable,
+                    modular container homes and innovative workspaces powered by renewable energy</p>
             </div>
         </div>
 
@@ -342,8 +356,8 @@
                         <div class="panel-heading">
                             <h2 class="panel-title">Housing Deficit Solution</h2>
                             <div class="panel-stat">
-                                <div class="stat-number">40</div>
-                                <div class="stat-suffix">Million</div>
+                                <div class="stat-number">500</div>
+                                <div class="stat-suffix">Thousands+</div>
                                 <div class="stat-label">Housing Unit Shortage</div>
                             </div>
                         </div>
@@ -404,8 +418,8 @@
                         <div class="panel-heading">
                             <h2 class="panel-title">Energy Crisis Solution</h2>
                             <div class="panel-stat">
-                                <div class="stat-number">600</div>
-                                <div class="stat-suffix">Million</div>
+                                <div class="stat-number">4</div>
+                                <div class="stat-suffix">Million+</div>
                                 <div class="stat-label">People Without Reliable Power</div>
                             </div>
                         </div>
@@ -1020,9 +1034,20 @@
             <div class="experience-grid">
                 <div class="experience-content">
                     <h2 class="section-title left-aligned">The TACH Experience</h2>
-                    <p class="lead">TACH is reshaping Africa's housing landscape by combining sustainability,
-                        affordability, and innovative design.</p>
+                    <p class="lead">TACH offers more than just affordable homes, it creates living environments that
+                        empower future builders and creators to
+                        unleash their full creative and innovative potential, by giving them all the tools and equipment
+                        they need.</p>
                     <div class="experience-features">
+                        <div class="feature-item" data-scroll>
+                            <div class="feature-icon">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h3>Affordability</h3>
+                                <p>Up to 50% cheaper than traditional construction.</p>
+                            </div>
+                        </div>
                         <div class="feature-item" data-scroll>
                             <div class="feature-icon">
                                 <i class="fas fa-leaf"></i>
@@ -1038,9 +1063,8 @@
                                 <i class="fas fa-home"></i>
                             </div>
                             <div class="feature-text">
-                                <h3>Modular Design</h3>
-                                <p>Customize and expand your home as your needs grow, with flexible layouts that adapt
-                                    to your changing lifestyle.</p>
+                                <h3>Urban Development</h3>
+                                <p>Helps cities grow sustainably while preventing slum expansion.</p>
                             </div>
                         </div>
                         <div class="feature-item" data-scroll>
@@ -1051,16 +1075,6 @@
                                 <h3>Community Focus</h3>
                                 <p>Built-in shared spaces foster connection and collaboration within TACH communities,
                                     creating networks of like-minded neighbors.</p>
-                            </div>
-                        </div>
-                        <div class="feature-item" data-scroll>
-                            <div class="feature-icon">
-                                <i class="fas fa-tools"></i>
-                            </div>
-                            <div class="feature-text">
-                                <h3>Maintenance Support</h3>
-                                <p>Our dedicated team ensures your home remains in perfect condition with regular
-                                    maintenance and quick support.</p>
                             </div>
                         </div>
                     </div>
@@ -1090,7 +1104,7 @@
                 <div class="persona-tabs">
                     <div class="persona-tab active" data-target="young-professionals">
                         <div class="persona-icon"><i class="fas fa-briefcase"></i></div>
-                        <h3>Young Professionals</h3>
+                        <h3>Young Professionals & Students</h3>
                     </div>
                     <div class="persona-tab" data-target="families">
                         <div class="persona-icon"><i class="fas fa-home"></i></div>
@@ -1115,11 +1129,11 @@
                         <div class="persona-description">
                             <h3>Affordable First Homes</h3>
                             <p>Start your independent journey with a stylish, modern home that doesn't break the bank.
-                                Our studios and one-bedroom models are perfect for young professionals looking to invest
+                                Our studios and bid studios models are perfect for young professionals and students
+                                looking to invest
                                 in their future while maintaining financial flexibility.</p>
                             <ul class="persona-benefits">
                                 <li><i class="fas fa-check"></i> Quick move-in process</li>
-                                <li><i class="fas fa-check"></i> Rent-to-own options available</li>
                                 <li><i class="fas fa-check"></i> Built-in networking opportunities</li>
                                 <li><i class="fas fa-check"></i> Reduced utility costs</li>
                             </ul>
@@ -1135,13 +1149,13 @@
                         <div class="persona-description">
                             <h3>Room to Grow</h3>
                             <p>Our multi-container family homes provide the space you need at a fraction of traditional
-                                housing costs. Modular designs mean your home can expand as your family does, offering
-                                long-term flexibility without requiring relocation.</p>
+                                housing costs. With the rent to own model, you can purchase an units via monthly
+                                installments.</p>
                             <ul class="persona-benefits">
-                                <li><i class="fas fa-check"></i> Multi-bedroom configurations</li>
+                                <li><i class="fas fa-check"></i> Multi bedroom configurations</li>
                                 <li><i class="fas fa-check"></i> Safe community environments</li>
-                                <li><i class="fas fa-check"></i> Expandable modular designs</li>
-                                <li><i class="fas fa-check"></i> Family-friendly outdoor spaces</li>
+                                <li><i class="fas fa-check"></i> Rent To Own Model</li>
+                                <li><i class="fas fa-check"></i> Family friendly outdoor spaces</li>
                             </ul>
                             <a href="#contact" class="primary-btn">Find Your Home</a>
                         </div>
@@ -1154,13 +1168,15 @@
                         </div>
                         <div class="persona-description">
                             <h3>Work & Live Spaces</h3>
-                            <p>Designed for the modern entrepreneur, our workspace models combine comfortable living
-                                quarters with professional work areas. Launch your business from a custom-designed space
+                            <p>Designed for the future builders and creators, our workspace models combine comfortable
+                                living
+                                quarters with professional work areas. Launch your business, network and connect in a
+                                space
                                 that inspires creativity and productivity.</p>
                             <ul class="persona-benefits">
                                 <li><i class="fas fa-check"></i> Dedicated workspace areas</li>
-                                <li><i class="fas fa-check"></i> High-speed internet ready</li>
-                                <li><i class="fas fa-check"></i> Networking with like-minded professionals</li>
+                                <li><i class="fas fa-check"></i> High speed internet ready</li>
+                                <li><i class="fas fa-check"></i> Networking with like minded professionals</li>
                                 <li><i class="fas fa-check"></i> Professional meeting spaces</li>
                             </ul>
                             <a href="#contact" class="primary-btn">Find Your Home</a>
@@ -1272,16 +1288,16 @@
         <div class="container">
             <div class="cta-grid">
                 <div class="cta-content">
-                    <h2 class="cta-title">Ready to Transform Your Living?</h2>
-                    <p class="cta-text">Schedule a tour, request more information, or start your journey to affordable,
+                    <h2 class="cta-title">Ready to Transform Living or Help doing it?</h2>
+                    <p class="cta-text">Request more information, or start your journey to affordable,
                         sustainable housing today.</p>
 
                     <div class="cta-options">
-                        <div class="cta-option active" data-form="tour">
+                        <!-- <div class="cta-option active" data-form="tour">
                             <div class="option-icon"><i class="fas fa-home"></i></div>
                             <h3>Book a Tour</h3>
-                        </div>
-                        <div class="cta-option" data-form="info">
+                        </div> -->
+                        <div class="cta-option active" data-form="info">
                             <div class="option-icon"><i class="fas fa-info-circle"></i></div>
                             <h3>Request Info</h3>
                         </div>
@@ -1295,33 +1311,33 @@
                 <div class="contact-form-container">
                     <form id="contactForm" class="contact-form">
                         <div class="form-header">
-                            <h3>Book Your Tour</h3>
-                            <p>Experience TACH homes in person</p>
+                            <h3>Request Information</h3>
+                            <p>Get detailed information about our solutions</p>
                         </div>
                         <div class="form-group">
-                            <input type="text" id="name" name="name" placeholder="Your Name" required>
+                            <input type="text" id="name" name="name" placeholder="Your Name*" required>
                         </div>
                         <div class="form-group">
-                            <input type="email" id="email" name="email" placeholder="Your Email" required>
+                            <input type="email" id="email" name="email" placeholder="Your Email*" required>
                         </div>
                         <div class="form-group">
-                            <input type="tel" id="phone" name="phone" placeholder="Your Phone Number" required>
+                            <input type="tel" id="phone" name="phone" placeholder="Your Phone Number">
                         </div>
                         <div class="form-group">
                             <select id="interest" name="interest" required>
                                 <option value="">I'm interested in...</option>
                                 <option value="studio">The Studio</option>
-                                <option value="onebedroom">The One Bedroom</option>
-                                <option value="family">The Family</option>
+                                <option value="bigstudio">The Big Studio</option>
+                                <option value="apartment">The Apartment</option>
                                 <option value="workspace">The Workspace</option>
-                                <option value="custom">Custom Design</option>
+                                <!-- <option value="custom">Custom Design</option> -->
                             </select>
                         </div>
                         <div class="form-group">
                             <textarea id="message" name="message"
                                 placeholder="Additional Information (Optional)"></textarea>
                         </div>
-                        <button type="submit" class="submit-btn">Book My Tour</button>
+                        <button type="submit" class="submit-btn">Send request</button>
                     </form>
                 </div>
             </div>
@@ -1333,35 +1349,34 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">
-                    <img src="https://via.placeholder.com/150x80/ffffff/1ca350?text=TACH+LOGO" alt="TACH Logo">
-                    <p class="footer-tagline">Sustainable Homes for Africa's Future</p>
+                    <img src="https://via.placeholder.com/150x80/ffffff/1ca350?text=TACH+LOGO" alt="TACH">
+                    <p class="footer-tagline">Affordable Homes. Creative Hubs. Limitless Possibilities</p>
                 </div>
                 <div class="footer-links">
                     <div class="footer-column">
                         <h3>Models</h3>
                         <ul>
-                            <li><a href="#models">The Studio</a></li>
-                            <li><a href="#models">The One Bedroom</a></li>
-                            <li><a href="#models">The Family</a></li>
-                            <li><a href="#models">The Workspace</a></li>
-                            <li><a href="#contact">Custom Designs</a></li>
+                            <li><a href="#models">Studio</a></li>
+                            <li><a href="#models">Big Studio</a></li>
+                            <li><a href="#models">Apartment</a></li>
+                            <li><a href="#models">Workspace</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
                         <h3>Company</h3>
                         <ul>
+                            <li><a href="#crisis">The Problems</a></li>
+                            <li><a href="#solution">Our Solutions</a></li>
                             <li><a href="#impact">Our Impact</a></li>
                             <li><a href="#experience">Experience</a></li>
-                            <li><a href="#contact">Contact</a></li>
-                            <li><a href="#">Careers</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
+                            <!-- <li><a href="#">Privacy Policy</a></li> -->
                         </ul>
                     </div>
                     <div class="footer-column">
                         <h3>Contact Us</h3>
                         <p><i class="fas fa-map-marker-alt"></i> Lomé, Togo</p>
-                        <p><i class="fas fa-phone"></i> +228 70 12 34 56</p>
-                        <p><i class="fas fa-envelope"></i> info@tach-homes.com</p>
+                        <p><i class="fas fa-phone"></i> +31 618874429</p>
+                        <p><i class="fas fa-envelope"></i> afriqxpress@gmail.com</p>
                     </div>
                 </div>
                 <div class="footer-newsletter">
@@ -1371,12 +1386,12 @@
                         <input type="email" placeholder="Your Email Address" required>
                         <button type="submit"><i class="fas fa-paper-plane"></i></button>
                     </form>
-                    <div class="social-links">
+                    <!-- <div class="social-links">
                         <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
                         <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                         <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="copyright">
@@ -1391,9 +1406,8 @@
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <!-- GSAP -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+    <!-- Internationalization -->
+    <script type="module" src="js/i18n/main.js"></script>
 
     <!-- Custom JS -->
     <script src="js/main.js"></script>
